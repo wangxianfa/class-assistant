@@ -33,13 +33,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
+  @import url(../../common/styles/base.less);
+
   #chatroom{
     height: 1000px;
     background-color: #eff2f7;
-  }
-  header{
-    height: 54px;
-    font-size: 18px;
   }
 
   #bottomZone{

@@ -60,9 +60,9 @@ export default {
   name: 'Main',
   data () {
     return {
-      selected: '消息',
+      selected: '我的',
       actived: [true, false, false, true, false],
-      tabSelected: 'tab-container1'
+      tabSelected: 'tab-container5'
     }
   },
   methods: {
@@ -89,10 +89,6 @@ export default {
 
   @link-color: #42b983;
 
-  // .header {
-  //   background-color: #21c6cd;
-  // }
-
   .is-selected>.mint-tab-item-label {
     font-size: 12px;
   }
@@ -103,5 +99,9 @@ export default {
   .mint-tab-item-icon{
     width: auto !important;
     display: inline-block !important;
+  }
+
+  .mint-tab-container-item{
+    background-color: #f9f9f9;
   }
 </style>

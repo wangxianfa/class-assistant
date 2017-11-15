@@ -46,15 +46,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @avatarSize: 38px;
+  @import url(../../common/styles/base.less);
+
+  @avatarSize: 34px;
 
   a{
     text-decoration: none;
-  }
-
-  header{
-    height: 54px;
-    font-size: 18px;
   }
 
   .header-left{
@@ -69,7 +66,7 @@ export default {
   }
 
   .mint-loadmore{
-    margin-top: 54px;
+    margin-top: @headerHeight;
     margin-bottom: 56px;
     height: 100%;
   }
@@ -81,17 +78,21 @@ export default {
   }
 
   li{
+    @imgSize: 54px;
+    @imgMargin: 14px;
+
     display: flex;
     box-sizing: border-box;
     border-bottom: 1px solid #ededed;
     padding: 12px 0;
+
     &>.left{
       &>img{
-        width: 54px;
-        height: 54px;
+        width: @imgSize;
+        height: @imgSize;
         border-radius: 50%;
         border: 1px solid #dfdfdf;
-        margin: 0 14px;
+        margin: 0 @imgMargin;
       }
     }
 
@@ -99,7 +100,7 @@ export default {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      width: 100%; // 使用calc方法失效， 得到不准确值
+      width: calc(~"100% - @{imgSize} - 2 * @{imgMargin} - 2px"); // 使用calc方法失效， 得到不准确值
       &>h2{
         margin: 0;
         font-size: 20px;
@@ -121,9 +122,8 @@ export default {
         margin-top: 4px;
         align-items: center;
         &>p{
-          width: 100%;
+          width: calc(~"100% - 50px");
           margin: 0;
-          margin-right: 10px;
           padding: 0;
           overflow: hidden;
           text-overflow: clip;
