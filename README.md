@@ -1,1 +1,1 @@
-# class-assistant-
+# class-assistant
