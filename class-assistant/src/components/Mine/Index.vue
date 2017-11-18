@@ -2,16 +2,18 @@
   <div id="mine">
     <mt-header fixed title="我的" class="header"></mt-header>
     <div class="wrap">
-      <div class="personal">
-        <img src="/static/images/1.png" alt="avatar">
-        <div class="right">
-          <div class="msg">
-            <span class="name">王小明</span>
-            <p class="signature">暂无个性签名</p>
+      <router-link to="/personal">
+        <div class="personal">
+          <img src="/static/images/1.png" alt="avatar">
+          <div class="right">
+            <div class="msg">
+              <span class="name">王小明</span>
+              <p class="signature">暂无个性签名</p>
+            </div>
+            <i class="fa fa-angle-right" aria-hidden="true"></i>
           </div>
-          <i class="fa fa-angle-right" aria-hidden="true"></i>
         </div>
-      </div>
+      </router-link>
       <div class="others">
         <div class="item">
           <i class="fa fa-calendar-check-o"></i>
@@ -27,10 +29,12 @@
         </div>
       </div>
       <div class="setting">
-        <div class="item">
-          <i class="fa fa-cog" aria-hidden="true"></i>
-          设置
-        </div>
+        <router-link to="/setting">
+          <div class="item">
+            <i class="fa fa-cog" aria-hidden="true"></i>
+            设置
+          </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -46,7 +50,7 @@ export default {
   @import url(../../common/styles/base.less);
 
   #mine{
-    min-height: 1000px;
+    min-height: 667px;
   }
 
   header{
@@ -65,6 +69,7 @@ export default {
     align-items: center;
     padding: 12px 0;
     border-bottom: 1px solid #e1e1e1;
+    background-color: #fff;
     
     &>i{
       margin: 0 15px;
@@ -77,7 +82,7 @@ export default {
   }
 
   .wrap{
-    margin-top: calc(~"@{headerHeight} + 20px");
+    padding-top: calc(~"@{headerHeight} + 20px");
     .personal{
       padding: 12px;
       display: flex;

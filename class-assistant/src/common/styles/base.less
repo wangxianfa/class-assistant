@@ -6,3 +6,15 @@ header
   height: @headerHeight;
   font-size: @headerFontSize;
 }
+
+.clearfix:after{
+  overflow: hidden;
+  clear: both;
+  content: '';
+  height: 0;
+  display: block;
+}
+
+.clearfix{
+  zoom: 1;
+}
