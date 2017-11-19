@@ -60,15 +60,15 @@ export default {
   name: 'Main',
   data () {
     return {
-      selected: '我的',
-      actived: [true, false, false, true, false],
-      tabSelected: 'tab-container5'
+      selected: '动态',
+      actived: [false, true, false, false, false],
+      tabSelected: 'tab-container2'
     }
   },
   methods: {
     itemClick: function (selected) {
       this.tabSelected = 'tab-container' + (selected + 1)
-      var arr = [false, false, false, false]
+      var arr = [false, false, false, false, false]
       this.actived = arr.map((val, index) => {
         return selected === index
       })
