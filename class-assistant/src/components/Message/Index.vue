@@ -33,7 +33,7 @@ export default {
   name: 'Home',
   data () {
     return {
-      list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      list: [1, 2, 3, 4, 5]
     }
   },
   methods: {
@@ -49,6 +49,11 @@ export default {
   @import url(../../common/styles/base.less);
 
   @avatarSize: 34px;
+
+  #message{
+    min-height: 667px;
+    padding-top: @headerHeight;
+  }
 
   a{
     text-decoration: none;
@@ -66,20 +71,14 @@ export default {
   }
 
   .mint-loadmore{
-    margin-top: @headerHeight;
     margin-bottom: 56px;
     height: 100%;
-  }
-
-  ul,li{
-    list-style: none;
-    margin: 0;
-    padding: 0;
   }
 
   li{
     @imgSize: 54px;
     @imgMargin: 14px;
+    background-color: #fff;
 
     display: flex;
     box-sizing: border-box;
@@ -103,7 +102,7 @@ export default {
       width: calc(~"100% - @{imgSize} - 2 * @{imgMargin} - 2px"); // 使用calc方法失效， 得到不准确值
       &>h2{
         margin: 0;
-        font-size: 20px;
+        font-size: 17px;
         font-weight: 500;
         color: #000;
         display: flex;
@@ -130,7 +129,7 @@ export default {
           display: -webkit-box;
           -webkit-box-orient: vertical;
           -webkit-line-clamp: 1;
-          font-size: 15px;
+          font-size: 14px;
           color: #9c9c9c;
         }
         &>.mint-badge{

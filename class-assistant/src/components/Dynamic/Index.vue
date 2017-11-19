@@ -11,5 +11,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import url(../../common/styles/base.less);
 
 </style>
