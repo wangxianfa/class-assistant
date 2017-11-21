@@ -8,6 +8,9 @@ import Personal from '../components/Mine/Personal.vue'
 import Setting from '../components/Mine/Setting.vue'
 import MsgEdit from '../components/Mine/MsgEdit.vue'
 
+const Login = () => import('../components/Vertify/Login.vue')
+const Register = () => import('../components/Vertify/Register.vue')
+
 Vue.use(Mint)
 Vue.use(Router)
 
@@ -37,6 +40,16 @@ export default new Router({
       path: '/msgedit',
       name: 'MsgEdit',
       component: MsgEdit
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
     }
   ]
 })

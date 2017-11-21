@@ -18,7 +18,7 @@
               </h2>
               <div class="content">
                 <p>渲染一个“元组件”为动态组件。依 is 的值，来决定哪个组件被渲染。</p>
-                <mt-badge type="error" size="normal">10</mt-badge>
+                <mt-badge type="error" size="small">10</mt-badge>
               </div>
             </div>
           </li>
