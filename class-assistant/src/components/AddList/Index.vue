@@ -50,7 +50,7 @@ export default {
   name: 'AddList',
   data () {
     return {
-      selected: 1
+      selected: '1'
     }
   }
 }
@@ -62,7 +62,7 @@ export default {
   #addlist{
     height: 667px;
     background-color: #f9f9f9;
-    padding-top: calc(~"@{headerHeight} + 20px");
+    margin-top: 20px;
   }
 
   .header{

@@ -51,8 +51,8 @@ export default {
   @avatarSize: 34px;
 
   #message{
-    min-height: 667px;
-    padding-top: @headerHeight;
+    // padding-top: @headerHeight;
+    min-height: 100%;
   }
 
   a{
@@ -71,8 +71,8 @@ export default {
   }
 
   .mint-loadmore{
-    margin-bottom: 56px;
     height: 100%;
+    overflow: initial;
   }
 
   li{

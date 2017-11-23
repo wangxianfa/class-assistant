@@ -75,7 +75,7 @@ export default {
 
     &>.item-body{
       padding: 0 12px;
-      font-size: 16px;
+      font-size: 15px;
       color: #333;
       font-weight: 500;
       margin-top: 12px;

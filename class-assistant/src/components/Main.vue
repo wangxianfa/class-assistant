@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div id="container">
     <mt-tab-container v-model="tabSelected">
       <mt-tab-container-item id="tab-container1">
         <message />
@@ -87,10 +87,42 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
 
-  @link-color: #42b983;
+  @import url(../common/styles/base.less);
+
+  #container{
+    min-height: calc(~"100% - @{footerHeight} - @{headerHeight}");
+    // height: 100%;
+    // margin-top: @headerHeight;
+    // margin-bottom: @footerHeight;
+    position: absolute;
+    left: 0;
+    top: @headerHeight;
+    right: 0;
+    bottom: 0;
+  }
+
+  .mint-tab-container
+  {
+    min-height: 100%;
+    margin-bottom: @footerHeight;
+    background-color: #f9f9f9;
+  }
+
+  // .mint-tab-container-wrap{
+  //   min-height: 100%;
+  //   position: absolute;
+  //   left: 0;
+  //   right: 0;
+  //   top: 0;
+  //   bottom: 0;
+  // }
 
   .is-selected>.mint-tab-item-label {
     font-size: 12px;
+  }
+
+  .mint-tabbar {
+    background-color: #fff;
   }
 
   i{
@@ -101,7 +133,4 @@ export default {
     display: inline-block !important;
   }
 
-  .mint-tab-container-item{
-    background-color: #f9f9f9;
-  }
 </style>

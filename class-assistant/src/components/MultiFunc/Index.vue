@@ -53,8 +53,9 @@ export default {
   @import url(../../common/styles/base.less);
 
   #multifunc{
-    padding-top: calc(~"@{headerHeight}");
+    // padding-top: calc(~"@{headerHeight}");
     background-color: #fff;
+    height: 100%;
   }
   
   li{

@@ -7,12 +7,15 @@
       :top-method="loadTop" 
       :bottom-method="loadBottom" 
       :bottom-all-loaded="allLoaded" 
-      :bottomDistance="100"
+      :bottomDistance="500"
       :auto-fill="false"
       @top-status-change="handleTopChange"
       @bottom-status-change="handleBottomChange"
       ref="loadmore">
-        <ul>
+        <ul
+        v-infinite-scroll="loadMore"
+        infinite-scroll-disabled="loading"
+        infinite-scroll-distance="10">
           <li v-for="item in items" :key="item">
             <item></item>
           </li>
@@ -47,9 +50,10 @@ export default {
   data () {
     return {
       allLoaded: false,
-      items: [1, 2],
+      items: [1, 2, 3, 4, 5],
       topStatus: '',
-      bottomStatus: ''
+      bottomStatus: '',
+      loading: false
     }
   },
   methods: {
@@ -57,6 +61,7 @@ export default {
       this.$refs.loadmore.onTopLoaded()
     },
     loadBottom: function () {
+      console.log(111)
       // this.allLoaded = true
       /**
        * 上拉加载首屏高度不得超过屏幕高度，否则上拉加载会失效
@@ -68,6 +73,13 @@ export default {
     },
     handleBottomChange: function (status) {
       this.bottomStatus = status
+    },
+    loadMore: function () {
+      console.log('加载')
+      this.loading = true
+      setTimeout(() => {
+        this.loading = false
+      }, 2500)
     }
   },
   components: {
@@ -79,11 +91,16 @@ export default {
 <style lang="less" scoped>
   @import url(../../common/styles/base.less);
 
-  .container {
-    padding-top: calc(~"@{headerHeight}");
-    margin-bottom: 55px;
-    // -webkit-overflow-scrolling: auto;
-    // overflow-y: scroll;
-  }
+  
+  // .mint-loadmore
+  // {
+  //   min-height: 100%;
+  // }
+
+  // #dynamic,
+  // .container
+  // {
+  //   height: 100%;
+  // }
 
 </style>

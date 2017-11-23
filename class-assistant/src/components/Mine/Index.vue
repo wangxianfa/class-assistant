@@ -50,7 +50,7 @@ export default {
   @import url(../../common/styles/base.less);
 
   #mine{
-    min-height: 667px;
+    min-height: 100%;
   }
 
   header{
@@ -82,7 +82,7 @@ export default {
   }
 
   .wrap{
-    padding-top: calc(~"@{headerHeight} + 20px");
+    margin-top: 20px;
     .personal{
       padding: 12px;
       display: flex;
