@@ -18,37 +18,37 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Main',
+      name: 'main',
       component: Main
     },
     {
       path: '/chatroom',
-      name: 'ChatRoom',
+      name: 'chatRoom',
       component: ChatRoom
     },
     {
       path: '/personal',
-      name: 'Personal',
+      name: 'personal',
       component: Personal
     },
     {
       path: '/setting',
-      name: 'Setting',
+      name: 'setting',
       component: Setting
     },
     {
       path: '/msgedit',
-      name: 'MsgEdit',
+      name: 'msgEdit',
       component: MsgEdit
     },
     {
       path: '/login',
-      name: 'Login',
+      name: 'login',
       component: Login
     },
     {
       path: '/register',
-      name: 'Register',
+      name: 'register',
       component: Register
     }
   ]

@@ -60,9 +60,9 @@ export default {
   name: 'Main',
   data () {
     return {
-      selected: '动态',
-      actived: [false, true, false, false, false],
-      tabSelected: 'tab-container2'
+      selected: '消息',
+      actived: [true, false, false, false, false],
+      tabSelected: 'tab-container1'
     }
   },
   methods: {
@@ -91,9 +91,6 @@ export default {
 
   #container{
     min-height: calc(~"100% - @{footerHeight} - @{headerHeight}");
-    // height: 100%;
-    // margin-top: @headerHeight;
-    // margin-bottom: @footerHeight;
     position: absolute;
     left: 0;
     top: @headerHeight;
@@ -103,19 +100,16 @@ export default {
 
   .mint-tab-container
   {
-    min-height: 100%;
-    margin-bottom: @footerHeight;
+    height: 100%;
+    // margin-bottom: @footerHeight;
     background-color: #f9f9f9;
   }
 
-  // .mint-tab-container-wrap{
-  //   min-height: 100%;
-  //   position: absolute;
-  //   left: 0;
-  //   right: 0;
-  //   top: 0;
-  //   bottom: 0;
-  // }
+  .mint-tab-container-wrap,
+  .mint-tab-container-item
+  {
+    height: 100%;
+  }
 
   .is-selected>.mint-tab-item-label {
     font-size: 12px;

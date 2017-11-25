@@ -7,15 +7,12 @@
       :top-method="loadTop" 
       :bottom-method="loadBottom" 
       :bottom-all-loaded="allLoaded" 
-      :bottomDistance="500"
-      :auto-fill="false"
+      :bottomDistance="70"
+      :auto-fill="true"
       @top-status-change="handleTopChange"
       @bottom-status-change="handleBottomChange"
       ref="loadmore">
-        <ul
-        v-infinite-scroll="loadMore"
-        infinite-scroll-disabled="loading"
-        infinite-scroll-distance="10">
+        <ul>
           <li v-for="item in items" :key="item">
             <item></item>
           </li>
@@ -25,14 +22,14 @@
           <!-- <span v-show="topStatus !== 'loading'" :class="{ 'rotate': topStatus === 'drop' }">↓</span> -->
           <span v-show="topStatus === 'pull'">下拉刷新↓</span>
           <span v-show="topStatus === 'drop'">释放立即刷新↑</span>
-          <span v-show="topStatus === 'loading'">loading...</span>
+          <span v-show="topStatus === 'loading'">刷新中...</span>
         </div>
 
         <div slot="bottom" class="mint-loadmore-bottom">
           <!-- <span v-show="topStatus !== 'loading'" :class="{ 'rotate': topStatus === 'drop' }">↓</span> -->
           <span v-show="bottomStatus === 'pull'">上拉加载↑</span>
           <span v-show="bottomStatus === 'drop'">释放立即加载↓</span>
-          <span v-show="bottomStatus === 'loading'">loading...</span>
+          <span v-show="bottomStatus === 'loading'">加载中...</span>
         </div>
 
       </mt-loadmore>
@@ -52,8 +49,7 @@ export default {
       allLoaded: false,
       items: [1, 2, 3, 4, 5],
       topStatus: '',
-      bottomStatus: '',
-      loading: false
+      bottomStatus: ''
     }
   },
   methods: {
@@ -61,8 +57,7 @@ export default {
       this.$refs.loadmore.onTopLoaded()
     },
     loadBottom: function () {
-      console.log(111)
-      // this.allLoaded = true
+      this.allLoaded = false
       /**
        * 上拉加载首屏高度不得超过屏幕高度，否则上拉加载会失效
        */
@@ -73,13 +68,6 @@ export default {
     },
     handleBottomChange: function (status) {
       this.bottomStatus = status
-    },
-    loadMore: function () {
-      console.log('加载')
-      this.loading = true
-      setTimeout(() => {
-        this.loading = false
-      }, 2500)
     }
   },
   components: {
@@ -91,16 +79,15 @@ export default {
 <style lang="less" scoped>
   @import url(../../common/styles/base.less);
 
-  
-  // .mint-loadmore
-  // {
-  //   min-height: 100%;
-  // }
+  #dynamic,
+  .container{
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 
-  // #dynamic,
-  // .container
-  // {
-  //   height: 100%;
-  // }
+  .container{
+    padding-bottom: calc(~"@{footerHeight}");
+  }
 
 </style>

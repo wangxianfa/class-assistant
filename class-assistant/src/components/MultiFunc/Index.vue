@@ -11,18 +11,6 @@
         </li>
         <li>
           <figure>
-            <img src="/static/images/func/notice.png" />
-            <p>通知</p>
-          </figure>
-        </li>
-        <li>
-          <figure>
-            <img src="/static/images/func/attendance.png" />
-            <p>班级考勤</p>
-          </figure>
-        </li>
-        <li>
-          <figure>
             <img src="/static/images/func/sign_in.png" />
             <p>签到</p>
           </figure>

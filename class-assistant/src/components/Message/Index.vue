@@ -8,20 +8,20 @@
     </mt-header>
     <mt-loadmore :top-method="loadTop" ref="loadmore">
       <ul>
-        <router-link to="/chatroom">
-          <li v-for="item in list" :key="item">
-            <span class="left"><img src="/static/images/1.png" alt="avatar"></span>
-            <div class="right">
-              <h2>
-                <span>腾讯新闻</span>
-                <time>9:00</time>
-              </h2>
-              <div class="content">
-                <p>渲染一个“元组件”为动态组件。依 is 的值，来决定哪个组件被渲染。</p>
-                <mt-badge type="error" size="small">10</mt-badge>
-              </div>
+        <router-link v-for="(item, index) in list"  :to="{name: 'chatRoom', params: {header: item.header, avatar: item.avatar}}" tag="li" :key="index">
+          <!-- <li v-for="(item, index) in list" :key="index"> -->
+          <span class="left"><img :src="item.avatar" alt="avatar"></span>
+          <div class="right">
+            <h2>
+              <span>{{item.header}}</span>
+              <time>{{item.latestTime}}</time>
+            </h2>
+            <div class="content">
+              <p>{{item.latestMsg}}</p>
+              <mt-badge v-show="item.unread !== 0" type="error" size="small">{{item.unread}}</mt-badge>
             </div>
-          </li>
+          </div>
+          <!-- </li> -->
         </router-link>
       </ul>
     </mt-loadmore>
@@ -33,7 +33,29 @@ export default {
   name: 'Home',
   data () {
     return {
-      list: [1, 2, 3, 4, 5]
+      list: [
+        {
+          header: '机器人小欣',
+          avatar: '/static/images/robot.png',
+          latestMsg: '哈喽，你好！我是机器人小欣❥(^_-)',
+          latestTime: '9:42',
+          unread: 0
+        },
+        {
+          header: '腾讯新闻',
+          avatar: '/static/images/tengxun.png',
+          latestMsg: '渲染一个“元组件”为动态组件。依 is 的值，来决定哪个组件被渲染。',
+          latestTime: '19:12',
+          unread: 12
+        },
+        {
+          header: '小小发',
+          avatar: '/static/images/1.png',
+          latestMsg: '渲染一个“元组件”为动态组件。依 is 的值，来决定哪个组件被渲染。',
+          latestTime: '22:52',
+          unread: 2
+        }
+      ]
     }
   },
   methods: {
