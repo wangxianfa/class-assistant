@@ -13,12 +13,16 @@
     </div>
 
     <div class="item-footer">
-      <span class="ding">点赞91次</span>
+      <span class="ding">点赞{{ding}}次</span>
       <div class="funcbar">
-        <i @click="dingClick" class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+        <i @click="dingClick" :class="['fa', haveDing ? 'fa-thumbs-up' : 'fa-thumbs-o-up', haveDing ? 'active' : '']" aria-hidden="true"></i>
         <i @click="commentClick" class="fa fa-commenting-o"></i>
         <i @click="shareClick" class="fa fa-share-square-o"></i>
       </div>
+    </div>
+
+    <div v-if="isComment" class="commentBox">
+      <input @keyup.enter="uploadComment" @blur="disappearComment" class="comment-input" type="text" placeholder="说点什么吧..." v-model="comment"></input>
     </div>
   </div>
 </template>
@@ -26,12 +30,32 @@
 <script>
 export default {
   name: 'Item',
+  data () {
+    return {
+      ding: 0,
+      haveDing: false,
+      comment: '',
+      isComment: false
+    }
+  },
   methods: {
     dingClick: function () {
+      this.haveDing ? this.ding-- : this.ding++
+      this.haveDing = !this.haveDing
       console.log('赞一下')
     },
+    disappearComment: function () {
+      this.isComment = false
+    },
     commentClick: function () {
+      this.isComment = !this.isComment
       console.log('评论一下')
+    },
+    uploadComment: function () {
+      console.log(this.comment)
+    },
+    commentChange: function (val) {
+      console.log(val)
     },
     shareClick: function () {
       console.log('分享')
@@ -97,6 +121,24 @@ export default {
         color: #666;
         font-size: 20px !important;
         margin: 0 10px;
+      }
+
+      i.active{
+        color: #26a2ff;
+      }
+    }
+
+    &>.commentBox{
+      padding: 0 12px;
+      margin-top: 12px;
+
+      &>.comment-input{
+        border: 1px solid #dfdfdf;
+        width: 100%;
+        border-radius: 5px;
+        min-height: 32px;
+        line-height: 20px;
+        padding: 0 6px;
       }
     }
   }

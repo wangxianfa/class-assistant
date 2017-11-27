@@ -30,6 +30,13 @@
           <span>0人</span>
           <i class="fa fa-star" aria-hidden="true" slot="icon"></i>
         </mt-cell>
+
+        <div class="noclass">
+          <figure>
+            <img src="/static/images/add-list/5.png" alt="noclass">
+            <p>没有班级通讯录，您可以点击右上角添加去创建班级</p>
+          </figure>
+        </div>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
         <mt-cell v-for="n in 4" :title="'测试 ' + n" :key="n" />
@@ -96,6 +103,20 @@ export default {
       border-bottom: none;
       margin-bottom: 0;
       color: inherit;
+  }
+
+  .noclass{
+    margin-top: 50px;
+    >figure{
+      text-align: center;
+      >img{
+        width: 50%;
+      }
+      >p{
+        margin-top: 12px;
+        color: #BDBDBD;
+      }
+    }
   }
 
 </style>

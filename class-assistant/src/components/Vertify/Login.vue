@@ -41,7 +41,6 @@ export default {
       background:url(/static/images/vertify/login-bg.png) no-repeat;
       background-size:cover;
       position:fixed;
-      z-index:-10;
   }
   .welcome {
       width:100%;
