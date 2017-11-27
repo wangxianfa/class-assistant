@@ -10,6 +10,7 @@ import MsgEdit from '../components/Mine/MsgEdit.vue'
 
 const Login = () => import('../components/Vertify/Login.vue')
 const Register = () => import('../components/Vertify/Register.vue')
+const About = () => import('../components/Mine/About.vue')
 
 Vue.use(Mint)
 Vue.use(Router)
@@ -50,6 +51,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: About
     }
   ]
 })

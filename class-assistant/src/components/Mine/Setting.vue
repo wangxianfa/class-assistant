@@ -26,21 +26,42 @@
         <i class="fa fa-recycle"></i>
         清除缓存
       </div>
-      <div class="item">
-        <i class="fa fa-exclamation-circle"></i>
-        关于助手
-      </div>
+      
+      <router-link to="/about">  
+        <div class="item">
+          <i class="fa fa-exclamation-circle"></i>
+          关于助手
+        </div>
+      </router-link>
     </div>
 
     <div class="exit">
-      <mt-button type="danger" size="large">退出登录</mt-button>
+      <mt-button type="danger" size="large" @click="logout">退出登录</mt-button>
     </div>
   </div>
 </template>
 
 <script>
+import { MessageBox } from 'mint-ui'
+
 export default {
-  name: 'Setting'
+  name: 'Setting',
+  data () {
+    return {
+      msg: ''
+    }
+  },
+  methods: {
+    logout: function () {
+      MessageBox.confirm('确定退出当前账号？')
+      .then(action => {
+        console.log('action')
+      })
+      .catch(() => {
+        console.log('cancel')
+      })
+    }
+  }
 }
 </script>
 
