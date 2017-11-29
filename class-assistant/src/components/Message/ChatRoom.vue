@@ -8,13 +8,12 @@
     </mt-header>
 
     <div class="msgwrap">
-      <Dialogue />
-      <Dialogue />
+      <Dialogue :data="{nickname: '机器人小发', info: dialog || 'hi, 我是机器人小发，有什么能够帮助你的(*^▽^*)'}" />
     </div>
 
     <div id="bottomZone">
       <div class="inputBox">
-        <input @keyup.enter="sendClick" type="text">
+        <input @keyup.enter="sendClick" type="text" v-model="dialog">
         <button @click="sendClick">发送</button>
       </div>
       <div class="funcbar">
@@ -33,6 +32,7 @@
 
 <script>
 
+import axios from 'axios'
 const Dialogue = () => import('./Dialogue.vue')
 
 export default {
@@ -40,7 +40,8 @@ export default {
   data () {
     return {
       header: '',
-      avatar: ''
+      avatar: '',
+      dialog: ''
     }
   },
   methods: {
@@ -69,7 +70,44 @@ export default {
       console.log('otherClick')
     },
     sendClick: function () {
-      console.log('send')
+      this.chatWithRobot(this.dialog)
+      // console.log('send')
+    },
+    chatWithRobot: function (info, location = '武汉市洪山区') {
+      // POST 实现，有跨域障碍
+      axios({
+        method: 'POST',
+        baseURL: '/robot',
+        url: '',
+        data: {
+          key: '7b2c607eead1445da35aacd831a1c6a1',
+          info: info,
+          loc: location,
+          userid: 'xiaoxiaofa'
+        },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then((response) => {
+        this.dialog = ''
+        console.log(response)
+      }).catch((error) => {
+        console.log(error)
+      })
+      // GET 方法实现
+      // axios.get('http://www.tuling123.com/openapi/api', {
+      //   params: {
+      //     key: '7b2c607eead1445da35aacd831a1c6a1',
+      //     userid: 'xiaoxiaofa',
+      //     info: info,
+      //     loc: location
+      //   }
+      // }).then((response) => {
+      //   this.dialog = ''
+      //   console.log(response.data.text)
+      // }).catch((error) => {
+      //   console.log(error)
+      // })
     }
   },
   mounted () {

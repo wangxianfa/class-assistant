@@ -10,14 +10,10 @@
         辅导员
       </mt-tab-item>
       <mt-tab-item id="2">
-        <img slot="icon" src="/static/images/add-list/2.png" alt="辅导员">
-        同事
-      </mt-tab-item>
-      <mt-tab-item id="3">
         <img slot="icon" src="/static/images/add-list/3.png" alt="辅导员">
         好友
       </mt-tab-item>
-      <mt-tab-item id="4">
+      <mt-tab-item id="3">
         <img slot="icon" src="/static/images/add-list/4.png" alt="辅导员">
         群组
       </mt-tab-item>
@@ -39,13 +35,10 @@
         </div>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
-        <mt-cell v-for="n in 4" :title="'测试 ' + n" :key="n" />
+        <group />
       </mt-tab-container-item>
       <mt-tab-container-item id="3">
         <mt-cell v-for="n in 6" :title="'选项 ' + n" :key="n" />
-      </mt-tab-container-item>
-      <mt-tab-container-item id="4">
-        <mt-cell v-for="n in 8" :title="'选项 ' + n" :key="n" />
       </mt-tab-container-item>
     </mt-tab-container>
 
@@ -53,12 +46,18 @@
 </template>
 
 <script>
+
+const Group = () => import('./Group.vue')
+
 export default {
   name: 'AddList',
   data () {
     return {
       selected: '1'
     }
+  },
+  components: {
+    Group
   }
 }
 </script>

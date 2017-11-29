@@ -2,9 +2,9 @@
   <div class="dialog">
     <span class="avatar"><img src="/static/images/robot.png" alt="robot"></span>
     <div class="dialog-msg">
-      <p class="nickname" v-if="true">机器人小欣</p>
+      <p class="nickname" v-if="true">{{nickname}}</p>
       <div class="msg">
-        你好，我是机器人小欣，请问有什么能够帮助您的\(^o^)/~
+        {{ info || '你好，我是机器人发，请问有什么能够帮助您的\(^o^)/~' }}
         <!-- 风 -->
         <span class="angle"></span>
       </div>
@@ -14,8 +14,18 @@
 
 <script>
 export default {
-  name: 'Dialogue'
-
+  name: 'Dialogue',
+  mounted () {
+    this.nickname = this.$props.data.nickname
+    this.info = this.$props.data.info
+  },
+  data () {
+    return {
+      nickname: '',
+      info: ''
+    }
+  },
+  props: ['data']
 }
 </script>
 

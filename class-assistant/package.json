@@ -8,9 +8,11 @@
     "dev": "node build/dev-server.js",
     "start": "npm run dev",
     "build": "node build/build.js",
-    "lint": "eslint --ext .js,.vue src"
+    "lint": "eslint --ext .js,.vue src",
+    "serve": "nodemon ./app.js --harmony"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "font-awesome": "^4.7.0",
     "mint-ui": "^2.2.9",
     "vue": "^2.5.2",
@@ -48,6 +50,7 @@
     "http-proxy-middleware": "^0.17.3",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
+    "nodemon": "^1.12.1",
     "opn": "^5.1.0",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",

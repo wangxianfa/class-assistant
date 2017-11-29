@@ -28,5 +28,34 @@ export default {
   {
     user-select: none;
   }
+
+  .mint-msgbox{
+    padding-bottom: 12px;
+
+    >.mint-msgbox-content
+    {
+      padding: 24px 20px 16px !important;
+      border-bottom: none;
+
+      >.mint-msgbox-message{
+        color: #333;
+      }
+    }
+  }
+
+  .mint-msgbox-btns{
+    
+    float: right;
+    padding: 0 20px;
+
+    >.mint-msgbox-btn{
+      margin-left: 32px;
+    }
+
+    >.mint-msgbox-cancel {
+      border-right: none;
+    }
+  }
+
 </style>
 

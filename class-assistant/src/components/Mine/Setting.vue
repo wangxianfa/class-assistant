@@ -7,10 +7,12 @@
     </mt-header>
 
     <div class="systemSetting">
-      <div class="item">
-        <i class="fa fa-commenting-o" aria-hidden="true"></i>
-        消息提醒
-      </div>
+      <router-link to="/msgwarn">
+        <div class="item">
+          <i class="fa fa-commenting-o" aria-hidden="true"></i>
+          消息提醒
+        </div>
+      </router-link>
       <div class="item">
         <i class="fa fa-lock"></i>
         修改密码
@@ -22,7 +24,7 @@
     </div>
 
     <div class="about">
-      <div class="item">
+      <div class="item" @click="clearClick">
         <i class="fa fa-recycle"></i>
         清除缓存
       </div>
@@ -54,6 +56,15 @@ export default {
   methods: {
     logout: function () {
       MessageBox.confirm('确定退出当前账号？')
+      .then(action => {
+        console.log('action')
+      })
+      .catch(() => {
+        console.log('cancel')
+      })
+    },
+    clearClick: function () {
+      MessageBox.confirm('将清空所有聊天记录及缓存数据', '')
       .then(action => {
         console.log('action')
       })
