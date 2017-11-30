@@ -7,8 +7,19 @@
       <mt-button icon="more" slot="right"></mt-button>
     </mt-header>
 
-    <div class="msgwrap">
-      <Dialogue :data="{nickname: '机器人小发', info: dialog || 'hi, 我是机器人小发，有什么能够帮助你的(*^▽^*)'}" />
+    <div class="msgwrap" ref="msgwrap">
+      <Dialogue v-for="(item, index) in items" :key="index" :data="{nickname: item.nickname, avatar: item.avatar, self: item.self, showNickname: item.showNickname}">
+        <p slot="text" v-if="item.code !== 308000 && item.code !== 302000">{{ item.text }}</p>
+        <a :href="item.url ? item.url : ''" slot="url" target="_blank">{{item.url ? '链接：' + item.url : '' }}</a>
+        <ul slot="list" class="list">
+          <li v-for="(list, index) in item.list" :key="index">
+            <h2>{{list.name || list.source}}</h2>
+            <p>{{list.info || list.article}}</p>
+            <img v-lazy="list.icon" :alt="list.name" />
+            <a :href="list.detailurl" target="_blank">{{'链接：' + list.detailurl}}</a>
+          </li>
+        </ul>
+      </Dialogue>
     </div>
 
     <div id="bottomZone">
@@ -41,7 +52,8 @@ export default {
     return {
       header: '',
       avatar: '',
-      dialog: ''
+      dialog: '',
+      items: []
     }
   },
   methods: {
@@ -70,11 +82,26 @@ export default {
       console.log('otherClick')
     },
     sendClick: function () {
+      const data = {
+        code: '123456',
+        text: this.dialog,
+        url: '',
+        list: [],
+        self: true,
+        avatar: '/static/images/1.png',
+        nickname: '小小发'
+      }
+      this.items.push(data)
       this.chatWithRobot(this.dialog)
-      // console.log('send')
+    },
+    changeHeight: function () {
+      console.log('scrollTop: ' + this.$refs.msgwrap.scrollTop)
+      console.log('scrollHeight: ' + this.$refs.msgwrap.scrollHeight)
+      this.$refs.msgwrap.scrollTop = this.$refs.msgwrap.scrollHeight
     },
     chatWithRobot: function (info, location = '武汉市洪山区') {
       // POST 实现，有跨域障碍
+      // axios 方法实现, 传递的数据会被转为字符串，通过设置 'Content-Type': 'application/json' 解决
       axios({
         method: 'POST',
         baseURL: '/robot',
@@ -86,14 +113,37 @@ export default {
           userid: 'xiaoxiaofa'
         },
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/json'
         }
       }).then((response) => {
         this.dialog = ''
-        console.log(response)
+        const res = JSON.parse(JSON.stringify(response.data))
+        const data = {
+          code: res.code,
+          text: res.text,
+          url: res.url ? res.url : '',
+          list: res.list ? res.list : [],
+          self: false,
+          nickname: '小小发的小管家'
+        }
+        this.items.push(data)
       }).catch((error) => {
         console.log(error)
       })
+
+      // axios.post 方法实现
+      // axios.post('/robot', {
+      //   'key': '7b2c607eead1445da35aacd831a1c6a1',
+      //   'info': info,
+      //   'loc': location,
+      //   'userid': 'xiaoxiaofa'
+      // }).then((response) => {
+      //   this.dialog = ''
+      //   console.log(response)
+      // }).catch((error) => {
+      //   console.log(error)
+      // })
+
       // GET 方法实现
       // axios.get('http://www.tuling123.com/openapi/api', {
       //   params: {
@@ -113,9 +163,18 @@ export default {
   mounted () {
     this.header = this.$route.params.header
     this.avatar = this.$route.params.avatar
+
+    this.$refs.msgwrap.addEventListener('resize', this.changeHeight)
   },
   components: {
     Dialogue
+  },
+  watch: {
+    items: function () {
+      this.$nextTick(() => {
+        this.changeHeight()
+      })
+    }
   }
 }
 </script>
@@ -135,13 +194,17 @@ export default {
     left: 0;
     right: 0;
     padding: 10px;
+    padding-top: 0;
   }
 
   .msgwrap{
-    height: 100%;
-    padding-top: @headerHeight;
-    padding-bottom: @footerHeight;
+    width: 100%;
+    height: calc(~"100% - @{headerHeight} - 90px");
+    margin-top: @headerHeight;
     box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: fixed;
   }
 
   .inputBox{
