@@ -1,1 +1,21 @@
-@base-color: #fff
+@headerHeight: 48px;
+@headerFontSize: 16px;
+@footerHeight: 55px;
+
+header
+{
+  height: @headerHeight;
+  font-size: @headerFontSize;
+}
+
+.clearfix:after{
+  overflow: hidden;
+  clear: both;
+  content: '';
+  height: 0;
+  display: block;
+}
+
+.clearfix{
+  zoom: 1;
+}

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div id="container">
     <mt-tab-container v-model="tabSelected">
       <mt-tab-container-item id="tab-container1">
         <message />
@@ -61,14 +61,14 @@ export default {
   data () {
     return {
       selected: '消息',
-      actived: [true, false, false, true, false],
+      actived: [true, false, false, false, false],
       tabSelected: 'tab-container1'
     }
   },
   methods: {
     itemClick: function (selected) {
       this.tabSelected = 'tab-container' + (selected + 1)
-      var arr = [false, false, false, false]
+      var arr = [false, false, false, false, false]
       this.actived = arr.map((val, index) => {
         return selected === index
       })
@@ -87,14 +87,36 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
 
-  @link-color: #42b983;
+  @import url(../common/styles/base.less);
 
-  // .header {
-  //   background-color: #21c6cd;
-  // }
+  #container{
+    min-height: calc(~"100% - @{footerHeight} - @{headerHeight}");
+    position: absolute;
+    left: 0;
+    top: @headerHeight;
+    right: 0;
+    bottom: 0;
+  }
+
+  .mint-tab-container
+  {
+    height: 100%;
+    // margin-bottom: @footerHeight;
+    background-color: #f9f9f9;
+  }
+
+  .mint-tab-container-wrap,
+  .mint-tab-container-item
+  {
+    height: 100%;
+  }
 
   .is-selected>.mint-tab-item-label {
     font-size: 12px;
+  }
+
+  .mint-tabbar {
+    background-color: #fff;
   }
 
   i{
@@ -104,4 +126,5 @@ export default {
     width: auto !important;
     display: inline-block !important;
   }
+
 </style>
