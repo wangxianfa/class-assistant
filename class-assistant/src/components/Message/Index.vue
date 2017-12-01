@@ -35,6 +35,7 @@ export default {
     return {
       list: [
         {
+          roomid: 1,
           header: '机器人小欣',
           avatar: '/static/images/robot.png',
           latestMsg: '哈喽，你好！我是机器人小欣❥(^_-)',
@@ -42,6 +43,7 @@ export default {
           unread: 0
         },
         {
+          roomid: 2,
           header: '腾讯新闻',
           avatar: '/static/images/tengxun.png',
           latestMsg: '渲染一个“元组件”为动态组件。依 is 的值，来决定哪个组件被渲染。',
@@ -49,6 +51,7 @@ export default {
           unread: 12
         },
         {
+          roomid: 3,
           header: '小小发',
           avatar: '/static/images/1.png',
           latestMsg: '渲染一个“元组件”为动态组件。依 is 的值，来决定哪个组件被渲染。',
