@@ -22,12 +22,14 @@
     <!-- tab-container -->
     <mt-tab-container v-model="selected">
       <mt-tab-container-item id="1">
-        <mt-cell title="标题文字">
+        <!-- <mt-cell title="标题文字">
           <span>0人</span>
           <i class="fa fa-star" aria-hidden="true" slot="icon"></i>
-        </mt-cell>
+        </mt-cell> -->
 
-        <div class="noclass">
+        <item v-for="(counsellor, index) in counsellors" :key="index" :data="counsellor" />
+
+        <div class="noclass" v-if="false">
           <figure>
             <img src="/static/images/add-list/5.png" alt="noclass">
             <p>没有班级通讯录，您可以点击右上角添加去创建班级</p>
@@ -38,7 +40,9 @@
         <group />
       </mt-tab-container-item>
       <mt-tab-container-item id="3">
-        <mt-cell v-for="n in 6" :title="'选项 ' + n" :key="n" />
+        <router-link v-for="(item, index) in items"  :to="{name: 'chatGroup', params: {groupid: 1, header: item.nickname, avatar: item.avatar}}" :key="index">
+          <Item :data="item" />
+        </router-link>
       </mt-tab-container-item>
     </mt-tab-container>
 
@@ -48,16 +52,46 @@
 <script>
 
 const Group = () => import('./Group.vue')
+const Item = () => import('./Item.vue')
 
 export default {
   name: 'AddList',
   data () {
     return {
-      selected: '1'
+      selected: '1',
+      items: [
+        {
+          sid: 1,
+          avatar: '/static/images/1.png',
+          nickname: '毕业设计（2018）',
+          detail: ''
+        },
+        {
+          sid: 2,
+          avatar: '/static/images/tengxun.png',
+          nickname: '腾讯客服',
+          detail: ''
+        }
+      ],
+      counsellors: [
+        {
+          sid: 1,
+          avatar: '/static/images/1.png',
+          nickname: '王珩',
+          detail: '2014级软工辅导员'
+        },
+        {
+          sid: 2,
+          avatar: '/static/images/tengxun.png',
+          nickname: '宗茗',
+          detail: '2014级计科辅导员'
+        }
+      ]
     }
   },
   components: {
-    Group
+    Group,
+    Item
   }
 }
 </script>

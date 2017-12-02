@@ -7,14 +7,8 @@
     </mt-cell>
     <div class="list">
       <ul v-show="stretch">
-        <router-link v-for="(item, index) in items"  :to="{name: 'chatRoom', params: {header: item.nickname, avatar: item.avatar}}" tag="li" :key="index">
-          <span class="avatar">
-            <img :src="item.avatar" alt="avatar">
-          </span>
-          <div class="right">
-            <h2 class="nickname">{{item.nickname}}</h2>
-            <p class="detail">{{item.detail || '暂无其他信息'}}</p>
-          </div>
+        <router-link v-for="(item, index) in items"  :to="{name: 'chatOne', params: {userid: 1, header: item.nickname, avatar: item.avatar}}" tag="li" :key="index">
+          <Item :data="item" />
         </router-link>
       </ul>
     </div>
@@ -22,6 +16,8 @@
 </template>
 
 <script>
+const Item = () => import('./Item.vue')
+
 export default {
   name: 'group',
   data () {
@@ -47,6 +43,9 @@ export default {
     stretchClick: function () {
       this.stretch = !this.stretch
     }
+  },
+  components: {
+    Item
   }
 }
 </script>
@@ -60,36 +59,6 @@ export default {
       margin-right: 8px;
       color: #dfdfdf;
       font-size: 16px !important;
-    }
-  }
-
-  li{
-    display: flex;
-    padding: 10px;
-    align-items: center;
-    background-color: #fff;
-    border-bottom: 1px solid #f8f8f8;
-
-    >.avatar{
-      margin-right: 10px;
-      img{
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-      }
-    }
-
-    >.right{
-      width: calc(~"100% - 46px");
-
-      h2{
-        font-size: 14px;
-        color: 333;
-      }
-      .detail{
-        font-size: 13px;
-        color: #999;
-      }
     }
   }
 </style>

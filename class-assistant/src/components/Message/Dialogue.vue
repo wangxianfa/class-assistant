@@ -2,7 +2,7 @@
   <div :class="['dialog', self ? 'self' : 'other']">
     <span class="avatar"><img :src="avatar" alt="robot"></span>
     <div class="dialog-msg">
-      <p class="nickname" v-if="showNickname">{{nickname}}</p>
+      <p class="nickname" v-if="self">{{nickname}}</p>
       <div :class="['msg', self ? 'self-msg' : 'other-msg']">
         <!-- {{ info || '你好，我是机器人发，请问有什么能够帮助您的\(^o^)/~' }} -->
         <slot name="text"></slot>

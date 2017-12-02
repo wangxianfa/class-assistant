@@ -4,7 +4,10 @@
       <router-link to="/" slot="left">
         <mt-button icon="back"></mt-button>
       </router-link>
-      <mt-button icon="more" slot="right"></mt-button>
+      <span slot="right">
+        <i class="fa fa-phone" aria-hidden="true"></i>
+        <i class="fa fa-user"></i>
+      </span>
     </mt-header>
 
     <div class="msgwrap" ref="msgwrap">
@@ -158,6 +161,9 @@ export default {
       // }).catch((error) => {
       //   console.log(error)
       // })
+    },
+    chatWithFriends: function () {
+      console.log('1')
     }
   },
   mounted () {
@@ -239,5 +245,9 @@ export default {
       font-size: 24px;
       color: #7e8492;
     }
+  }
+
+  .is-right i{
+    margin-left: 8px;
   }
 </style>

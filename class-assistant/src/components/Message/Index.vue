@@ -8,7 +8,7 @@
     </mt-header>
     <mt-loadmore :top-method="loadTop" ref="loadmore">
       <ul>
-        <router-link v-for="(item, index) in list"  :to="{name: 'chatRoom', params: {header: item.header, avatar: item.avatar}}" tag="li" :key="index">
+        <router-link v-for="(item, index) in list"  :to="{name: 'chatOne', params: {userid: 1, header: item.header, avatar: item.avatar}}" tag="li" :key="index">
           <!-- <li v-for="(item, index) in list" :key="index"> -->
           <span class="left"><img :src="item.avatar" alt="avatar"></span>
           <div class="right">
@@ -61,10 +61,28 @@ export default {
       ]
     }
   },
+  created () {
+    // 新消息通过socket来获取
+    this.updateBySocket()
+  },
   methods: {
     loadTop: function () {
       // 加载更多数据
       this.$refs.loadmore.onTopLoaded()
+    },
+    // 通过socket来更新消息
+    updateBySocket: function () {
+      window.socket.removeAllListeners() // 一定要先移除原来的事件，否则会生成重复的监听器
+
+      window.socket.on('receivePrivateMessage', (data) => {
+        console.log('接收到私聊消息：' + data)
+      })
+      window.socket.on('receiveGroupMessage', (data) => {
+        // 如果不包含自己，则直接丢弃这个socket消息
+        console.log('接收到群发消息, 消息为：' + data.message)
+        console.log(this.$router)
+        this.$router.push(`/chatgroup/${data.group_id}`)
+      })
     }
   }
 }

@@ -9,12 +9,14 @@
     "start": "npm run dev",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src",
-    "serve": "nodemon ./app.js --harmony"
+    "serve": "nodemon app.js --harmony"
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "body-parser": "^1.18.2",
     "font-awesome": "^4.7.0",
     "mint-ui": "^2.2.9",
+    "socket.io": "^2.0.4",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
