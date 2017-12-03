@@ -2,7 +2,7 @@
   <div :class="['dialog', self ? 'self' : 'other']">
     <span class="avatar"><img :src="avatar" alt="robot"></span>
     <div class="dialog-msg">
-      <p class="nickname" v-if="self">{{nickname}}</p>
+      <p class="nickname" v-if="showNickname">{{nickname}}</p>
       <div :class="['msg', self ? 'self-msg' : 'other-msg']">
         <!-- {{ info || '你好，我是机器人发，请问有什么能够帮助您的\(^o^)/~' }} -->
         <slot name="text"></slot>
@@ -22,7 +22,7 @@ export default {
     this.nickname = this.$props.data.nickname
     this.avatar = this.$props.data.avatar || '/static/images/robot.png'
     this.self = this.$props.data.self
-    this.showNickname = this.showNickname || true
+    this.showNickname = false // 一对一通信不显示昵称信息
   },
   data () {
     return {

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Mint from 'mint-ui'
+import Vuex from 'vuex'
 
 import Main from '@/components/Main'
 import ChatOne from '../components/Message/ChatOne.vue'
@@ -15,6 +16,7 @@ const About = () => import('../components/Mine/About.vue')
 const MsgWarn = () => import('../components/Mine/MsgWarn.vue')
 
 Vue.use(Mint)
+Vue.use(Vuex)
 Vue.use(Router)
 
 export default new Router({
