@@ -73,7 +73,7 @@ export const mutations = {
 }
 
 function clear (state) {
-  state.friend.hasGetFriendList = 0
+  // state.friend.hasGetFriendList = 0
   state.friend.hasGetNewFriends = 0
 
   state.sidebar = {

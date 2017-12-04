@@ -2,6 +2,14 @@ const http = require('http')
 const express = require('express')
 const socketIO = require('socket.io')
 const app = express()
+/* eslint-disable */
+const db = require('./services/db')
+
+// 后端路由模块引入
+const loginRouter = require('./services/login')
+
+// 后端路由管理
+app.post('/api/login', loginRouter.login)
 
 const server = http.createServer(app)
 

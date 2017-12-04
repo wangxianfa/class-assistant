@@ -1,4 +1,0 @@
-
-exports.chatWithRobot = (req, res) => {
-  
-}

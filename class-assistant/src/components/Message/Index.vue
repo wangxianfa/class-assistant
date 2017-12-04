@@ -23,12 +23,16 @@
           </div>
           <!-- </li> -->
         </router-link>
+        {{userId}}
       </ul>
     </mt-loadmore>
   </div>
 </template>
 
 <script>
+
+import {mapGetters} from 'vuex'
+
 export default {
   name: 'Home',
   data () {
@@ -61,7 +65,16 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapGetters({
+      'userId': 'userId',
+      'dataList': 'allMessage',
+      'isLogin': 'isLogin'
+    })
+  },
   created () {
+    // 如果不是首次启动,且没有登陆,则跳到登录页面
+    !this.isLogin && this.$router.push('/login')
     // 新消息通过socket来获取
     this.updateBySocket()
   },
@@ -80,8 +93,8 @@ export default {
       window.socket.on('receiveGroupMessage', (data) => {
         // 如果不包含自己，则直接丢弃这个socket消息
         console.log('接收到群发消息, 消息为：' + data.message)
-        console.log(this.$router)
-        this.$router.push(`/chatgroup/${data.group_id}`)
+        // console.log(this.$router)
+        // this.$router.push(`/chatgroup/${data.group_id}`)
       })
     }
   }
