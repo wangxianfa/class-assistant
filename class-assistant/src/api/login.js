@@ -1,6 +1,6 @@
 import { request_post } from '../common/js/request'
 
-const API_CONFIG = '/api/login'
+const BASE_URL = '/api'
 
 /**
  * [checkLogin 验证登录]
@@ -8,12 +8,18 @@ const API_CONFIG = '/api/login'
  * @param  {[type]} options.pwd  [description]
  * @return {[type]}              [description]
  */
-export const check_login = ({user, psw}) => {
-  const url = `${API_CONFIG}`
+export const check_login = ({userid, psw}) => {
   const data = {
-    userid: user,
+    userid: userid,
     psw: psw
   }
 
-  return request_post(url, data)
+  const options = {
+    method: 'post',
+    baseURL: BASE_URL,
+    url: '/login',
+    data: data
+  }
+
+  return request_post(options)
 }

@@ -18,8 +18,8 @@ export function request_get (url) {
  * @param  {[object]} data [数据]
  * @return {[object]}      [promise]
  */
-export function request_post (url, data) {
-  return axios.post(url, data)
+export function request_post (options) {
+  return axios(options)
     .then((res) => {
       return Promise.resolve(res.data)
     })

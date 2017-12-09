@@ -9,13 +9,13 @@ const opt = {
 
 const connection = mysql.createConnection(opt)
 
-connection.connect()
+connection.connect((err) => {
+  if (err) {
+    console.error('[connection connect]  failed!')
+    return false
+  }
 
-connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-  if (error) throw error
-  console.log('The solution is: ', results[0].solution)
+  console.log('[connection connect]  succeed!')
 })
 
-connection.end()
-
-module.exports = connection
+exports.connection = connection

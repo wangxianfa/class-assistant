@@ -75,12 +75,12 @@ export default {
       return true
     },
     // 登陆后的回调
-    callback: function ({code, data, message}) {
+    callback: function ({code, data = {}, message}) {
       if (code == 1) {
-        window.socket.emit('login', data.loginStatus.userId)
+        window.socket.emit('login', data.loginStatus.userid)
         this.$store.commit('SET_LOGIN', data)
         this.$store.commit('ADD_USER', data)
-        this.$router.push('message')
+        this.$router.push('/')
       } else {
         this.$store.dispatch('setShowWarn', message)
       }

@@ -46,7 +46,7 @@ export const mutations = {
   },
   // 添加账号
   [types.ADD_USER] (state, {loginStatus, userInfo}) {
-    clear(state)
+    // clear(state)
     state.loginStatus = loginStatus
     state.userInfo = userInfo
 

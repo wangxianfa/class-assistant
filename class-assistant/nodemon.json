@@ -10,7 +10,8 @@
 	},
 	"watch": [
     "router/*",
-    "app.js"
+	"app.js",
+	"services/*"
 	],
 	"env": {
 		"NODE_ENV": "development"

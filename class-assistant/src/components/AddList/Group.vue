@@ -26,15 +26,9 @@ export default {
       items: [
         {
           sid: 1,
-          avatar: '/static/images/1.png',
+          avatar: '/static/images/2.png',
           nickname: '小小发',
           detail: 'we are what we repeatedlly do'
-        },
-        {
-          sid: 2,
-          avatar: '/static/images/tengxun.png',
-          nickname: '腾讯客服',
-          detail: ''
         }
       ]
     }

@@ -2,20 +2,24 @@ const http = require('http')
 const express = require('express')
 const socketIO = require('socket.io')
 const app = express()
+const bodyParser = require('body-parser')
 /* eslint-disable */
 const db = require('./services/db')
 
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
 // 后端路由模块引入
 const loginRouter = require('./services/login')
-
-// 后端路由管理
-app.post('/api/login', loginRouter.login)
 
 const server = http.createServer(app)
 
 server.listen(8000, () => {
   console.log('> 服务已于端口8000启动...')
 })
+
+// 后端路由管理
+app.post('/api/login', loginRouter.login)
 
 var io = socketIO.listen(server)
 

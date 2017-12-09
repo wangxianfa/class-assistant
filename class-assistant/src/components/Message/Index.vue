@@ -2,7 +2,7 @@
   <div id="message">
     <mt-header fixed title="消息" class="header">
       <span class="header-left" slot="left">
-        <img src="/static/images/1.png" alt="avatar">
+        <img :src="this.$store.state.userInfo.avatar" alt="avatar">
       </span>
       <mt-button icon="more" slot="right"></mt-button>
     </mt-header>
@@ -74,7 +74,9 @@ export default {
   },
   created () {
     // 如果不是首次启动,且没有登陆,则跳到登录页面
+    console.log(this.isLogin)
     !this.isLogin && this.$router.push('/login')
+    console.log(this.$store.state.userInfo.avatar)
     // 新消息通过socket来获取
     this.updateBySocket()
   },
