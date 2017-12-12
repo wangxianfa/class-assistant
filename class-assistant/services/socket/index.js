@@ -16,6 +16,13 @@ module.exports = {
   },
 
   getUserSocketId: (userId) => {
-    console.log('获取用户' + userId + '所关联的socketid')
+    // 查询相关用户socketid
+    const sql = 'SELECT socketid FROM user WHERE userid=? '
+    connection.query(sql, [userId], (error, result) => {
+      if (error) {
+        throw error
+      }
+      return result[0].socketid
+    })
   }
 }

@@ -8,7 +8,7 @@
     </mt-header>
     <mt-loadmore :top-method="loadTop" ref="loadmore">
       <ul>
-        <router-link v-for="(item, index) in list"  :to="{name: 'chatOne', params: {userid: 1, header: item.header, avatar: item.avatar}}" tag="li" :key="index">
+        <li v-for="(item, index) in list" :key="index" @click="goChat(item.chatType, item.userid)">
           <!-- <li v-for="(item, index) in list" :key="index"> -->
           <span class="left"><img :src="item.avatar" alt="avatar"></span>
           <div class="right">
@@ -22,8 +22,7 @@
             </div>
           </div>
           <!-- </li> -->
-        </router-link>
-        {{userId}}
+        </li>
       </ul>
     </mt-loadmore>
   </div>
@@ -39,28 +38,40 @@ export default {
     return {
       list: [
         {
-          roomid: 1,
+          userid: 1,
           header: '机器人小欣',
           avatar: '/static/images/robot.png',
           latestMsg: '哈喽，你好！我是机器人小欣❥(^_-)',
           latestTime: '9:42',
-          unread: 0
+          unread: 0,
+          chatType: 'single'
         },
         {
-          roomid: 2,
+          userid: 2,
           header: '腾讯新闻',
           avatar: '/static/images/tengxun.png',
           latestMsg: '渲染一个“元组件”为动态组件。依 is 的值，来决定哪个组件被渲染。',
           latestTime: '19:12',
-          unread: 12
+          unread: 12,
+          chatType: 'group'
         },
         {
-          roomid: 3,
-          header: '小小发',
+          userid: 201421092075,
+          header: '小小发yi号',
           avatar: '/static/images/1.png',
           latestMsg: '渲染一个“元组件”为动态组件。依 is 的值，来决定哪个组件被渲染。',
           latestTime: '22:52',
-          unread: 2
+          unread: 2,
+          chatType: 'single'
+        },
+        {
+          userid: 201421092076,
+          header: '小小发二号',
+          avatar: '/static/images/2.png',
+          latestMsg: '渲染一个“元组件”为动态组件。依 is 的值，来决定哪个组件被渲染。',
+          latestTime: '22:52',
+          unread: 2,
+          chatType: 'single'
         }
       ]
     }
@@ -98,6 +109,10 @@ export default {
         // console.log(this.$router)
         // this.$router.push(`/chatgroup/${data.group_id}`)
       })
+    },
+    goChat: function (chatType, chatId) {
+      const path = chatType == 'single' ? `/chatone/${chatId}` : `/chatgroup/${chatId}`
+      this.$router.push(path)
     }
   }
 }

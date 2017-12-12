@@ -1,6 +1,6 @@
 <template>
   <div id="chatroom">
-    <mt-header fixed :title="header">
+    <mt-header fixed :title="dataList.chatWith">
       <router-link to="/" slot="left">
         <mt-button icon="back"></mt-button>
       </router-link>
@@ -11,8 +11,8 @@
     </mt-header>
 
     <div class="msgwrap" ref="msgwrap">
-      <Dialogue v-for="(item, index) in items" :key="index" :data="{nickname: item.nickname, avatar: item.avatar, self: item.self, showNickname: item.showNickname}">
-        <p slot="text" v-if="item.code !== 308000 && item.code !== 302000">{{ item.text }}</p>
+      <Dialogue v-for="(item, index) in dataList.message" :key="index" :data="{nickname: dataList.chatWith, avatar: item.content.avatar, self: item.content.from == 'me' ? true : false}">
+        <p slot="text" v-if="item.code !== 308000 && item.code !== 302000">{{ item.text || item.content.message }}</p>
         <a :href="item.url ? item.url : ''" slot="url" target="_blank">{{item.url ? '链接：' + item.url : '' }}</a>
         <ul slot="list" class="list">
           <li v-for="(list, index) in item.list" :key="index">
@@ -27,8 +27,8 @@
 
     <div id="bottomZone">
       <div class="inputBox">
-        <input @keyup.enter="sendClick" type="text" v-model="dialog">
-        <button @click="sendClick">发送</button>
+        <input @keyup.enter="sendMessage" type="text" v-model="dialog">
+        <button @click="sendMessage">发送</button>
       </div>
       <div class="funcbar">
         <i class="fa fa-microphone" @click="microphoneClick"></i>
@@ -46,18 +46,33 @@
 
 <script>
 
+import { mapGetters } from 'vuex'
 import axios from 'axios'
+import * as api from '@/api/chat'
+import {parseChatTime} from '@/common/js/parse-time'
 const Dialogue = () => import('./Dialogue.vue')
 
 export default {
   name: 'ChatRoom',
   data () {
     return {
-      header: '',
-      avatar: '',
       dialog: '',
-      items: []
+      unread: 0,
+      dataList: {
+        userid: '',   // 别人的id
+        chatWith: '正在加载中...',  // 自己对别人的备注
+        avatar: '',  // 别人的头像
+        beizhu: '',  // 别人对自己的备注
+        message: [ ]  // 消息
+      }
     }
+  },
+  computed: {
+    ...mapGetters([
+      'userId',
+      'userInfo',
+      'allMessage'
+    ])
   },
   methods: {
     microphoneClick: function () {
@@ -164,11 +179,100 @@ export default {
     },
     chatWithFriends: function () {
       console.log('1')
+    },
+    getMessage: function (userid, otherUserid) {
+      console.log('获取聊天信息')
+    },
+    // 发送消息
+    sendMessage: async function () {
+      // 发送消息为空的控制
+      // if(this.writeMessage.trim() == '') return
+
+      // this.$refs.message.focus()
+      // 按钮状态变化
+      // this.btnInfo='发送中'
+      this.sendBySocket()  // 先通过socket发送消息
+
+      // 持久化到服务器
+      let data = {
+        userId: this.userId,  // 发送方的id
+        otherUserId: this.dataList.userid,  // 接收方的id
+        message: this.dialog,  // 消息内容
+        time: Date.parse(new Date()) / 1000 // 时间
+      }
+      const { code, message } = await api.send_message(data)
+      if (code == 1) {
+        data = {
+          type: 'message',
+          content: {
+            userid: this.userId, // 自己的id
+            from: 'me',
+            avatar: this.userInfo.avatar,  // 自己的头像
+            message: this.dialog, // 发的消息
+            time: Date.parse(new Date()) / 1000  // 时间
+          }
+        }
+        // 本地追加自己发送的消息
+        this.addMessageLocal(data)
+        this.dialog = ''
+        // this.btnInfo='发 送'
+      } else {
+        // 持久化到服务器失败
+        this.dataList.message.push({
+          type: 'time',
+          content: message
+        })
+        // this.btnInfo='发 送'
+      }
+    },
+    // socket发送消息
+    sendBySocket: function () {
+      window.socket.emit('sendPrivateMessage', {
+        from_user: this.userId,  // 发送方id（即自己的id）
+        from_user_face: this.userInfo.avatar, // 发送方头像（即自己的头像）
+        from_user_beizhu: this.dataList.beizhu, // 发送方名字（即别人对自己的备注）
+        to_user: this.dataList.userid, // 接收方id
+        message: this.dialog, // 消息内容
+        time: Date.parse(new Date()) / 1000 // 发送时间
+      })
+    },
+    // 本地追加消息
+    addMessageLocal: function (data) {
+      // 先不考虑时间
+      // const message = this.dataList.message // 获取本地已经存在的消息
+      // if (message.length == 0) { // 如果本地原来没有消息，则直接添加时间消息，不需要经过比较判断
+      //   this.isAddTimeMessage(0, data.content.time)
+      // } else {  // 否则需要经过比较判断才能确定是否要添加时间消息
+      //   const latestMessage = message[message.length - 1] // 本地最新的一条消息
+      //   const latestTime = latestMessage.content.time  // 该消息的时间
+      //   this.isAddTimeMessage(1, data.content.time, latestTime)
+      // }
+      this.dataList.message.push(data)
+    },
+    // 是否要添加时间消息
+    isAddTimeMessage: function (flag, currentTime, prevTime = '') {
+      if (flag) {   // 当flag为真时,需要比较判断，才能确定是否要添加时间
+        const seprator = 30 * 60   // 时间间隔基准,半个小时
+        if (currentTime - prevTime > seprator) { // 当下一条消息和这条消息的时间间隔大于30分钟,才添加时间
+          this.dataList.message.push({
+            type: 'time',
+            content: parseChatTime(currentTime)
+          })
+        }
+      } else {  // 当flag为假时,是必须要添加时间消息的
+        this.dataList.message.push({
+          type: 'time',
+          content: parseChatTime(currentTime)
+        })
+      }
     }
   },
   mounted () {
-    this.header = this.$route.params.header
-    this.avatar = this.$route.params.avatar
+    this.dataList.userid = this.$route.params.userid
+    console.log(this.dataList.userid)
+    // this.resetAndGetUnread(this.dataList.user_id)
+    this.getMessage(this.userId, this.dataList.user_id)
+    // this.updateBySocket()
 
     this.$refs.msgwrap.addEventListener('resize', this.changeHeight)
   },
@@ -249,5 +353,6 @@ export default {
 
   .is-right i{
     margin-left: 8px;
+    font-size: 20px;
   }
 </style>
