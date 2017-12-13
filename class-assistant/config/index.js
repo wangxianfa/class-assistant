@@ -40,7 +40,7 @@ module.exports = {
         }
       },
       '/api': {
-        target: 'http://localhost:8000/api',
+        target: 'http://192.168.191.1:8888/api',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

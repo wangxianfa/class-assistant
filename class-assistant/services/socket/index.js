@@ -14,7 +14,6 @@ module.exports = {
       console.log(result)
     })
   },
-
   getUserSocketId: (userId) => {
     // 查询相关用户socketid
     const sql = 'SELECT socketid FROM user WHERE userid=? '
