@@ -6,25 +6,38 @@
       </span>
       <mt-button icon="more" slot="right"></mt-button>
     </mt-header>
-    <mt-loadmore :top-method="loadTop" ref="loadmore">
-      <ul>
-        <li v-for="(item, index) in list" :key="index" @click="goChat(item.chatType, item.userid)">
-          <!-- <li v-for="(item, index) in list" :key="index"> -->
-          <span class="left"><img :src="item.avatar" alt="avatar"></span>
-          <div class="right">
-            <h2>
-              <span>{{item.header}}</span>
-              <time>{{item.latestTime}}</time>
-            </h2>
-            <div class="content">
-              <p>{{item.latestMsg}}</p>
-              <mt-badge v-show="item.unread !== 0" type="error" size="small">{{item.unread}}</mt-badge>
+    <div class="container">
+      <mt-loadmore :top-method="loadTop" ref="loadmore">
+        <ul>
+          <router-link to="/chatrobot" tag="li">
+            <span class="left"><img src="/static/images/robot.png" alt="avatar"></span>
+            <div class="right">
+              <h2>
+                <span>机器人小欣</span>
+                <time></time>
+              </h2>
+              <div class="content">
+                <p>我是人见人爱，花见花谢的小欣</p>
+                <mt-badge v-show="false" type="error" size="small">0</mt-badge>
+              </div>
             </div>
-          </div>
-          <!-- </li> -->
-        </li>
-      </ul>
-    </mt-loadmore>
+          </router-link>
+          <li v-for="(item, index) in list" :key="index" @click="goChat(item.chatType, item.userid)">
+            <span class="left"><img :src="item.avatar" alt="avatar"></span>
+            <div class="right">
+              <h2>
+                <span>{{item.header}}</span>
+                <time>{{item.latestTime}}</time>
+              </h2>
+              <div class="content">
+                <p>{{item.latestMsg}}</p>
+                <mt-badge v-show="item.unread !== 0" type="error" size="small">{{item.unread}}</mt-badge>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </mt-loadmore>
+    </div>
   </div>
 </template>
 
@@ -37,33 +50,6 @@ export default {
   data () {
     return {
       list: [
-        {
-          userid: 1,
-          header: '机器人小欣',
-          avatar: '/static/images/robot.png',
-          latestMsg: '哈喽，你好！我是机器人小欣❥(^_-)',
-          latestTime: '9:42',
-          unread: 0,
-          chatType: 'single'
-        },
-        {
-          userid: 2,
-          header: '腾讯新闻',
-          avatar: '/static/images/tengxun.png',
-          latestMsg: '渲染一个“元组件”为动态组件。依 is 的值，来决定哪个组件被渲染。',
-          latestTime: '19:12',
-          unread: 12,
-          chatType: 'group'
-        },
-        {
-          userid: 201421092075,
-          header: '小小发yi号',
-          avatar: '/static/images/1.png',
-          latestMsg: '渲染一个“元组件”为动态组件。依 is 的值，来决定哪个组件被渲染。',
-          latestTime: '22:52',
-          unread: 2,
-          chatType: 'single'
-        },
         {
           userid: 201421092076,
           header: '小小发二号',
@@ -85,9 +71,9 @@ export default {
   },
   created () {
     // 如果不是首次启动,且没有登陆,则跳到登录页面
-    console.log(this.isLogin)
     !this.isLogin && this.$router.push('/login')
-    console.log(this.$store.state.userInfo.avatar)
+    // 获取消息
+    this.$store.dispatch('getAllMessage', this.userId)
     // 新消息通过socket来获取
     this.updateBySocket()
   },
@@ -125,7 +111,13 @@ export default {
 
   #message{
     // padding-top: @headerHeight;
-    min-height: 100%;
+    height: 100%;
+
+    >.container{
+      height: calc(~"100% - @{footerHeight}");
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
   }
 
   a{

@@ -12,10 +12,6 @@
     <!-- built files will be auto injected -->
     <script>
       var socket = io.connect('http://192.168.191.1:8888')
-      
-      socket.on('message', (msg) => {
-        console.log(msg)
-      })
 
       //解决用户手动刷新浏览器后，原来的socketid失效的问题
       // const loginStatus= JSON.parse(localStorage.getItem("loginStatus") || '{}')

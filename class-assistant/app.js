@@ -11,7 +11,8 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 
 // 后端路由模块引入
 const loginRouter = require('./services/login')
-const chat = require('./services/message')
+const chat = require('./services/chat')
+const message = require('./services/message')
 
 const server = http.createServer(app)
 
@@ -24,6 +25,8 @@ server.listen(8888, '192.168.191.1', () => {
 // 后端路由管理
 app.post('/api/login', loginRouter.login)
 app.post('/api/chat/sendmessage', chat.sendMessage)
+app.get('/api/chat/message/:userId/:otherUserId', chat.getMessage)
+app.get('/api/message/all/:userId', message.getAllMessage)
 app.get('/', (req, res) => {
   res.send('1')
 })
@@ -36,20 +39,16 @@ io.on('connection', (socket) => {
   // 监听用户登录
   socket.on('login', (userId) => {
     // 保存用户的id和socketid
-    console.log(userId, socket.id)
     socketHander.saveUserSocketId(userId, socket.id)
   })
 
   // 监听用户发私聊信息
   socket.on('sendPrivateMessage', async(data) => {
     const {to_user} = data
-    // console.log(id)
-    // console.log(to_user)
     // 根据用户的id取到socketid，从而实现只对该用户推送新消息
     const socketid = await socketHander.getUserSocketId(to_user)
-    // io.to(socketid).emit('receivePrivateMessage', data)
     // io.sockets.emit('receivePrivateMessage', 'for your eyes only');
-    io.to(socketid).emit('123');
+    io.to(socketid).emit('receivePrivateMessage', data.message);
     
   })
 

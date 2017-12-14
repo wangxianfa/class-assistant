@@ -7,9 +7,9 @@
     </mt-cell>
     <div class="list">
       <ul v-show="stretch">
-        <router-link v-for="(item, index) in items"  :to="{name: 'chatOne', params: {userid: 1, header: item.nickname, avatar: item.avatar}}" tag="li" :key="index">
+        <li v-for="(item, index) in items" :key="index">
           <Item :data="item" />
-        </router-link>
+        </li>
       </ul>
     </div>
   </div>
@@ -28,7 +28,8 @@ export default {
           sid: 1,
           avatar: '/static/images/2.png',
           nickname: '小小发',
-          detail: 'we are what we repeatedlly do'
+          detail: 'we are what we repeatedlly do',
+          chatType: 'single'
         }
       ]
     }

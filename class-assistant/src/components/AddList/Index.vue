@@ -27,7 +27,7 @@
           <i class="fa fa-star" aria-hidden="true" slot="icon"></i>
         </mt-cell> -->
 
-        <item v-for="(counsellor, index) in counsellors" :key="index" :data="counsellor" />
+        <Item v-for="(counsellor, index) in counsellors" :key="index" :data="counsellor" />
 
         <div class="noclass" v-if="false">
           <figure>
@@ -40,9 +40,9 @@
         <group />
       </mt-tab-container-item>
       <mt-tab-container-item id="3">
-        <router-link v-for="(item, index) in items"  :to="{name: 'chatGroup', params: {groupid: 1, header: item.nickname, avatar: item.avatar}}" :key="index">
+        <li v-for="(item, index) in items" :key="index">
           <Item :data="item" />
-        </router-link>
+        </li>
       </mt-tab-container-item>
     </mt-tab-container>
 
@@ -64,13 +64,15 @@ export default {
           sid: 1,
           avatar: '/static/images/1.png',
           nickname: '毕业设计（2018）',
-          detail: ''
+          detail: '',
+          chatType: 'group'
         },
         {
           sid: 2,
           avatar: '/static/images/tengxun.png',
           nickname: '腾讯客服',
-          detail: ''
+          detail: '',
+          chatType: 'group'
         }
       ],
       counsellors: [
@@ -78,13 +80,15 @@ export default {
           sid: 1,
           avatar: '/static/images/1.png',
           nickname: '王珩',
-          detail: '2014级软工辅导员'
+          detail: '2014级软工辅导员',
+          chatType: 'single'
         },
         {
           sid: 2,
           avatar: '/static/images/tengxun.png',
           nickname: '宗茗',
-          detail: '2014级计科辅导员'
+          detail: '2014级计科辅导员',
+          chatType: 'single'
         }
       ]
     }
@@ -92,7 +96,8 @@ export default {
   components: {
     Group,
     Item
-  }
+  },
+  methods: {}
 }
 </script>
 
@@ -129,6 +134,10 @@ export default {
       color: gold;
       font-size: 18px !important;
       margin-right: 12px;
+    }
+
+    li{
+      list-style: none;
     }
   }
 

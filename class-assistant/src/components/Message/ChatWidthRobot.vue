@@ -14,10 +14,10 @@
       <div v-for="(item, index) in dataList.message" :key="index">
         <template v-if="item.type == 'message'">
           <Dialogue :data="{nickname: dataList.chatWith, avatar: item.content.faceUrl, self: item.content.from == 'me' ? true : false}">
-            <p slot="text" v-if="item.code !== 308000 && item.code !== 302000">{{ item.text || item.content.message }}</p>
-            <a :href="item.url ? item.url : ''" slot="url" target="_blank">{{item.url ? '链接：' + item.url : '' }}</a>
+            <p slot="text" v-if="item.content.code !== 308000 && item.content.code !== 302000">{{ item.text || item.content.message }}</p>
+            <a :href="item.url ? item.url : ''" slot="url" target="_blank">{{item.content.url ? '链接：' + item.content.url : '' }}</a>
             <ul slot="list" class="list">
-              <li v-for="(list, index) in item.list" :key="index">
+              <li v-for="(list, index) in item.content.list" :key="index">
                 <h2>{{list.name || list.source}}</h2>
                 <p>{{list.info || list.article}}</p>
                 <img v-lazy="list.icon" :alt="list.name" />
@@ -35,8 +35,8 @@
 
     <div id="bottomZone">
       <div class="inputBox">
-        <input @keyup.enter="sendMessage" type="text" v-model="dialog" ref="input">
-        <button @click="sendMessage">{{btnInfo}}</button>
+        <input @keyup.enter="sendClick" type="text" v-model="dialog" ref="input">
+        <button @click="sendClick">{{btnInfo}}</button>
       </div>
       <div class="funcbar">
         <i class="fa fa-microphone" @click="microphoneClick"></i>
@@ -56,8 +56,6 @@
 
 import { mapGetters } from 'vuex'
 import axios from 'axios'
-import * as api from '@/api/chat'
-import {parseChatTime} from '@/common/js/parse-time'
 const Dialogue = () => import('./Dialogue.vue')
 
 export default {
@@ -66,10 +64,9 @@ export default {
     return {
       btnInfo: '发送', // 发送按钮文本
       dialog: '',
-      unread: 0,
       dataList: {
         userid: '',   // 别人的id
-        chatWith: '正在加载中...',  // 自己对别人的备注
+        chatWith: '可爱小宝宝',  // 自己对别人的备注
         avatar: '',  // 别人的头像
         beizhu: '',  // 别人对自己的备注
         message: [ ],  // 消息
@@ -80,8 +77,7 @@ export default {
   computed: {
     ...mapGetters([
       'userId',
-      'userInfo',
-      'allMessage'
+      'userInfo'
     ])
   },
   methods: {
@@ -111,15 +107,15 @@ export default {
     },
     sendClick: function () {
       const data = {
-        code: '123456',
-        text: this.dialog,
-        url: '',
-        list: [],
-        self: true,
-        avatar: '/static/images/1.png',
-        nickname: '小小发'
+        type: 'message',
+        content: {
+          userid: this.userId, // 自己的id
+          from: 'me',
+          faceUrl: this.userInfo.avatar,  // 自己的头像
+          message: this.dialog // 发的消息
+        }
       }
-      this.items.push(data)
+      this.dataList.message.push(data)
       this.chatWithRobot(this.dialog)
     },
     changeHeight: function () {
@@ -147,14 +143,18 @@ export default {
         this.dialog = ''
         const res = JSON.parse(JSON.stringify(response.data))
         const data = {
-          code: res.code,
-          text: res.text,
-          url: res.url ? res.url : '',
-          list: res.list ? res.list : [],
-          self: false,
-          nickname: '小小发的小管家'
+          type: 'message',
+          content: {
+            code: res.code,
+            userid: 666,
+            from: 'other',
+            faceUrl: '/static/images/robot.png',
+            message: res.text,
+            url: res.url ? res.url : '',
+            list: res.list ? res.list : []
+          }
         }
-        this.items.push(data)
+        this.dataList.message.push(data)
       }).catch((error) => {
         console.log(error)
       })
@@ -186,127 +186,10 @@ export default {
       // }).catch((error) => {
       //   console.log(error)
       // })
-    },
-    // 获取消息
-    getMessage: async function (userId, otherUserId) {
-      const {data} = await api.get_message(userId, otherUserId)
-      const {info, info1, message} = data
-      const {device = 1, beizhu, avatar} = info  // 别人的信息
-      this.dataList.status = device == 0 ? '离线' : device == 1 ? '手机在线' : device == 2 ? '3G在线' : device == 3 ? '4G在线' : device == 4 ? 'WiFi在线' : '电脑在线'
-      this.dataList.chatWith = beizhu  // 自己对别人的备注
-      this.dataList.beizhu = info1.beizhu  // 别人对自己的备注
-      this.dataList.avatar = avatar  // 别人的头像
-
-      // 取消息
-      if (message.length == 0) return
-
-      // 添加第一条时间消息，不需要经过判断
-      this.isAddTimeMessage(0, message[0].time)
-      // 添加消息内容
-      for (let [index, value] of message.entries()) {
-        // 需要通过判断才能确定是否要添加时间消息
-        index > 0 && this.isAddTimeMessage(1, value.time, message[index - 1].time)
-        let content = {
-          type: 'message',
-          content: {
-            user_id: value.from_user, // 发送方的id
-            from: value.from_user == this.userId ? 'me' : 'other',
-            faceUrl: value.avatar,  // 发送方的头像
-            message: value.message, // 发送方的消息
-            time: value.time // 发送方的发送时间
-          }
-        }
-        this.dataList.message.push(content)
-      }
-    },
-    // 发送消息
-    sendMessage: async function () {
-      // 发送消息为空的控制
-      if (this.dialog.trim() == '') return
-
-      this.$refs.input.focus()
-      // 按钮状态变化
-      this.btnInfo = '发送中'
-      this.sendBySocket()  // 先通过socket发送消息
-
-      // 持久化到服务器
-      let data = {
-        userId: this.userId,  // 发送方的id
-        otherUserId: this.dataList.userid,  // 接收方的id
-        message: this.dialog,  // 消息内容
-        time: Date.parse(new Date()) / 1000 // 时间
-      }
-      const { code, message } = await api.send_message(data)
-      if (code == 1) {
-        data = {
-          type: 'message',
-          content: {
-            userid: this.userId, // 自己的id
-            from: 'me',
-            faceUrl: this.userInfo.avatar,  // 自己的头像
-            message: this.dialog, // 发的消息
-            time: Date.parse(new Date()) / 1000  // 时间
-          }
-        }
-        // 本地追加自己发送的消息
-        this.addMessageLocal(data)
-        this.dialog = ''
-        this.btnInfo = '发送'
-      } else {
-        // 持久化到服务器失败
-        this.dataList.message.push({
-          type: 'time',
-          content: message
-        })
-        this.btnInfo = '发送'
-      }
-    },
-    // socket发送消息
-    sendBySocket: function () {
-      window.socket.emit('sendPrivateMessage', {
-        from_user: this.userId,  // 发送方id（即自己的id）
-        from_user_face: this.userInfo.avatar, // 发送方头像（即自己的头像）
-        from_user_beizhu: this.dataList.beizhu, // 发送方名字（即别人对自己的备注）
-        to_user: this.dataList.userid, // 接收方id
-        message: this.dialog, // 消息内容
-        time: Date.parse(new Date()) / 1000 // 发送时间
-      })
-    },
-    // 本地追加消息
-    addMessageLocal: function (data) {
-      const message = this.dataList.message // 获取本地已经存在的消息
-      if (message.length == 0) { // 如果本地原来没有消息，则直接添加时间消息，不需要经过比较判断
-        this.isAddTimeMessage(0, data.content.time)
-      } else {  // 否则需要经过比较判断才能确定是否要添加时间消息
-        const latestMessage = message[message.length - 1] // 本地最新的一条消息
-        const latestTime = latestMessage.content.time  // 该消息的时间
-        this.isAddTimeMessage(1, data.content.time, latestTime)
-      }
-      this.dataList.message.push(data)
-    },
-    // 是否要添加时间消息
-    isAddTimeMessage: function (flag, currentTime, prevTime = '') {
-      if (flag) {   // 当flag为真时,需要比较判断，才能确定是否要添加时间
-        const seprator = 30 * 60   // 时间间隔基准,半个小时
-        if (currentTime - prevTime > seprator * 1000) { // 当下一条消息和这条消息的时间间隔大于30分钟,才添加时间
-          this.dataList.message.push({
-            type: 'time',
-            content: parseChatTime(currentTime)
-          })
-        }
-      } else {  // 当flag为假时,是必须要添加时间消息的
-        this.dataList.message.push({
-          type: 'time',
-          content: parseChatTime(currentTime)
-        })
-      }
     }
   },
   mounted () {
     this.dataList.userid = this.$route.params.userid
-    // this.resetAndGetUnread(this.dataList.user_id)
-    this.getMessage(this.userId, this.dataList.userid)
-    // this.updateBySocket()
 
     this.$refs.msgwrap.addEventListener('resize', this.changeHeight)
   },
@@ -379,7 +262,6 @@ export default {
     }
     &>button{
       background-color: #dedde2;
-      min-width: 64px;
       border: none;
       color: #fff;
       border-radius: 5px;

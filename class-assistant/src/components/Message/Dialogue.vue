@@ -48,7 +48,7 @@ export default {
   .dialog{
 
     display: flex;
-    margin-top: 24px;
+    margin: 12px 0 12px 0;
 
     >.avatar>img{
       width: 36px;
