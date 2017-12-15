@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
     // 根据用户的id取到socketid，从而实现只对该用户推送新消息
     const socketid = await socketHander.getUserSocketId(to_user)
     // io.sockets.emit('receivePrivateMessage', 'for your eyes only');
-    io.to(socketid).emit('receivePrivateMessage', data.message);
+    io.to(socketid).emit('receivePrivateMessage', data);
     
   })
 

@@ -3,6 +3,7 @@ const chat = require('./controller/chat')
 
 exports.sendMessage = async(req, res) => {
   const { userId, otherUserId, message, time } = req.body
+  // console.log(req.body)
   // 数据库存储
   const res_data = await chat.sendMessage(userId, otherUserId, message, time)
 

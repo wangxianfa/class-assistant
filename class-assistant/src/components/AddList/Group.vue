@@ -25,9 +25,16 @@ export default {
       stretch: false,
       items: [
         {
-          sid: 1,
+          sid: 201421092076,
           avatar: '/static/images/2.png',
-          nickname: '小小发',
+          nickname: '小小发二号',
+          detail: 'we are what we repeatedlly do',
+          chatType: 'single'
+        },
+        {
+          sid: 201421092077,
+          avatar: '/static/images/3.png',
+          nickname: '小小发san号',
           detail: 'we are what we repeatedlly do',
           chatType: 'single'
         }

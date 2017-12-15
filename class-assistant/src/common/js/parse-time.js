@@ -16,7 +16,7 @@ export const parseMessageTime = (old_time) => {
   /* eslint-disable */
   const now = new Date(),
 		// old = new Date(old_time * 1000),
-		old = new Date(old_time),
+		old = new Date(parseInt(old_time)),
     now_year = now.getFullYear(),
     old_year = old.getFullYear(),
     now_month = now.getMonth() + 1,

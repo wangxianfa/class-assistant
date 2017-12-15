@@ -66,7 +66,7 @@ export default {
       dialog: '',
       dataList: {
         userid: '',   // 别人的id
-        chatWith: '可爱小宝宝',  // 自己对别人的备注
+        chatWith: 'Robot Fa',  // 自己对别人的备注
         avatar: '',  // 别人的头像
         beizhu: '',  // 别人对自己的备注
         message: [ ],  // 消息

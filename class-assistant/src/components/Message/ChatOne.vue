@@ -234,7 +234,7 @@ export default {
         userId: this.userId,  // 发送方的id
         otherUserId: this.dataList.userid,  // 接收方的id
         message: this.dialog,  // 消息内容
-        time: Date.parse(new Date()) / 1000 // 时间
+        time: new Date().getTime() // 时间
       }
       const { code, message } = await api.send_message(data)
       if (code == 1) {
@@ -245,7 +245,7 @@ export default {
             from: 'me',
             faceUrl: this.userInfo.avatar,  // 自己的头像
             message: this.dialog, // 发的消息
-            time: Date.parse(new Date()) / 1000  // 时间
+            time: new Date().getTime()  // 时间
           }
         }
         // 本地追加自己发送的消息
@@ -269,7 +269,55 @@ export default {
         from_user_beizhu: this.dataList.beizhu, // 发送方名字（即别人对自己的备注）
         to_user: this.dataList.userid, // 接收方id
         message: this.dialog, // 消息内容
-        time: Date.parse(new Date()) / 1000 // 发送时间
+        time: new Date().getTime() // 发送时间
+      })
+    },
+    // socket更新消息
+    updateBySocket: function () {
+      window.socket.removeAllListeners()  // 一定要先移除原来的事件，否则会有重复的监听器
+
+      window.socket.on('receivePrivateMessage', (data) => {
+        if (data.from_user == this.userId) return
+
+        if (this.dataList.userid == data.from_user) {
+          // 本地追加别人通过socket发来的消息
+          this.addMessageLocal({
+            type: 'message',
+            content: {
+              user_id: data.from_user, // 发送方id
+              from: 'other',
+              time: data.time, // 发送时间
+              faceUrl: data.from_user_face, // 发送方的头像
+              message: data.message  // 消息内容
+            }
+          })
+        }
+
+        // 提交到store里
+        this.$store.commit('UPDATE_MESSAGE', {
+          from_user: data.from_user_beizhu,
+          id: data.from_user,
+          imgUrl: data.from_user_face,
+          message: data.message,
+          time: data.time,
+          type: 'single',
+          isEnterChat: this.dataList.user_id == data.from_user  // 是否进入了聊天页面，进入了的话那么该条消息的unread就是0
+        })
+      })
+
+      window.socket.on('receiveGroupMessage', (data) => {
+        // 如果不包含自己，则直接丢弃这个socket消息
+        if (!data.group_member.includes(this.userId - 0)) return
+
+        this.$store.commit('UPDATE_MESSAGE', {
+          from_user: data.group_name,
+          id: data.group_id,
+          imgUrl: data.group_avator,
+          message: `${data.from_user_nick_name} : ${data.message}`,
+          time: data.time,
+          type: 'group',
+          isEnterChat: false
+        })
       })
     },
     // 本地追加消息
@@ -304,9 +352,9 @@ export default {
   },
   mounted () {
     this.dataList.userid = this.$route.params.userid
-    // this.resetAndGetUnread(this.dataList.user_id)
+    // this.resetAndGetUnread(this.dataList.userid)
     this.getMessage(this.userId, this.dataList.userid)
-    // this.updateBySocket()
+    this.updateBySocket()
 
     this.$refs.msgwrap.addEventListener('resize', this.changeHeight)
   },

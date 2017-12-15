@@ -3,17 +3,18 @@ const connection = db.connection
 /* eslint-disable */
 exports.getAllMessage = async(req, res) => {
   // console.log(req.params)
-  const userId = req.params
+  const userId = req.params.userId
   // 先获取私聊消息
-  // const singleMessage = await getSingleMessage(userId)
+  const singleMessage = await getSingleMessage(userId)
+  // console.log(singleMessage)
   // 再获取群聊消息
-  // const groupMessage = await getGroupMessage(userId)
+  const groupMessage = await getGroupMessage(userId)
 
   res.json({
     code: 1,
     data: {
-      singleMessage: [{time: 1513214878355}],
-      groupMessage: [{time: 1513214878355}]
+      singleMessage,
+      groupMessage
     }
   })
 
@@ -24,13 +25,13 @@ exports.getAllMessage = async(req, res) => {
  * @param  {[type]} userId [用户的id]
  * @return {[type]}        [description]
  */
-async function getSingleMessage (userId) {
+function getSingleMessage (userId) {
   const sql = `
-    SELECT a.from_user as id, b.face AS imgUrl, (
+    SELECT a.from_user as id, b.avatar AS imgUrl, (
 
     SELECT COUNT( * ) 
     FROM message_user c
-    WHERE c.is_read =0
+    WHERE c.is_read = 0
     AND c.to_user = a.to_user
     AND c.from_user = a.from_user
     ) AS unread, (
@@ -66,10 +67,14 @@ async function getSingleMessage (userId) {
     GROUP BY from_user
   `
 
-  const rows = await connection.query(sql, [userId]).catch((err) => {
-    console.log(err)
+  return new Promise(function (resolve, reject) {
+    connection.query(sql, [userId], (error, results) => {
+      if ( error ) {
+        reject(error)
+      }
+      resolve(results)
+    })
   })
-  return rows
 }
 
   /**
@@ -77,7 +82,7 @@ async function getSingleMessage (userId) {
  * @param  {[number]} userId [用户id]
  * @return {[type]}        [description]
  */
-async function getGroupMessage (userId) {
+function getGroupMessage (userId) {
   const sql = `
     SELECT a.group_id as id, a.unread, c.group_name AS from_user, 
     c.group_avator AS imgUrl, (
@@ -102,8 +107,12 @@ async function getGroupMessage (userId) {
     GROUP BY a.group_id
   `
 
-  const rows = await connection.query(sql, [userId]).catch((err) => {
-    console.log(err)
+  return new Promise(function (resolve, reject) {
+    connection.query(sql, [userId], (error, results) => {
+      if (error) {
+        reject(error)
+      }
+      resolve(results)
+    })
   })
-  return rows
 }

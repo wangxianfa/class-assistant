@@ -33,7 +33,7 @@ const mutations = {
       id: data.id,
       imgUrl: data.imgUrl,
       message: data.message,
-      time: 'parseMessageTime(data.time)',
+      time: parseMessageTime(data.time),
       type: data.type,
       unread: unread
     })
@@ -53,6 +53,8 @@ const actions = {
   async getAllMessage ({commit}, userId) {
     const res = await api.get_all_message(userId)
     const {singleMessage, groupMessage} = res.data
+
+    // console.log(singleMessage)
 
     for (let index of singleMessage.keys()) {
       singleMessage[index]['type'] = 'single'

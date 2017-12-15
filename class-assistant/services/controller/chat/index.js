@@ -81,8 +81,9 @@ exports.getMessage = async (userId, otherUserId) => {
 }
 
 exports.sendMessage = async (userId, otherUserId, message, time) => {
+  // console.log(userId, otherUserId, message, time)
   // 先查一下状态
-  const {is_enter_chat} = await getStatus(otherUserId, userId)
+  const {is_enter_chat = 0} = await getStatus(otherUserId, userId)
 
   const data = {
     from_user: userId,
@@ -105,13 +106,15 @@ exports.sendMessage = async (userId, otherUserId, message, time) => {
 }
 
 function getStatus (userId, otherUserId) {
+  // console.log(userId, otherUserId)
   return new Promise(function (resolve, reject) {
     const sql = 'select is_enter_chat from chat where user_id = ? AND other_user_id = ? limit 1'
     connection.query(sql, [userId, otherUserId], (error, results) => {
       if (error) {
         reject(error)
       }
-      resolve(results[0])
+      // console.log(results)
+      resolve(results[0] || {})
     })
   })
 }

@@ -13,7 +13,7 @@
             <span class="left"><img src="/static/images/robot.png" alt="avatar"></span>
             <div class="right">
               <h2>
-                <span>机器人小欣</span>
+                <span>机器人小发</span>
                 <time></time>
               </h2>
               <div class="content">
@@ -22,15 +22,15 @@
               </div>
             </div>
           </router-link>
-          <li v-for="(item, index) in list" :key="index" @click="goChat(item.chatType, item.userid)">
-            <span class="left"><img :src="item.avatar" alt="avatar"></span>
+          <li v-for="(item, index) in dataList" :key="index" @click="goChat(item.type, item.id)">
+            <span class="left"><img :src="item.imgUrl" alt="avatar"></span>
             <div class="right">
               <h2>
-                <span>{{item.header}}</span>
-                <time>{{item.latestTime}}</time>
+                <span>{{item.from_user}}</span>
+                <time>{{item.time}}</time>
               </h2>
               <div class="content">
-                <p>{{item.latestMsg}}</p>
+                <p>{{item.message}}</p>
                 <mt-badge v-show="item.unread !== 0" type="error" size="small">{{item.unread}}</mt-badge>
               </div>
             </div>
@@ -47,21 +47,6 @@ import {mapGetters} from 'vuex'
 
 export default {
   name: 'Home',
-  data () {
-    return {
-      list: [
-        {
-          userid: 201421092076,
-          header: '小小发二号',
-          avatar: '/static/images/2.png',
-          latestMsg: '渲染一个“元组件”为动态组件。依 is 的值，来决定哪个组件被渲染。',
-          latestTime: '22:52',
-          unread: 2,
-          chatType: 'single'
-        }
-      ]
-    }
-  },
   computed: {
     ...mapGetters({
       'userId': 'userId',
