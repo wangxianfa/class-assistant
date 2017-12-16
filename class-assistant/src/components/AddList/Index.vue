@@ -6,15 +6,15 @@
 
     <mt-navbar v-model="selected">
       <mt-tab-item id="1">
-        <img slot="icon" src="/static/images/add-list/1.png" alt="辅导员">
+        <img slot="icon" src="/static/images/add-list/1.png" alt="counsellors">
         辅导员
       </mt-tab-item>
       <mt-tab-item id="2">
-        <img slot="icon" src="/static/images/add-list/3.png" alt="辅导员">
+        <img slot="icon" src="/static/images/add-list/3.png" alt="friends">
         好友
       </mt-tab-item>
       <mt-tab-item id="3">
-        <img slot="icon" src="/static/images/add-list/4.png" alt="辅导员">
+        <img slot="icon" src="/static/images/add-list/4.png" alt="groups">
         群组
       </mt-tab-item>
     </mt-navbar>
@@ -37,11 +37,12 @@
         </div>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
-        <group />
+        <group v-for="(item, index) in dataList.friends" :key="index" :data="item" />
       </mt-tab-container-item>
       <mt-tab-container-item id="3">
-        <li v-for="(item, index) in items" :key="index">
-          <Item :data="item" />
+        <li v-for="(item, index) in dataList.groups" :key="index">
+          <p class="group_sort">{{item.type}}</p>
+          <Item v-for="(group, index1) in item.groups" :key="index1" :data="group" />
         </li>
       </mt-tab-container-item>
     </mt-tab-container>
@@ -51,6 +52,7 @@
 
 <script>
 
+import { mapGetters } from 'vuex'
 const Group = () => import('./Group.vue')
 const Item = () => import('./Item.vue')
 
@@ -59,45 +61,47 @@ export default {
   data () {
     return {
       selected: '1',
-      items: [
-        {
-          sid: 1,
-          avatar: '/static/images/1.png',
-          nickname: '毕业设计（2018）',
-          detail: '',
-          chatType: 'group'
-        },
-        {
-          sid: 2,
-          avatar: '/static/images/tengxun.png',
-          nickname: '腾讯客服',
-          detail: '',
-          chatType: 'group'
-        }
-      ],
       counsellors: [
         {
-          sid: 1,
-          avatar: '/static/images/1.png',
-          nickname: '王珩',
-          detail: '2014级软工辅导员',
-          chatType: 'single'
+          id: 1,
+          face: '/static/images/1.png',
+          name: '王珩',
+          sign: '2014级软工辅导员',
+          chatType: 'single',
+          status: '电脑在线'
         },
         {
-          sid: 2,
-          avatar: '/static/images/tengxun.png',
-          nickname: '宗茗',
-          detail: '2014级计科辅导员',
-          chatType: 'single'
+          id: 2,
+          face: '/static/images/tengxun.png',
+          name: '宗茗',
+          sign: '2014级计科辅导员',
+          chatType: 'single',
+          status: '电脑在线'
         }
       ]
     }
+  },
+  computed: {
+    ...mapGetters([
+      'userId',
+      'hasGetFriendList'
+    ]),
+    ...mapGetters({
+      'dataList': 'friendList'
+    })
   },
   components: {
     Group,
     Item
   },
-  methods: {}
+  methods: {
+    stretchClick: function () {
+      this.stretch = !this.stretch
+    }
+  },
+  created () {
+    this.hasGetFriendList == 0 && this.$store.dispatch('getFriendList', this.userId)
+  }
 }
 </script>
 
@@ -159,6 +163,10 @@ export default {
         color: #BDBDBD;
       }
     }
+  }
+
+  .group_sort{
+    padding: 0 10px 10px;
   }
 
 </style>

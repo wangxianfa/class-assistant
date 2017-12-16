@@ -30,7 +30,7 @@
                 <time>{{item.time}}</time>
               </h2>
               <div class="content">
-                <p>{{item.message}}</p>
+                <p>{{item.last_send_from ? item.last_send_from + '：' + item.message : item.message}}</p>
                 <mt-badge v-show="item.unread !== 0" type="error" size="small">{{item.unread}}</mt-badge>
               </div>
             </div>
@@ -72,13 +72,30 @@ export default {
       window.socket.removeAllListeners() // 一定要先移除原来的事件，否则会生成重复的监听器
 
       window.socket.on('receivePrivateMessage', (data) => {
-        console.log('接收到私聊消息：' + data)
+        this.$store.commit('UPDATE_MESSAGE', {
+          from_user: data.from_user_beizhu,
+          id: data.from_user,
+          imgUrl: data.from_user_face,
+          message: data.message,
+          time: data.time,
+          type: 'single',
+          isEnterChat: false  // 是否进入了聊天页面，进入了的话那么该条消息的unread就是0
+        })
       })
       window.socket.on('receiveGroupMessage', (data) => {
+        // console.log(data)
         // 如果不包含自己，则直接丢弃这个socket消息
-        console.log('接收到群发消息, 消息为：' + data.message)
-        // console.log(this.$router)
-        // this.$router.push(`/chatgroup/${data.group_id}`)
+        if (!data.group_member.includes(this.userId)) return
+
+        this.$store.commit('UPDATE_MESSAGE', {
+          from_user: data.group_name,
+          id: data.group_id,
+          imgUrl: data.group_avator,
+          message: data.message,
+          time: data.time,
+          type: 'group',
+          isEnterChat: false
+        })
       })
     },
     goChat: function (chatType, chatId) {

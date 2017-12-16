@@ -6,6 +6,7 @@ import { state, mutations } from './mutations'
 
 import message from './modules/message'
 import warn from './modules/warn'
+import friend from './modules/friend'
 
 Vue.use(Vuex)
 
@@ -18,7 +19,8 @@ const store = new Vuex.Store({
   getters,
   modules: {
     message,
-    warn
+    warn,
+    friend
   }
 })
 

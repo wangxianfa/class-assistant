@@ -26,6 +26,8 @@ module.exports = {
 
     'eqeqeq': 'off',
 
-    'camelcase': 0
+    'camelcase': 0,
+    // 关闭一行结束后面不要有空格
+    'no-trailing-spaces': 0
   }
 }

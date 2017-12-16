@@ -22,7 +22,7 @@ export default {
     this.nickname = this.$props.data.nickname
     this.avatar = this.$props.data.avatar || '/static/images/robot.png'
     this.self = this.$props.data.self
-    this.showNickname = false // 一对一通信不显示昵称信息
+    this.showNickname = this.$props.data.showNickname || false // 一对一通信不显示昵称信息
   },
   data () {
     return {
@@ -57,25 +57,21 @@ export default {
     }
 
     >.dialog-msg{
-      @dialog-bgc: #d0e9ff;
       width: calc(~"100% - 70px");
 
       >.nickname{
         font-size: 12px;
-        color: #666;
+        color: #333;
         // margin-left: 4px;
-        color: #9966CC;
       }
 
       >.msg {
         padding: 6px 10px 6px 10px;
-        background-color: @dialog-bgc;
         min-width: 40px;
         max-width: 84%;
         min-height: 36px;
         border-radius: 10px;
         font-size: 14px;
-        color: #666;
         position: relative;
         margin-top: 6px;
         line-height: 24px;
@@ -149,15 +145,15 @@ export default {
   }
 
   .self{
-    @dialog-bgc: #575757;
-    @fontColor: #fff;
+    @dialog-bgc: #fff;
+    @fontColor: #333;
 
     margin-left: 14px;
     >.dialog-msg{
       margin-left: 15px;
 
       >.nickname{
-        color: @dialog-bgc;
+        color: @fontColor;
       }
       >.self-msg {
         background-color: @dialog-bgc;
@@ -179,7 +175,7 @@ export default {
   }
 
   .other{
-    @dialog-bgc: #d0e9ff;
+    @dialog-bgc: #575757;
     
     justify-content: flex-end;
     margin-right: 14px;
@@ -193,6 +189,7 @@ export default {
       flex-direction: column;
 
       >.other-msg {
+        background-color: @dialog-bgc;
 
         >.other-angel{
           border-color: transparent @dialog-bgc transparent transparent;

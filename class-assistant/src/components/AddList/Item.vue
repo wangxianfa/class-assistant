@@ -24,10 +24,10 @@ export default {
   },
   props: ['data'],
   mounted () {
-    this.sid = this.$props.data.sid
-    this.avatar = this.$props.data.avatar
-    this.nickname = this.$props.data.nickname
-    this.detail = this.$props.data.detail
+    this.sid = this.$props.data.id
+    this.avatar = this.$props.data.face
+    this.nickname = this.$props.data.name
+    this.detail = this.$props.data.sign
     this.chatType = this.$props.data.chatType
   },
   methods: {

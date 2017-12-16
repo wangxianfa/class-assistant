@@ -13,6 +13,8 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 const loginRouter = require('./services/login')
 const chat = require('./services/chat')
 const message = require('./services/message')
+const friend = require('./services/friend')
+const chatGroup = require('./services/chatGroup')
 
 const server = http.createServer(app)
 
@@ -27,13 +29,11 @@ app.post('/api/login', loginRouter.login)
 app.post('/api/chat/sendmessage', chat.sendMessage)
 app.get('/api/chat/message/:userId/:otherUserId', chat.getMessage)
 app.get('/api/message/all/:userId', message.getAllMessage)
-app.get('/', (req, res) => {
-  res.send('1')
-})
+app.get('/api/friend/list/:userId', friend.getFriendList)
+app.get('/api/chatgroup/message/:userId/:groupId', chatGroup.getMessage)
+app.post('/api/chatgroup/sendmessage', chatGroup.sendMessage)
 
 const socketHander = require('./services/socket')  // socket要实现的具体逻辑
-
-var group = {}
 
 io.on('connection', (socket) => {
   // 监听用户登录
@@ -53,11 +53,10 @@ io.on('connection', (socket) => {
   })
 
   // 监听用户发群消息
-  socket.on('groupMessage', (data) => {
-    console.log(data)
-    group[data.group_id] = socket
+  socket.on('sendGroupMessage', (data) => {
     // 直接群发会快点，客户端只需要判断是否是发给自己的
     // socket.broadcast.emit信息传输对象为所有client，排除当前socket对应的client。
+    // sending to all clients except sender
     socket.broadcast.emit('receiveGroupMessage', data)
   })
 

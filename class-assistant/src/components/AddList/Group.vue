@@ -1,13 +1,13 @@
 <template>
   <div class="group">
-    <mt-cell title="我的组" @click.native="stretchClick">
+    <mt-cell :title="name" @click.native="stretchClick" :value="rate">
       <span slot="icon" class="stretch">
         <i :class="['fa', stretch ? 'fa-angle-down' : 'fa-angle-right']" aria-hidden="true"></i>
       </span>
     </mt-cell>
     <div class="list">
       <ul v-show="stretch">
-        <li v-for="(item, index) in items" :key="index">
+        <li v-for="(item, index) in members" :key="index">
           <Item :data="item" />
         </li>
       </ul>
@@ -23,23 +23,18 @@ export default {
   data () {
     return {
       stretch: false,
-      items: [
-        {
-          sid: 201421092076,
-          avatar: '/static/images/2.png',
-          nickname: '小小发二号',
-          detail: 'we are what we repeatedlly do',
-          chatType: 'single'
-        },
-        {
-          sid: 201421092077,
-          avatar: '/static/images/3.png',
-          nickname: '小小发san号',
-          detail: 'we are what we repeatedlly do',
-          chatType: 'single'
-        }
-      ]
+      name: '正在加载中',
+      online: 0,
+      sum: 1,
+      members: []
     }
+  },
+  props: ['data'],
+  mounted () {
+    this.name = this.$props.data.name
+    this.online = this.$props.data.online
+    this.sum = this.$props.data.sum
+    this.members = this.$props.data.members
   },
   methods: {
     stretchClick: function () {
@@ -48,6 +43,11 @@ export default {
   },
   components: {
     Item
+  },
+  computed: {
+    rate: function () {
+      return this.online + '/' + this.sum
+    }
   }
 }
 </script>
