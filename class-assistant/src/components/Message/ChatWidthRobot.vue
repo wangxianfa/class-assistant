@@ -1,31 +1,42 @@
 <template>
   <div id="chatroom">
-    <mt-header fixed :title="header">
+    <mt-header fixed :title="dataList.chatWith">
       <router-link to="/" slot="left">
         <mt-button icon="back"></mt-button>
       </router-link>
-      <mt-button icon="more" slot="right"></mt-button>
+      <span slot="right">
+        <i class="fa fa-phone" aria-hidden="true"></i>
+        <i class="fa fa-user"></i>
+      </span>
     </mt-header>
 
     <div class="msgwrap" ref="msgwrap">
-      <Dialogue v-for="(item, index) in items" :key="index" :data="{nickname: item.nickname, avatar: item.avatar, self: item.self, showNickname: item.showNickname}">
-        <p slot="text" v-if="item.code !== 308000 && item.code !== 302000">{{ item.text }}</p>
-        <a :href="item.url ? item.url : ''" slot="url" target="_blank">{{item.url ? '链接：' + item.url : '' }}</a>
-        <ul slot="list" class="list">
-          <li v-for="(list, index) in item.list" :key="index">
-            <h2>{{list.name || list.source}}</h2>
-            <p>{{list.info || list.article}}</p>
-            <img v-lazy="list.icon" :alt="list.name" />
-            <a :href="list.detailurl" target="_blank">{{'链接：' + list.detailurl}}</a>
-          </li>
-        </ul>
-      </Dialogue>
+      <div v-for="(item, index) in dataList.message" :key="index">
+        <template v-if="item.type == 'message'">
+          <Dialogue :data="{nickname: dataList.chatWith, avatar: item.content.faceUrl, self: item.content.from == 'me' ? true : false}">
+            <p slot="text" v-if="item.content.code !== 308000 && item.content.code !== 302000">{{ item.text || item.content.message }}</p>
+            <a :href="item.url ? item.url : ''" slot="url" target="_blank">{{item.content.url ? '链接：' + item.content.url : '' }}</a>
+            <ul slot="list" class="list">
+              <li v-for="(list, index) in item.content.list" :key="index">
+                <h2>{{list.name || list.source}}</h2>
+                <p>{{list.info || list.article}}</p>
+                <img v-lazy="list.icon" :alt="list.name" />
+                <a :href="list.detailurl" target="_blank">{{'链接：' + list.detailurl}}</a>
+              </li>
+            </ul>
+          </Dialogue>
+        </template>
+
+        <template v-else>
+          <span class="time">{{item.content}}</span>
+        </template>
+      </div>
     </div>
 
     <div id="bottomZone">
       <div class="inputBox">
-        <input @keyup.enter="sendClick" type="text" v-model="dialog">
-        <button @click="sendClick">发送</button>
+        <input @keyup.enter="sendClick" type="text" v-model="dialog" ref="input">
+        <button @click="sendClick">{{btnInfo}}</button>
       </div>
       <div class="funcbar">
         <i class="fa fa-microphone" @click="microphoneClick"></i>
@@ -43,6 +54,7 @@
 
 <script>
 
+import { mapGetters } from 'vuex'
 import axios from 'axios'
 const Dialogue = () => import('./Dialogue.vue')
 
@@ -50,11 +62,23 @@ export default {
   name: 'ChatRoom',
   data () {
     return {
-      header: '',
-      avatar: '',
+      btnInfo: '发送', // 发送按钮文本
       dialog: '',
-      items: []
+      dataList: {
+        userid: '',   // 别人的id
+        chatWith: 'Robot Fa',  // 自己对别人的备注
+        avatar: '',  // 别人的头像
+        beizhu: '',  // 别人对自己的备注
+        message: [ ],  // 消息
+        status: '' // 登录设备类型
+      }
     }
+  },
+  computed: {
+    ...mapGetters([
+      'userId',
+      'userInfo'
+    ])
   },
   methods: {
     microphoneClick: function () {
@@ -83,15 +107,15 @@ export default {
     },
     sendClick: function () {
       const data = {
-        code: '123456',
-        text: this.dialog,
-        url: '',
-        list: [],
-        self: true,
-        avatar: '/static/images/1.png',
-        nickname: '小小发'
+        type: 'message',
+        content: {
+          userid: this.userId, // 自己的id
+          from: 'me',
+          faceUrl: this.userInfo.avatar,  // 自己的头像
+          message: this.dialog // 发的消息
+        }
       }
-      this.items.push(data)
+      this.dataList.message.push(data)
       this.chatWithRobot(this.dialog)
     },
     changeHeight: function () {
@@ -119,14 +143,18 @@ export default {
         this.dialog = ''
         const res = JSON.parse(JSON.stringify(response.data))
         const data = {
-          code: res.code,
-          text: res.text,
-          url: res.url ? res.url : '',
-          list: res.list ? res.list : [],
-          self: false,
-          nickname: '小小发的小管家'
+          type: 'message',
+          content: {
+            code: res.code,
+            userid: 666,
+            from: 'other',
+            faceUrl: '/static/images/robot.png',
+            message: res.text,
+            url: res.url ? res.url : '',
+            list: res.list ? res.list : []
+          }
         }
-        this.items.push(data)
+        this.dataList.message.push(data)
       }).catch((error) => {
         console.log(error)
       })
@@ -161,8 +189,7 @@ export default {
     }
   },
   mounted () {
-    this.header = this.$route.params.header
-    this.avatar = this.$route.params.avatar
+    this.dataList.userid = this.$route.params.userid
 
     this.$refs.msgwrap.addEventListener('resize', this.changeHeight)
   },
@@ -170,7 +197,7 @@ export default {
     Dialogue
   },
   watch: {
-    items: function () {
+    'dataList.message': function () {
       this.$nextTick(() => {
         this.changeHeight()
       })
@@ -205,6 +232,18 @@ export default {
     overflow-y: auto;
     overflow-x: hidden;
     position: fixed;
+
+    .time{
+      display: inline-block;
+      width: 100%;
+      height:42px;
+      line-height:42px;
+      font-size:14px;
+      color:#666;
+      text-align:center;
+      // margin-bottom: -15px;
+    }
+
   }
 
   .inputBox{
@@ -239,5 +278,10 @@ export default {
       font-size: 24px;
       color: #7e8492;
     }
+  }
+
+  .is-right i{
+    margin-left: 8px;
+    font-size: 20px;
   }
 </style>

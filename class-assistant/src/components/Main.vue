@@ -105,10 +105,11 @@ export default {
     background-color: #f9f9f9;
   }
 
+  // style加scoped作用域会在样式后面加唯一标志符data,导致部分样式失效
   .mint-tab-container-wrap,
   .mint-tab-container-item
   {
-    height: 100%;
+    height: 100% !important;
   }
 
   .is-selected>.mint-tab-item-label {
@@ -118,13 +119,12 @@ export default {
   .mint-tabbar {
     background-color: #fff;
   }
-
-  i{
-    font-size: 24px !important;
-  }
   .mint-tab-item-icon{
     width: auto !important;
     display: inline-block !important;
+    > i{
+      font-size: 24px;
+    }
   }
 
 </style>

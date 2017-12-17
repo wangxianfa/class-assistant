@@ -4,9 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">    
     <title>class-assistant</title>
+    <link rel="shortcut icon" href="/static/images/icons/class-log.png" type="image/png" />
   </head>
   <body>
     <div id="app"></div>
+    <script src="http://192.168.191.1:8888/socket.io/socket.io.js"></script>
     <!-- built files will be auto injected -->
+    <script>
+      var socket = io.connect('http://192.168.191.1:8888')
+
+      //解决用户手动刷新浏览器后，原来的socketid失效的问题
+      // const loginStatus= JSON.parse(localStorage.getItem("loginStatus") || '{}')
+      // loginStatus.isLogin && socket.emit('update',loginStatus.userId)
+    </script>
   </body>
 </html>

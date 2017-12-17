@@ -57,16 +57,17 @@ export default {
     logout: function () {
       MessageBox.confirm('确定退出当前账号？')
       .then(action => {
-        console.log('action')
+        this.$store.commit('LOGOUT')
+        this.$router.push('/login')
       })
-      .catch(() => {
-        console.log('cancel')
+      .catch((error) => {
+        console.log(error)
       })
     },
     clearClick: function () {
       MessageBox.confirm('将清空所有聊天记录及缓存数据', '')
       .then(action => {
-        console.log('action')
+        console.log('清楚缓存')
       })
       .catch(() => {
         console.log('cancel')

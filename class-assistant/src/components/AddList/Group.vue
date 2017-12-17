@@ -1,51 +1,52 @@
 <template>
   <div class="group">
-    <mt-cell title="我的组" @click.native="stretchClick">
+    <mt-cell :title="name" @click.native="stretchClick" :value="rate">
       <span slot="icon" class="stretch">
         <i :class="['fa', stretch ? 'fa-angle-down' : 'fa-angle-right']" aria-hidden="true"></i>
       </span>
     </mt-cell>
     <div class="list">
       <ul v-show="stretch">
-        <router-link v-for="(item, index) in items"  :to="{name: 'chatRoom', params: {header: item.nickname, avatar: item.avatar}}" tag="li" :key="index">
-          <span class="avatar">
-            <img :src="item.avatar" alt="avatar">
-          </span>
-          <div class="right">
-            <h2 class="nickname">{{item.nickname}}</h2>
-            <p class="detail">{{item.detail || '暂无其他信息'}}</p>
-          </div>
-        </router-link>
+        <li v-for="(item, index) in members" :key="index">
+          <Item :data="item" />
+        </li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+const Item = () => import('./Item.vue')
+
 export default {
   name: 'group',
   data () {
     return {
       stretch: false,
-      items: [
-        {
-          sid: 1,
-          avatar: '/static/images/1.png',
-          nickname: '小小发',
-          detail: 'we are what we repeatedlly do'
-        },
-        {
-          sid: 2,
-          avatar: '/static/images/tengxun.png',
-          nickname: '腾讯客服',
-          detail: ''
-        }
-      ]
+      name: '正在加载中',
+      online: 0,
+      sum: 1,
+      members: []
     }
+  },
+  props: ['data'],
+  mounted () {
+    this.name = this.$props.data.name
+    this.online = this.$props.data.online
+    this.sum = this.$props.data.sum
+    this.members = this.$props.data.members
   },
   methods: {
     stretchClick: function () {
       this.stretch = !this.stretch
+    }
+  },
+  components: {
+    Item
+  },
+  computed: {
+    rate: function () {
+      return this.online + '/' + this.sum
     }
   }
 }
@@ -60,36 +61,6 @@ export default {
       margin-right: 8px;
       color: #dfdfdf;
       font-size: 16px !important;
-    }
-  }
-
-  li{
-    display: flex;
-    padding: 10px;
-    align-items: center;
-    background-color: #fff;
-    border-bottom: 1px solid #f8f8f8;
-
-    >.avatar{
-      margin-right: 10px;
-      img{
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-      }
-    }
-
-    >.right{
-      width: calc(~"100% - 46px");
-
-      h2{
-        font-size: 14px;
-        color: 333;
-      }
-      .detail{
-        font-size: 13px;
-        color: #999;
-      }
     }
   }
 </style>

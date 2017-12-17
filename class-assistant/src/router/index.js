@@ -3,7 +3,9 @@ import Router from 'vue-router'
 import Mint from 'mint-ui'
 
 import Main from '@/components/Main'
-import ChatRoom from '../components/Message/ChatRoom.vue'
+import ChatOne from '../components/Message/ChatOne.vue'
+import ChatGroup from '../components/Message/ChatGroup.vue'
+import ChatWidthRobot from '../components/Message/ChatWidthRobot.vue'
 import Personal from '../components/Mine/Personal.vue'
 import Setting from '../components/Mine/Setting.vue'
 import MsgEdit from '../components/Mine/MsgEdit.vue'
@@ -24,9 +26,19 @@ export default new Router({
       component: Main
     },
     {
-      path: '/chatroom',
-      name: 'chatRoom',
-      component: ChatRoom
+      path: '/chatone/:userid',
+      name: 'chatOne',
+      component: ChatOne
+    },
+    {
+      path: '/chatgroup/:groupid',
+      name: 'chatGroup',
+      component: ChatGroup
+    },
+    {
+      path: '/chatrobot',
+      name: 'chatWidthRobot',
+      component: ChatWidthRobot
     },
     {
       path: '/personal',
