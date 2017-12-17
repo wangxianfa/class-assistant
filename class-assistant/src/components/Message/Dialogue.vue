@@ -157,9 +157,7 @@ export default {
       }
       >.self-msg {
         background-color: @dialog-bgc;
-        p{
-          color: @fontColor;
-        }
+        color: @fontColor;
 
         >.self-angel{
           border-color: transparent transparent transparent @dialog-bgc;
@@ -176,6 +174,7 @@ export default {
 
   .other{
     @dialog-bgc: #575757;
+    @fontColor: #fff;
     
     justify-content: flex-end;
     margin-right: 14px;
@@ -190,6 +189,7 @@ export default {
 
       >.other-msg {
         background-color: @dialog-bgc;
+        color: @fontColor;
 
         >.other-angel{
           border-color: transparent @dialog-bgc transparent transparent;

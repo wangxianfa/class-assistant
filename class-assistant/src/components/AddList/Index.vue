@@ -82,13 +82,20 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'userId',
-      'hasGetFriendList'
-    ]),
+    ...mapGetters({
+      'userId': 'userId',
+      'hasGetFriendList': 'hasGetFriendList'
+    }),
     ...mapGetters({
       'dataList': 'friendList'
     })
+  },
+  created () {
+    console.log('created')
+    if (!this.userId && JSON.parse(localStorage.getItem('userInfo'))) {
+      this.userId = JSON.parse(localStorage.getItem('userInfo')).user_id
+    }
+    this.hasGetFriendList == 0 && this.$store.dispatch('getFriendList', this.userId)
   },
   components: {
     Group,
@@ -98,9 +105,6 @@ export default {
     stretchClick: function () {
       this.stretch = !this.stretch
     }
-  },
-  created () {
-    this.hasGetFriendList == 0 && this.$store.dispatch('getFriendList', this.userId)
   }
 }
 </script>
@@ -166,7 +170,7 @@ export default {
   }
 
   .group_sort{
-    padding: 0 10px 10px;
+    padding: 10px;
   }
 
 </style>

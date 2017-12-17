@@ -73,7 +73,7 @@ export const mutations = {
 }
 
 function clear (state) {
-  // state.friend.hasGetFriendList = 0
+  state.friend.hasGetFriendList = 0
   state.friend.hasGetNewFriends = 0
 
   state.sidebar = {
@@ -90,4 +90,5 @@ function clear (state) {
   // 注意不能清空accounts,即登录过的用户
   localStorage.removeItem('loginStatus')
   localStorage.removeItem('userInfo')
+  
 }
