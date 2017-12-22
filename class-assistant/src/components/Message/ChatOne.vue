@@ -6,7 +6,7 @@
       </router-link>
       <span slot="right">
         <i class="fa fa-phone" aria-hidden="true"></i>
-        <i class="fa fa-user"></i>
+        <router-link class="fa fa-user" :to="/personalhomepage/ + userId" tag="i"></router-link>
       </span>
     </mt-header>
 

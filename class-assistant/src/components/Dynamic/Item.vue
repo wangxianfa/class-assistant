@@ -3,7 +3,7 @@
     <div class="item-header">
       <img src="/static/images/1.png" alt="avatar">
       <div class="right">
-        <p class="name">小小发</p>
+        <p class="name">软工四班</p>
         <time class="time">今天16:32</time>
       </div>
     </div>
@@ -19,6 +19,17 @@
         <i @click="commentClick" class="fa fa-commenting-o"></i>
         <i @click="shareClick" class="fa fa-share-square-o"></i>
       </div>
+    </div>
+
+    <div class="comments">
+      <ul>
+        <li>
+          <p><span class="nickname">小小发一号：</span>哈哈哈哈哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或</p>
+        </li>
+        <li>
+          <p><span class="nickname">小小发er号：</span>哈哈哈哈哈哈哈哈</p>
+        </li>
+      </ul>
     </div>
 
     <div v-if="isComment" class="commentBox">
@@ -126,6 +137,17 @@ export default {
       i.active{
         color: #26a2ff;
       }
+    }
+
+    &>.comments{
+      padding: 0 12px;
+      margin-top: 6px;
+      font-size: 13px;
+
+      span{
+        color: #6C890B;
+      }
+
     }
 
     &>.commentBox{

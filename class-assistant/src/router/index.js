@@ -14,6 +14,7 @@ const Login = () => import('../components/Vertify/Login.vue')
 const Register = () => import('../components/Vertify/Register.vue')
 const About = () => import('../components/Mine/About.vue')
 const MsgWarn = () => import('../components/Mine/MsgWarn.vue')
+const PersonalHomePage = () => import('../components/Message/PersonalHomePage.vue')
 
 Vue.use(Mint)
 Vue.use(Router)
@@ -39,6 +40,11 @@ export default new Router({
       path: '/chatrobot',
       name: 'chatWidthRobot',
       component: ChatWidthRobot
+    },
+    {
+      path: '/personalhomepage/:userid',
+      name: 'personalHomePage',
+      component: PersonalHomePage
     },
     {
       path: '/personal',

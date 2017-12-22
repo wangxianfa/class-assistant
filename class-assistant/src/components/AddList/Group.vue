@@ -52,7 +52,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   .stretch{
     display: inline-block;
     width: 14px;
@@ -62,5 +62,9 @@ export default {
       color: #dfdfdf;
       font-size: 16px !important;
     }
+  }
+
+  .mint-cell-wrapper {
+    background-image: none;
   }
 </style>

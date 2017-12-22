@@ -1,6 +1,6 @@
 <template>
   <div id="dynamic">
-    <mt-header fixed title="动态" class="header"></mt-header>
+    <mt-header fixed title="班级动态" class="header"></mt-header>
     <div class="container">
 
       <mt-loadmore 
