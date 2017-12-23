@@ -6,7 +6,7 @@
       </router-link>
       <span slot="right">
         <i class="fa fa-phone" aria-hidden="true"></i>
-        <router-link class="fa fa-user" :to="/personalhomepage/ + userId" tag="i"></router-link>
+        <router-link class="fa fa-user" :to="/personalhomepage/ + this.dataList.userid" tag="i"></router-link>
       </span>
     </mt-header>
 
@@ -123,8 +123,8 @@ export default {
       this.chatWithRobot(this.dialog)
     },
     changeHeight: function () {
-      console.log('scrollTop: ' + this.$refs.msgwrap.scrollTop)
-      console.log('scrollHeight: ' + this.$refs.msgwrap.scrollHeight)
+      // console.log('scrollTop: ' + this.$refs.msgwrap.scrollTop)
+      // console.log('scrollHeight: ' + this.$refs.msgwrap.scrollHeight)
       this.$refs.msgwrap.scrollTop = this.$refs.msgwrap.scrollHeight
     },
     chatWithRobot: function (info, location = '武汉市洪山区') {

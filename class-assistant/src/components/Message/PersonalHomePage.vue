@@ -1,6 +1,6 @@
 <template>
   <div id="personalhomepage">
-    <div class="top" :style="{background: 'url(' + this.profile_bg + ')', backgroundSize: 'cover' }">
+    <div class="top" :style="{backgroundSize: 'cover', backgroundImage: 'url(' + this.personalMessage.profile_bg + ')' }">
       <mt-header>
         <router-link to="/" slot="left">
           <mt-button icon="back">返回</mt-button>
@@ -9,24 +9,24 @@
     </div>
     
     <figure>
-      <img src="/static/images/1.png" alt="profile_bg" />
-      <h3>小小发</h3>
-      <p>We are what we repeatedly do. Excellence, then, is not an act, but a habit.</p>
+      <img :src="this.personalMessage.avatar" alt="avatar" />
+      <h3>{{this.personalMessage.nick_name}}</h3>
+      <p>{{this.personalMessage.signature}}</p>
     </figure>
 
     <div class="detail">
       <ul>
         <li>
           <span><img src="/static/images/profile/qq_profilecard_item_account.png" alt="num"></span>
-          <p>201421092075</p>
+          <p>{{this.personalMessage.user_id}}</p>
         </li>
         <li>
           <span><img src="/static/images/profile/qq_profilecard_item_information.png" alt="num"></span>
-          <p>男 22岁 天秤座 武汉</p>
+          <p>{{this.personalMessage.sex + ' ' +  this.personalMessage.age + '岁 ' + this.personalMessage.xingzuo + ' ' + this.personalMessage.place}}</p>
         </li>
         <li>
           <span><img src="/static/images/profile/qq_profilecard_item_profession.png" alt="num"></span>
-          <p>打篮球</p>
+          <p>{{this.personalMessage.favor}}</p>
         </li>
       </ul>
     </div>
@@ -39,12 +39,22 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'homePage',
   data () {
     return {
       profile_bg: '/static/images/profile/profile_bg.jpg'
     }
+  },
+  created () {
+    this.$store.dispatch('get_personal_message', this.$route.params.userid)
+  },
+  computed: {
+    ...mapGetters([
+      'personalMessage'
+    ])
   }
 }
 </script>
@@ -54,10 +64,7 @@ export default {
     >.top{
       height: 200px;
       position: relative;
-      // background:'static/images/profile/profile_bg.jpg';
-      // background-image: url(/static/images/profile/profile_bg.jpg);
-      // background-position: center center;
-      // background-repeat: no-repeat;
+      // background-size: cover;
       >.mint-header{
         background-color: transparent;
         height: 52px;
