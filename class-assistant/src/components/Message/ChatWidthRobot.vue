@@ -4,10 +4,6 @@
       <router-link to="/" slot="left">
         <mt-button icon="back"></mt-button>
       </router-link>
-      <span slot="right">
-        <i class="fa fa-phone" aria-hidden="true"></i>
-        <i class="fa fa-user"></i>
-      </span>
     </mt-header>
 
     <div class="msgwrap" ref="msgwrap">
@@ -278,10 +274,5 @@ export default {
       font-size: 24px;
       color: #7e8492;
     }
-  }
-
-  .is-right i{
-    margin-left: 8px;
-    font-size: 20px;
   }
 </style>

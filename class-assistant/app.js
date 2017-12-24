@@ -15,6 +15,7 @@ const chat = require('./services/chat')
 const message = require('./services/message')
 const friend = require('./services/friend')
 const chatGroup = require('./services/chatGroup')
+const person = require('./services/person')
 
 const server = http.createServer(app)
 
@@ -32,6 +33,7 @@ app.get('/api/message/all/:userId', message.getAllMessage)
 app.get('/api/friend/list/:userId', friend.getFriendList)
 app.get('/api/chatgroup/message/:userId/:groupId', chatGroup.getMessage)
 app.post('/api/chatgroup/sendmessage', chatGroup.sendMessage)
+app.get('/api/personal/getmessage/:userId', person.get_personal_message)
 
 const socketHander = require('./services/socket')  // socket要实现的具体逻辑
 

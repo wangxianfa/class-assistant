@@ -1,7 +1,7 @@
 export const SET_LOGIN = 'SET_LOGIN' // 设置登录状态
 export const SHOW_SIDEBAR = 'SHOW_SIDEBAR' // 显示侧栏
 export const SHOW_WARN = 'SHOW_WARN' // 显示警告框
-export const GET_ALL_MESSAGE = 'GET_ALL_MESSAGE' // 得到用户所有的信息
+export const GET_ALL_MESSAGE = 'GET_ALL_MESSAGE' // 得到用户所有的信息列表
 export const UPDATE_MESSAGE = 'UPDATE_MESSAGE' // socket更新消息
 export const UPDATE_UNREAD_MESSAGE = 'UPDATE_UNREAD_MESSAGE' // 更新未读消息数
 export const GET_FRIEND_LIST = 'GET_FRIEND_LIST' // 得到好友列表和群列表
@@ -16,3 +16,5 @@ export const CHANGE_USER = 'CHANGE_USER' // 切换用户
 export const ADD_USER = 'ADD_USER' // 添加用户
 export const SAVE_SCROLL_POSITION = 'SAVE_SCROLL_POSITION' // 保存滚动位置
 export const TAB_INDEX = 'TAB_INDEX' // 联系人页面的标签索引
+
+export const GET_PERSONAL_MESSAGE = 'GET_PERSONAL_MESSAGE'

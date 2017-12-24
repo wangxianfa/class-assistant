@@ -15,6 +15,7 @@ const Register = () => import('../components/Vertify/Register.vue')
 const About = () => import('../components/Mine/About.vue')
 const MsgWarn = () => import('../components/Mine/MsgWarn.vue')
 const PersonalHomePage = () => import('../components/Message/PersonalHomePage.vue')
+const GroupHomePage = () => import('../components/Message/GroupHomePage.vue')
 
 Vue.use(Mint)
 Vue.use(Router)
@@ -45,6 +46,11 @@ export default new Router({
       path: '/personalhomepage/:userid',
       name: 'personalHomePage',
       component: PersonalHomePage
+    },
+    {
+      path: '/grouphomepage/:groupid',
+      name: 'groupHomePage',
+      component: GroupHomePage
     },
     {
       path: '/personal',

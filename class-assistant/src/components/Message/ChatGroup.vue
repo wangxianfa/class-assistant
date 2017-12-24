@@ -4,7 +4,7 @@
       <router-link to="/" slot="left">
         <mt-button icon="back"></mt-button>
       </router-link>
-      <i class="fa fa-users" slot="right"></i>
+      <router-link :to="/grouphomepage/ + this.$route.params.groupid" class="fa fa-users" slot="right" tag="i"></router-link>
     </mt-header>
 
     <div class="msgwrap" ref="msgwrap">
@@ -295,7 +295,10 @@ export default {
   },
   watch: {
     'dataList.message': function () {
+      // 初始化时消息列表到最下面
+      this.changeHeight()
       this.$nextTick(() => {
+        // 聊天时消息列表到最下面
         this.changeHeight()
       })
     }

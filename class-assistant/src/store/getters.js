@@ -13,3 +13,5 @@ export const fenzu = state => state.friend.fenzu
 // export const isShowMask = state => state.sidebar.isShowMask
 // export const scrollPosition = state => state.scroll.position
 // export const tabIndex = state => state.friend.tabIndex
+
+export const personalMessage = state => state.person.personal
