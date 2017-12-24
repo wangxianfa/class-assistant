@@ -355,7 +355,6 @@ export default {
     // this.resetAndGetUnread(this.dataList.userid)
     this.getMessage(this.userId, this.dataList.userid)
     this.updateBySocket()
-
     this.$refs.msgwrap.addEventListener('resize', this.changeHeight)
   },
   components: {
@@ -363,6 +362,7 @@ export default {
   },
   watch: {
     'dataList.message': function () {
+      this.changeHeight()
       this.$nextTick(() => {
         this.changeHeight()
       })
