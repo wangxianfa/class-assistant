@@ -91,7 +91,6 @@ export default {
     })
   },
   created () {
-    console.log('created')
     if (!this.userId && JSON.parse(localStorage.getItem('userInfo'))) {
       this.userId = JSON.parse(localStorage.getItem('userInfo')).user_id
     }

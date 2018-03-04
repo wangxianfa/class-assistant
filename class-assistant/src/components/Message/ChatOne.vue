@@ -398,6 +398,10 @@ export default {
     overflow-x: hidden;
     position: fixed;
 
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
     .time{
       display: inline-block;
       width: 100%;

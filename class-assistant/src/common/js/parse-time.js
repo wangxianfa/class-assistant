@@ -74,7 +74,7 @@ export const parseChatTime = (old_time) => {
 		return `${format_month}-${format_date} ${format_hour}:${format_minutes}`
 	}
 	if (now_date == old_date) {
-		return `${format_hour}:${format_minutes}`
+		return `今天 ${format_hour}:${format_minutes}`
 	}
 	if (now_date == old_date + 1) {
 		return `昨天 ${format_hour}:${format_minutes}`

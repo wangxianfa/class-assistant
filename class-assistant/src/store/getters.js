@@ -15,3 +15,5 @@ export const fenzu = state => state.friend.fenzu
 // export const tabIndex = state => state.friend.tabIndex
 
 export const personalMessage = state => state.person.personal
+export const classMessage = state => state.classInfo.classMessage
+export const classId = state => state.userInfo.class_id

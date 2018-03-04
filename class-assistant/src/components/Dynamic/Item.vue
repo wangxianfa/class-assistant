@@ -1,34 +1,40 @@
 <template>
   <div class="item">
     <div class="item-header">
-      <img src="/static/images/1.png" alt="avatar">
+      <img :src="classAvatar" alt="avatar">
       <div class="right">
-        <p class="name">软工四班</p>
-        <time class="time">今天16:32</time>
+        <p class="name">{{dynamicInfo.className}}</p>
+        <time class="time">{{dynamicInfo.dynamicTime}}</time>
       </div>
     </div>
 
     <div class="item-body">
-      <p>前不久看到。看到标题的时候，我感到非常好奇。我知道虽然在异步程序中可以不使用配合来处理错误，但是处理方式并不能与配合得很好，所以很想知道到底有什么办法会比更好用。</p>
+      <p>{{dynamicInfo.dynamicText}}</p>
+      <!-- <div class="imglist">
+        <img class="img-item" src="/static/images/class.png" alt="">
+        <img class="img-item" src="/static/images/class.png" alt="">
+        <img class="img-item" src="/static/images/class.png" alt="">
+        <img class="img-item" src="/static/images/class.png" alt="">
+      </div> -->
     </div>
 
     <div class="item-footer">
-      <span class="ding">点赞{{ding}}次</span>
+      <span class="ding">点赞{{dynamicInfo.ding}}次</span>
       <div class="funcbar">
         <i @click="dingClick" :class="['fa', haveDing ? 'fa-thumbs-up' : 'fa-thumbs-o-up', haveDing ? 'active' : '']" aria-hidden="true"></i>
-        <i @click="commentClick" class="fa fa-commenting-o"></i>
-        <i @click="shareClick" class="fa fa-share-square-o"></i>
+        <!-- <i @click="commentClick" class="fa fa-commenting-o"></i>
+        <i @click="shareClick" class="fa fa-share-square-o"></i> -->
       </div>
     </div>
 
     <div class="comments">
       <ul>
-        <li>
+        <!-- <li>
           <p><span class="nickname">小小发一号：</span>哈哈哈哈哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或</p>
         </li>
         <li>
           <p><span class="nickname">小小发er号：</span>哈哈哈哈哈哈哈哈</p>
-        </li>
+        </li> -->
       </ul>
     </div>
 
@@ -39,6 +45,9 @@
 </template>
 
 <script>
+import {parseChatTime} from '@/common/js/parse-time'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Item',
   data () {
@@ -46,31 +55,65 @@ export default {
       ding: 0,
       haveDing: false,
       comment: '',
-      isComment: false
+      isComment: false,
+      classAvatar: '',
+      dynamicInfo: {}
     }
   },
+  computed: {
+    ...mapGetters([
+      'userId'
+    ])
+  },
+  props: [
+    'dynamic',
+    'className',
+    'avatar'
+  ],
   methods: {
     dingClick: function () {
-      this.haveDing ? this.ding-- : this.ding++
-      this.haveDing = !this.haveDing
-      console.log('赞一下')
-    },
-    disappearComment: function () {
-      this.isComment = false
-    },
-    commentClick: function () {
-      this.isComment = !this.isComment
-      console.log('评论一下')
-    },
-    uploadComment: function () {
-      console.log(this.comment)
-    },
-    commentChange: function (val) {
-      console.log(val)
-    },
-    shareClick: function () {
-      console.log('分享')
+      // 未赞过
+      if (!this.haveDing) {
+        this.$store.dispatch('ding', this.dynamicInfo.dynamicId)
+      }
+    } // ,
+    // disappearComment: function () {
+    //   this.isComment = false
+    // },
+    // commentClick: function () {
+    //   this.isComment = !this.isComment
+    //   console.log('评论一下')
+    // },
+    // uploadComment: function () {
+    //   console.log(this.comment)
+    // },
+    // commentChange: function (val) {
+    //   console.log(val)
+    // },
+    // shareClick: function () {
+    //   console.log('分享')
+    // }
+  },
+  mounted () {
+    const dynamicInfo = {
+      className: this.$props.className,
+      classAvatar: this.$props.avatar,
+      dynamicId: this.$props.dynamic.dynamicId,
+      dynamicText: this.$props.dynamic.dynamicText,
+      dynamicTime: parseChatTime(this.$props.dynamic.dynamicTime),
+      ding: this.$props.dynamic.ding,
+      dingUser: this.$props.dynamic.dingUser
     }
+    
+    var userIndex = dynamicInfo.dingUser.indexOf(this.userId)
+    if (userIndex >= 0) {
+      this.haveDing = true
+    } else {
+      this.haveDing = false
+    }
+
+    this.dynamicInfo = dynamicInfo
+    this.classAvatar = this.$props.avatar
   }
 }
 </script>
@@ -114,6 +157,16 @@ export default {
       color: #333;
       font-weight: 500;
       margin-top: 12px;
+      
+      .imglist {
+        margin-top: 10px;
+        .img-item {
+          width: 32%;
+          height: auto;
+          padding: 0;
+          margin-bottom: 5px;
+        }
+      }
     }
 
     &>.item-footer{

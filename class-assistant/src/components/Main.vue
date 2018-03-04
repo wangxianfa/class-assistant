@@ -21,27 +21,22 @@
     <mt-tabbar fixed v-model="selected">
       <mt-tab-item @click.native="itemClick(0)" id="消息">
         <i slot="icon" :class="['fa', actived[0] ? 'fa-commenting' : 'fa-commenting-o']" aria-hidden="true"></i>
-        <!-- <img :src="actived[0] ? '/static/images/icons/home2.png' : '/static/images/icons/home.png'" alt="message"> -->
         消息
       </mt-tab-item>
       <mt-tab-item @click.native="itemClick(1)" id="动态">
         <i slot="icon" :class="['fa', actived[1] ? 'fa-star' : 'fa-star-o']" aria-hidden="true"></i>
-        <!-- <img slot="icon" :src="actived[1] ? '/static/images/icons/zhaoda2.png' : '/static/images/icons/zhaoda.png'" alt="message"> -->
         动态
       </mt-tab-item>
       <mt-tab-item @click.native="itemClick(2)" id="功能区">
         <i slot="icon" :class="['fa', actived[2] ? 'fa-circle' : 'fa-circle-o']" aria-hidden="true"></i>
-        <!-- <img slot="icon" :src="actived[1] ? '/static/images/icons/zhaoda2.png' : '/static/images/icons/zhaoda.png'" alt="message"> -->
         功能区
       </mt-tab-item>
       <mt-tab-item @click.native="itemClick(3)" id="通讯录">
         <i slot="icon" :class="['fa', actived[3] ? 'fa-address-card' : 'fa-address-card-o']" aria-hidden="true"></i>
-        <!-- <img slot="icon" :src="actived[2] ? '/static/images/icons/zhiguan2.png' : '/static/images/icons/zhiguan.png'" alt="message"> -->
         联系人
       </mt-tab-item>
       <mt-tab-item @click.native="itemClick(4)" id="我的">
         <i slot="icon" :class="['fa', actived[4] ? 'fa-user-circle' : 'fa-user-circle-o']" aria-hidden="true"></i>
-        <!-- <img slot="icon" :src="actived[3] ? '/static/images/icons/mine2.png' : '/static/images/icons/mine.png'" alt="message"> -->
         我的
       </mt-tab-item>
     </mt-tabbar>
@@ -80,6 +75,30 @@ export default {
     MultiFunc,
     AddList,
     Mine
+  },
+  mounted () {
+    const route = this.$route
+    switch (route.query.pagename) {
+      case 'dynamic':
+        this.selected = '动态'
+        this.tabSelected = 'tab-container2'
+        break
+      case 'multifunc':
+        this.selected = '功能区'
+        this.tabSelected = 'tab-container3'
+        break
+      case 'addlist':
+        this.selected = '通讯录'
+        this.tabSelected = 'tab-container4'
+        break
+      case 'mine':
+        this.selected = '我的'
+        this.tabSelected = 'tab-container5'
+        break
+      default:
+        this.tabSelected = 'tab-container1'
+        break
+    }
   }
 }
 </script>

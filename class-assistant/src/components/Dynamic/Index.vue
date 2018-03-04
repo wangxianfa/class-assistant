@@ -13,8 +13,8 @@
       @bottom-status-change="handleBottomChange"
       ref="loadmore">
         <ul>
-          <li v-for="item in items" :key="item">
-            <item></item>
+          <li v-for="dynamicItem in classMessage.dynamics" :key="JSON.stringify(dynamicItem)">
+            <Item :dynamic="dynamicItem" :className="classMessage.className" :avatar="classMessage.classAvatar"/>
           </li>
         </ul>
 
@@ -34,6 +34,8 @@
 
       </mt-loadmore>
 
+      <p>{{classMessage.dynamics.length === 0 ? '暂无班级动态' : ''}}</p>
+
     </div>
   </div>
 </template>
@@ -41,16 +43,23 @@
 <script>
 
 import Item from './Item.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Dynamic',
   data () {
     return {
       allLoaded: false,
-      items: [1, 2, 3, 4, 5],
+      items: [],
       topStatus: '',
       bottomStatus: ''
     }
+  },
+  computed: {
+    ...mapGetters([
+      'classId',
+      'classMessage'
+    ])
   },
   methods: {
     loadTop: function () {
@@ -72,6 +81,9 @@ export default {
   },
   components: {
     Item
+  },
+  created () {
+    this.$store.dispatch('getClassMessage', this.classId)
   }
 }
 </script>

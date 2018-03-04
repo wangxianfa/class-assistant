@@ -16,12 +16,13 @@ const message = require('./services/message')
 const friend = require('./services/friend')
 const chatGroup = require('./services/chatGroup')
 const person = require('./services/person')
+const classInfo = require('./services/class')
 
 const server = http.createServer(app)
 
 var io = socketIO(server)
 
-server.listen(8888, '192.168.191.1', () => {
+server.listen(8888, '192.168.1.107', () => {
   console.log('> 服务已于端口8888启动...')
 })
 
@@ -34,6 +35,7 @@ app.get('/api/friend/list/:userId', friend.getFriendList)
 app.get('/api/chatgroup/message/:userId/:groupId', chatGroup.getMessage)
 app.post('/api/chatgroup/sendmessage', chatGroup.sendMessage)
 app.get('/api/personal/getmessage/:userId', person.get_personal_message)
+app.get('/api/class/info/:classId', classInfo.get_class_message)
 
 const socketHander = require('./services/socket')  // socket要实现的具体逻辑
 

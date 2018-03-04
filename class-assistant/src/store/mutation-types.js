@@ -18,3 +18,5 @@ export const SAVE_SCROLL_POSITION = 'SAVE_SCROLL_POSITION' // 保存滚动位置
 export const TAB_INDEX = 'TAB_INDEX' // 联系人页面的标签索引
 
 export const GET_PERSONAL_MESSAGE = 'GET_PERSONAL_MESSAGE'
+export const GET_CLASS_MESSAGE = 'GET_CLASS_MESSAGE' // 获取班级信息
+export const GET_CLASS_DYNAMIC = 'GET_CLASS_DYNAMIC' // 获取班级动态
