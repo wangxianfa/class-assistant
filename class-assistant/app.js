@@ -36,6 +36,7 @@ app.get('/api/chatgroup/message/:userId/:groupId', chatGroup.getMessage)
 app.post('/api/chatgroup/sendmessage', chatGroup.sendMessage)
 app.get('/api/personal/getmessage/:userId', person.get_personal_message)
 app.get('/api/class/info/:classId', classInfo.get_class_message)
+app.post('/api/class/ding', classInfo.class_dynamic_ding)
 
 const socketHander = require('./services/socket')  // socket要实现的具体逻辑
 

@@ -12,3 +12,10 @@ exports.get_class_message = async(req, res) => {
     }
   })
 }
+
+exports.class_dynamic_ding = async(req, res) => {
+  const { userId, dynamicId } = req.body
+  const res_data = await classInfo.setClassDing(dynamicId, userId)
+
+  res.json(res_data)
+}

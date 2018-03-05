@@ -20,3 +20,5 @@ export const TAB_INDEX = 'TAB_INDEX' // 联系人页面的标签索引
 export const GET_PERSONAL_MESSAGE = 'GET_PERSONAL_MESSAGE'
 export const GET_CLASS_MESSAGE = 'GET_CLASS_MESSAGE' // 获取班级信息
 export const GET_CLASS_DYNAMIC = 'GET_CLASS_DYNAMIC' // 获取班级动态
+export const DING_STATUS = 'DING_STATUS' // 点赞状态
+export const SHOW_TIPS = 'SHOW_TIPS' // 显示提示框

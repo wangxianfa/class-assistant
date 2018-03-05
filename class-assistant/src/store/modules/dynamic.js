@@ -5,13 +5,17 @@ import * as api from '@/api/dynamic'
 const state = {
   classMessage: {
     dynamics: []
-  }
+  },
+  dingStatus: false
 }
 
 // mutations
 const mutations = {
   [types.GET_CLASS_MESSAGE] (state, data) {
     state.classMessage = Object.assign({}, data)
+  },
+  [types.DING_STATUS] (STATE, data) {
+    state.dingStatus = data
   }
 }
 
@@ -19,16 +23,18 @@ const mutations = {
 const actions = {
   async getClassMessage ({commit}, classId) {
     const res = await api.get_class_message(classId)
-
     const {content = {}} = res
     const { res_data } = content
     const { dynamics } = res_data
 
-    let dingUserArr, ding
-
     for (const dynamicItem of dynamics) {
-      dingUserArr = Array.from(new Set(dynamicItem.dingUser.split(',')))
+      let ding
+      let dingUserArr = []
+      if (dynamicItem.dingUser) {
+        dingUserArr = Array.from(new Set((dynamicItem.dingUser).split(',')))
+      }
       ding = parseInt(dynamicItem.ding, 10)
+      
       if (dynamicItem.ding !== dingUserArr.length) {
         ding = dingUserArr.length
       }
@@ -36,6 +42,16 @@ const actions = {
     }
 
     commit(types.GET_CLASS_MESSAGE, res_data)
+  },
+
+  async ding ({commit}, opts) {
+    const {dynamicId, userId} = opts
+    const res = await api.class_dynamic_ding(dynamicId, userId)
+    if (res.code) {
+      commit(types.DING_STATUS, true)
+    } else {
+      commit(types.DING_STATUS, false)
+    }
   }
 }
 

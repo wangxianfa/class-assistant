@@ -37,3 +37,40 @@ exports.get_class_message = async(classId) => {
 
   return classMessage
 }
+
+exports.setClassDing = async(dynamicId, userId) => {
+  const sql1 = `SELECT
+  b.ding_user as dingUser
+  FROM dynamic_class b
+  WHERE dynamic_id = ?`
+  var dingUser = await new Promise(function (resolve, reject) {
+    connection.query(sql1, [dynamicId], (error, results) => {
+      if (error) reject(error)
+      resolve(results[0].dingUser || '')
+    })
+  })
+
+  if (dingUser) {
+    dingUser += (',' + userId)
+  } else {
+    dingUser = userId + ''
+  }
+
+  const sql2 = `UPDATE dynamic_class 
+  SET ding_user = ?
+  WHERE dynamic_id = ?`
+  const data = await new Promise(function (resolve, reject) {
+    connection.query(sql2, [dingUser, dynamicId], (error, results) => {
+      if (error) reject(error)
+      resolve(results)
+    })
+  })
+
+  return data.affectedRows > 0 ? {
+    code: 1,
+    message: '点赞成功'
+  } : {
+    code: 0,
+    message: '点赞失败'
+  }
+}

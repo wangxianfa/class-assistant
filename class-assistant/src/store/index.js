@@ -9,6 +9,7 @@ import warn from './modules/warn'
 import friend from './modules/friend'
 import person from './modules/personal'
 import classInfo from './modules/dynamic'
+import tips from './modules/tips'
 
 Vue.use(Vuex)
 
@@ -24,7 +25,8 @@ const store = new Vuex.Store({
     warn,
     friend,
     person,
-    classInfo
+    classInfo,
+    tips
   }
 })
 

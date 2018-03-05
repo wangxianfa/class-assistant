@@ -1,5 +1,6 @@
 <template>
   <div class="item">
+    <Message></Message>
     <div class="item-header">
       <img :src="classAvatar" alt="avatar">
       <div class="right">
@@ -47,6 +48,7 @@
 <script>
 import {parseChatTime} from '@/common/js/parse-time'
 import { mapGetters } from 'vuex'
+import Message from '@/base/Message/Message'
 
 export default {
   name: 'Item',
@@ -62,7 +64,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'userId'
+      'userId',
+      'dingStatus'
     ])
   },
   props: [
@@ -71,12 +74,47 @@ export default {
     'avatar'
   ],
   methods: {
-    dingClick: function () {
+    dingClick: async function () {
       // 未赞过
       if (!this.haveDing) {
-        this.$store.dispatch('ding', this.dynamicInfo.dynamicId)
+        const opts = {
+          dynamicId: this.dynamicInfo.dynamicId, 
+          userId: this.userId
+        }
+        await this.$store.dispatch('ding', opts)
+        if (this.dingStatus) {
+          this.haveDing = true
+          this.dynamicInfo.ding++
+          this.$store.dispatch('setShowTips', '点赞成功')
+        } else {
+          this.$store.dispatch('setShowTips', '点赞失败')
+        }
+      } else {
+        this.$store.dispatch('setShowTips', '你已经点过赞了')
       }
-    } // ,
+    },
+
+    changeState: function () {
+      const dynamicInfo = {
+        className: this.$props.className,
+        classAvatar: this.$props.avatar,
+        dynamicId: this.$props.dynamic.dynamicId,
+        dynamicText: this.$props.dynamic.dynamicText,
+        dynamicTime: parseChatTime(this.$props.dynamic.dynamicTime),
+        ding: this.$props.dynamic.ding,
+        dingUser: this.$props.dynamic.dingUser
+      }
+      
+      var userIndex = dynamicInfo.dingUser.indexOf(this.userId)
+      if (userIndex >= 0) {
+        this.haveDing = true
+      } else {
+        this.haveDing = false
+      }
+
+      this.dynamicInfo = dynamicInfo
+      this.classAvatar = this.$props.avatar
+    }
     // disappearComment: function () {
     //   this.isComment = false
     // },
@@ -95,25 +133,10 @@ export default {
     // }
   },
   mounted () {
-    const dynamicInfo = {
-      className: this.$props.className,
-      classAvatar: this.$props.avatar,
-      dynamicId: this.$props.dynamic.dynamicId,
-      dynamicText: this.$props.dynamic.dynamicText,
-      dynamicTime: parseChatTime(this.$props.dynamic.dynamicTime),
-      ding: this.$props.dynamic.ding,
-      dingUser: this.$props.dynamic.dingUser
-    }
-    
-    var userIndex = dynamicInfo.dingUser.indexOf(this.userId)
-    if (userIndex >= 0) {
-      this.haveDing = true
-    } else {
-      this.haveDing = false
-    }
-
-    this.dynamicInfo = dynamicInfo
-    this.classAvatar = this.$props.avatar
+    this.changeState()
+  },
+  components: {
+    Message
   }
 }
 </script>
@@ -157,6 +180,15 @@ export default {
       color: #333;
       font-weight: 500;
       margin-top: 12px;
+      
+      /* 暂定全部显示 */
+      /* p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+      } */
       
       .imglist {
         margin-top: 10px;
