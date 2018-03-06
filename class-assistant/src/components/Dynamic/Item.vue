@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import {parseChatTime} from '@/common/js/parse-time'
 import { mapGetters } from 'vuex'
 import Message from '@/base/Message/Message'
 
@@ -100,7 +99,7 @@ export default {
         classAvatar: this.$props.avatar,
         dynamicId: this.$props.dynamic.dynamicId,
         dynamicText: this.$props.dynamic.dynamicText,
-        dynamicTime: parseChatTime(this.$props.dynamic.dynamicTime),
+        dynamicTime: this.$props.dynamic.dynamicTime,
         ding: this.$props.dynamic.ding,
         dingUser: this.$props.dynamic.dingUser
       }

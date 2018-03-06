@@ -16,11 +16,14 @@ const About = () => import('../components/Mine/About.vue')
 const MsgWarn = () => import('../components/Mine/MsgWarn.vue')
 const PersonalHomePage = () => import('../components/Message/PersonalHomePage.vue')
 const GroupHomePage = () => import('../components/Message/GroupHomePage.vue')
+const Notice = () => import('../components/MultiFunc/Notice.vue')
+const NoticeDetail = () => import('../components/MultiFunc/NoticeDetail.vue')
 
 Vue.use(Mint)
 Vue.use(Router)
 
 export default new Router({
+  mode: 'hash',
   routes: [
     {
       path: '/',
@@ -86,6 +89,16 @@ export default new Router({
       path: '/msgwarn',
       name: 'msgwarn',
       component: MsgWarn
+    },
+    {
+      path: '/multifunc/notice',
+      name: 'notice',
+      component: Notice
+    },
+    {
+      path: '/multifunc/notice/:noticeId',
+      name: 'noticeDetail',
+      component: NoticeDetail
     }
   ]
 })

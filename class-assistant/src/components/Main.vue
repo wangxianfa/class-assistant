@@ -45,6 +45,7 @@
 
 <script>
 
+import { replaceParamVal } from '@/common/js/url.js'
 const Message = () => import('./Message/Index.vue')
 const Dynamic = () => import('./Dynamic/Index.vue')
 const MultiFunc = () => import('./MultiFunc/Index.vue')
@@ -62,6 +63,25 @@ export default {
   },
   methods: {
     itemClick: function (selected) {
+      var replaceWith
+      switch (selected) {
+        case 0:
+          replaceWith = 'message'
+          break
+        case 1:
+          replaceWith = 'dynamic'
+          break
+        case 2:
+          replaceWith = 'multifunc'
+          break
+        case 3:
+          replaceWith = 'addlist'
+          break
+        case 4:
+          replaceWith = 'mine'
+          break
+      }
+      replaceParamVal('page_name', replaceWith)
       this.tabSelected = 'tab-container' + (selected + 1)
       var arr = [false, false, false, false, false]
       this.actived = arr.map((val, index) => {
@@ -96,6 +116,7 @@ export default {
         this.tabSelected = 'tab-container5'
         break
       default:
+        this.selected = '消息'
         this.tabSelected = 'tab-container1'
         break
     }

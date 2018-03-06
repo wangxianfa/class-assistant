@@ -1,5 +1,6 @@
 import * as types from '../mutation-types'
 import * as api from '@/api/dynamic'
+import { parseChatTime } from '@/common/js/parse-time'
 
 // init state
 const state = {
@@ -38,7 +39,7 @@ const actions = {
       if (dynamicItem.ding !== dingUserArr.length) {
         ding = dingUserArr.length
       }
-      Object.assign(dynamicItem, {'dingUser': dingUserArr, 'ding': ding})
+      Object.assign(dynamicItem, {'dingUser': dingUserArr, 'ding': ding, 'dynamicTime': parseChatTime(dynamicItem.dynamicTime)})
     }
 
     commit(types.GET_CLASS_MESSAGE, res_data)
