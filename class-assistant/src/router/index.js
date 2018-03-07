@@ -18,6 +18,7 @@ const PersonalHomePage = () => import('../components/Message/PersonalHomePage.vu
 const GroupHomePage = () => import('../components/Message/GroupHomePage.vue')
 const Notice = () => import('../components/MultiFunc/Notice.vue')
 const NoticeDetail = () => import('../components/MultiFunc/NoticeDetail.vue')
+const PublishDynamic = () => import('../components/Dynamic/PublishDynamic.vue')
 
 Vue.use(Mint)
 Vue.use(Router)
@@ -99,6 +100,11 @@ export default new Router({
       path: '/multifunc/notice/:noticeId',
       name: 'noticeDetail',
       component: NoticeDetail
+    },
+    {
+      path: '/dynamic/publish',
+      name: 'PublishDynamic',
+      component: PublishDynamic
     }
   ]
 })

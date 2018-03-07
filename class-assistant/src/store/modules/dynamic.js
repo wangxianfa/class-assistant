@@ -39,7 +39,7 @@ const actions = {
       if (dynamicItem.ding !== dingUserArr.length) {
         ding = dingUserArr.length
       }
-      Object.assign(dynamicItem, {'dingUser': dingUserArr, 'ding': ding, 'dynamicTime': parseChatTime(dynamicItem.dynamicTime)})
+      Object.assign(dynamicItem, {'dingUser': dingUserArr, 'ding': ding, 'dynamicTime': parseChatTime(dynamicItem.dynamicTime), 'tags': dynamicItem.tags.split(',')})
     }
 
     commit(types.GET_CLASS_MESSAGE, res_data)

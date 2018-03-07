@@ -27,8 +27,10 @@ async function getFriend (userId) {
   // status:0,
   // fenzu:'晓风残月'
   const sql1 = `
-        SELECT a.other_user_id AS id, a.beizhu AS name, 
-      b.avatar, b.signature AS sign
+      SELECT a.other_user_id AS id, a.beizhu AS name, 
+      b.avatar, b.signature AS sign,
+      b.status,
+      b.nick_name as nickName
       FROM friend a
       JOIN user_detail b ON a.user_id =?
       AND a.is_friend=1
@@ -99,4 +101,20 @@ async function getGroup (userId) {
     })
   })
   return rows
+}
+
+exports.getCounsellors = async(institute) => {
+  const sql = `
+  SELECT a.*
+  FROM user_detail a, user b
+  WHERE status = 3 AND institute = ?
+  AND a.user_id = b.userid
+  `
+  const data = await new Promise(function (resolve, reject) {
+    connection.query(sql, [institute], (error, results) => {
+      if (error) reject(error)
+      resolve(results)
+    })
+  })
+  return data
 }

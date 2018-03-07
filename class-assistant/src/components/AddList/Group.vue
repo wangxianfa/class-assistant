@@ -46,7 +46,8 @@ export default {
   },
   computed: {
     rate: function () {
-      return this.online + '/' + this.sum
+      // return this.online + '/' + this.sum
+      return this.sum + '人'
     }
   }
 }
@@ -66,5 +67,9 @@ export default {
 
   .mint-cell-wrapper {
     background-image: none;
+  }
+
+  .mint-cell-value {
+    font-size: 13px;
   }
 </style>

@@ -57,8 +57,7 @@ export default {
   data () {
     return {
       selected: '消息',
-      actived: [true, false, false, false, false],
-      tabSelected: 'tab-container1'
+      actived: [true, false, false, false, false]
     }
   },
   methods: {
@@ -82,11 +81,28 @@ export default {
           break
       }
       replaceParamVal('page_name', replaceWith)
-      this.tabSelected = 'tab-container' + (selected + 1)
-      var arr = [false, false, false, false, false]
-      this.actived = arr.map((val, index) => {
-        return selected === index
-      })
+    },
+    changeQuery: function () {
+      let selected
+      const route = this.$route
+      switch (route.query.page_name) {
+        case 'dynamic':
+          selected = '动态'
+          break
+        case 'multifunc':
+          selected = '功能区'
+          break
+        case 'addlist':
+          selected = '通讯录'
+          break
+        case 'mine':
+          selected = '我的'
+          break
+        default:
+          selected = '消息'
+          break
+      }
+      this.selected = selected
     }
   },
   components: {
@@ -97,28 +113,43 @@ export default {
     Mine
   },
   mounted () {
-    const route = this.$route
-    switch (route.query.pagename) {
-      case 'dynamic':
-        this.selected = '动态'
-        this.tabSelected = 'tab-container2'
-        break
-      case 'multifunc':
-        this.selected = '功能区'
-        this.tabSelected = 'tab-container3'
-        break
-      case 'addlist':
-        this.selected = '通讯录'
-        this.tabSelected = 'tab-container4'
-        break
-      case 'mine':
-        this.selected = '我的'
-        this.tabSelected = 'tab-container5'
-        break
-      default:
-        this.selected = '消息'
-        this.tabSelected = 'tab-container1'
-        break
+    this.changeQuery()
+  },
+  computed: {
+    tabSelected: {
+      get: function () {
+        let selectedTab, selectedIndex
+        switch (this.selected) {
+          case '消息':
+            selectedTab = 'tab-container1'
+            selectedIndex = 0
+            break
+          case '动态':
+            selectedTab = 'tab-container2'
+            selectedIndex = 1
+            break
+          case '功能区':
+            selectedTab = 'tab-container3'
+            selectedIndex = 2
+            break
+          case '通讯录':
+            selectedTab = 'tab-container4'
+            selectedIndex = 3
+            break
+          case '我的':
+            selectedTab = 'tab-container5'
+            selectedIndex = 4
+            break
+        }
+        
+        var arr = [false, false, false, false, false]
+        this.actived = arr.map((val, index) => {
+          return selectedIndex === index
+        })
+        return selectedTab
+      },
+      set: function () {
+      }
     }
   }
 }

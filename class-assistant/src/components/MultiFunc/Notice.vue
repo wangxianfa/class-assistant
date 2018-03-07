@@ -1,7 +1,7 @@
 <template>
   <div id="notice">
     <mt-header fixed title="通知" class="header">
-      <router-link to="/?pagename=multifunc" slot="left">
+      <router-link to="/?page_name=multifunc" slot="left">
         <mt-button icon="back"></mt-button>
       </router-link>
     </mt-header>

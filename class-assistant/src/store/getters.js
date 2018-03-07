@@ -21,3 +21,4 @@ export const dingStatus = state => state.classInfo.dingStatus
 
 export const classNotice = state => state.notice.classNotices
 export const noticeDetail = state => state.notice.noticeDetail
+export const counsellors = state => state.friend.counsellors

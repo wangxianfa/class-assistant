@@ -10,3 +10,8 @@ export const get_friend_list = (userId) => {
   const url = `${API_CONFIG}/list/${userId}`
   return request_get(url)
 }
+
+export const get_counsellors = (institute) => {
+  const url = `${API_CONFIG}/counsellor/${institute}`
+  return request_get(url)
+}

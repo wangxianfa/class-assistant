@@ -1,6 +1,10 @@
 <template>
   <div id="dynamic">
-    <mt-header fixed title="班级动态" class="header"></mt-header>
+    <mt-header fixed title="班级动态" class="header">
+      <router-link to="/dynamic/publish" slot="right">
+        <mt-button>{{userInfo.status === 1 ? '添加' : ''}}</mt-button>
+      </router-link>
+    </mt-header>
     <div class="container">
 
       <mt-loadmore 
@@ -57,6 +61,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'userInfo',
       'classId',
       'classMessage'
     ])
@@ -90,6 +95,12 @@ export default {
 
 <style lang="less" scoped>
   @import url(../../common/styles/base.less);
+
+  header {
+    a {
+      color: #fff;
+    }
+  }
 
   #dynamic,
   .container{

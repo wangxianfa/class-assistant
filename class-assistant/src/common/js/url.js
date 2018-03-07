@@ -8,7 +8,6 @@ const buildQuery = (querySet) => {
 
 export function replaceParamVal (paramName, replaceWith) {
   const _hash = location.hash.substring(2) && location.hash.substring(2).split('?')[0]
-  console.log(_hash)
   const _query = _hash && _hash.split('&')
   var querySet = {}
 

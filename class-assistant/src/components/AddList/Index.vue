@@ -60,34 +60,15 @@ export default {
   name: 'AddList',
   data () {
     return {
-      selected: '1',
-      counsellors: [
-        {
-          id: 1,
-          face: '/static/images/1.png',
-          name: '王珩',
-          sign: '2014级软工辅导员',
-          chatType: 'single',
-          status: '电脑在线'
-        },
-        {
-          id: 2,
-          face: '/static/images/tengxun.png',
-          name: '宗茗',
-          sign: '2014级计科辅导员',
-          chatType: 'single',
-          status: '电脑在线'
-        }
-      ]
+      selected: '1'
     }
   },
   computed: {
     ...mapGetters({
       'userId': 'userId',
-      'hasGetFriendList': 'hasGetFriendList'
-    }),
-    ...mapGetters({
-      'dataList': 'friendList'
+      'hasGetFriendList': 'hasGetFriendList',
+      'dataList': 'friendList',
+      'counsellors': 'counsellors'
     })
   },
   created () {
@@ -95,6 +76,7 @@ export default {
       this.userId = JSON.parse(localStorage.getItem('userInfo')).user_id
     }
     this.hasGetFriendList == 0 && this.$store.dispatch('getFriendList', this.userId)
+    this.$store.dispatch('getCounsellors', 'CCST')
   },
   components: {
     Group,

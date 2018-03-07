@@ -26,7 +26,7 @@
             <span class="left"><img :src="item.imgUrl" alt="avatar"></span>
             <div class="right">
               <h2>
-                <span>{{item.from_user}}</span>
+                <span>{{item.from_user || item.nickName}}</span>
                 <time>{{item.time}}</time>
               </h2>
               <div class="content">

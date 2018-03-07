@@ -10,6 +10,10 @@
     </div>
 
     <div class="item-body">
+      <h3>
+        <span>事件标签: </span>
+        <em v-for="(tag, index) in dynamicInfo.tags" :key="'tag' + index">{{tag}}</em>
+      </h3>
       <p>{{dynamicInfo.dynamicText}}</p>
       <!-- <div class="imglist">
         <img class="img-item" src="/static/images/class.png" alt="">
@@ -101,7 +105,8 @@ export default {
         dynamicText: this.$props.dynamic.dynamicText,
         dynamicTime: this.$props.dynamic.dynamicTime,
         ding: this.$props.dynamic.ding,
-        dingUser: this.$props.dynamic.dingUser
+        dingUser: this.$props.dynamic.dingUser,
+        tags: this.$props.dynamic.tags
       }
       
       var userIndex = dynamicInfo.dingUser.indexOf(this.userId)
@@ -174,8 +179,38 @@ export default {
     }
 
     &>.item-body{
+      h3 {
+        font-size: 15px;
+        margin-bottom: 6px;
+      }
+
+      em {
+        display: inline-block;
+        background-color: rgb(153, 102, 204, 0.8);
+        margin-right: 10px;
+        font-style: normal;
+        padding: 0 8px;
+        font-size: 12px;
+        border-radius: 100%;
+        color: #fff;
+        font-weight: bold;
+        line-height: 24px;
+      }
+
+      em:nth-of-type(2n) {
+        background-color: rgb(237, 208, 190, 0.8);
+      }
+
+      em:nth-last-of-type(3n) {
+        background-color: rgb(37, 198, 252, 0.8);
+      }
+
+      em:nth-last-of-type(4n) {
+        background-color: rgb(0, 255, 128, 0.8);
+      }
+
       padding: 0 12px;
-      font-size: 15px;
+      font-size: 14px;
       color: #333;
       font-weight: 500;
       margin-top: 12px;

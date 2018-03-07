@@ -24,10 +24,11 @@ export default {
   },
   props: ['data'],
   mounted () {
+    const status = this.$props.data.status
     this.sid = this.$props.data.id
     this.avatar = this.$props.data.face
     this.nickname = this.$props.data.name
-    this.detail = this.$props.data.sign
+    this.detail = status === 3 ? this.$props.data.job : this.$props.data.sign
     this.chatType = this.$props.data.chatType
   },
   methods: {

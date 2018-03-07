@@ -5,6 +5,7 @@ const get_class_dynamics = async(classId) => {
   const sql = `SELECT dynamic_id as dynamicId,
   b.dynamic_time as dynamicTime,
   b.dynamic_text as dynamicText,
+  b.tag as tags,
   b.ding as ding,
   b.ding_user as dingUser
   FROM dynamic_class b
