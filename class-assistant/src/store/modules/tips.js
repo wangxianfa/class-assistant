@@ -28,7 +28,7 @@ const actions = {
         'message': ''
       }
       commit(types.SHOW_TIPS, tips)
-    }, 1000)
+    }, 1500)
   }
 }
 

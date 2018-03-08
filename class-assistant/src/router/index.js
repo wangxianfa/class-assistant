@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Mint from 'mint-ui'
 
 import Main from '@/components/Main'
+// import Dynamic from '../components/Dynamic/Index.vue'
+// import MultiFunc from '../components/MultiFunc/Index.vue'
 import ChatOne from '../components/Message/ChatOne.vue'
 import ChatGroup from '../components/Message/ChatGroup.vue'
 import ChatWidthRobot from '../components/Message/ChatWidthRobot.vue'
@@ -19,6 +21,7 @@ const GroupHomePage = () => import('../components/Message/GroupHomePage.vue')
 const Notice = () => import('../components/MultiFunc/Notice.vue')
 const NoticeDetail = () => import('../components/MultiFunc/NoticeDetail.vue')
 const PublishDynamic = () => import('../components/Dynamic/PublishDynamic.vue')
+const PublishNotice = () => import('../components/MultiFunc/NoticePublish.vue')
 
 Vue.use(Mint)
 Vue.use(Router)
@@ -31,6 +34,16 @@ export default new Router({
       name: 'main',
       component: Main
     },
+    // {
+    //   path: '/dynamic',
+    //   name: 'dynamic',
+    //   component: Dynamic
+    // },
+    // {
+    //   path: '/multi',
+    //   name: 'multi',
+    //   component: MultiFunc
+    // },
     {
       path: '/chatone/:userid',
       name: 'chatOne',
@@ -95,6 +108,11 @@ export default new Router({
       path: '/multifunc/notice',
       name: 'notice',
       component: Notice
+    },
+    {
+      path: '/multifunc/notice/publish',
+      name: 'PublishNotice',
+      component: PublishNotice
     },
     {
       path: '/multifunc/notice/:noticeId',

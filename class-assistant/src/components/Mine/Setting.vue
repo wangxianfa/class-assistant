@@ -1,7 +1,7 @@
 <template>
   <div id="setting">
     <mt-header fixed title="系统设置" class="header">
-      <router-link to="/" slot="left">
+      <router-link to="/?page_name=mine" slot="left">
         <mt-button icon="back"></mt-button>
       </router-link>
     </mt-header>

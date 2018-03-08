@@ -11,22 +11,18 @@
             </figure>
           </li>
         </router-link>
-        <router-link to="#">
-          <li>
-            <figure>
-              <img src="/static/images/func/please_leave.png" />
-              <p>请销假</p>
-            </figure>
-          </li>
-        </router-link>
-        <router-link to="#">
-          <li>
-              <figure>
-                <img src="/static/images/func/attendance.png" />
-                <p>班级考勤</p>
-              </figure>
-            </li>
-        </router-link>
+        <li @click="noPublic">
+          <figure>
+            <img src="/static/images/func/please_leave.png" />
+            <p>请销假</p>
+          </figure>
+        </li>
+        <li @click="noPublic">
+          <figure>
+            <img src="/static/images/func/attendance.png" />
+            <p>班级考勤</p>
+          </figure>
+        </li>
         <!-- <li>
           <figure>
             <img src="/static/images/func/add.png" />
@@ -39,7 +35,12 @@
 
 <script>
 export default {
-  name: 'MultiFunc'
+  name: 'MultiFunc',
+  methods: {
+    noPublic: function () {
+      this.$store.dispatch('setShowTips', '此功能暂未开放')
+    }
+  }
 }
 </script>
 

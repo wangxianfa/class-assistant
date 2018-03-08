@@ -2,7 +2,7 @@
   <div id="dynamic">
     <mt-header fixed title="班级动态" class="header">
       <router-link to="/dynamic/publish" slot="right">
-        <mt-button>{{userInfo.status === 1 ? '添加' : ''}}</mt-button>
+        <mt-button>{{userInfo.status === 2 ? '添加' : ''}}</mt-button>
       </router-link>
     </mt-header>
     <div class="container">
@@ -50,7 +50,7 @@ import Item from './Item.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Dynamic',
+  name: 'dynamic',
   data () {
     return {
       allLoaded: false,
@@ -111,6 +111,12 @@ export default {
 
   .container{
     padding-bottom: calc(~"@{footerHeight}");
+  }
+
+  .mint-loadmore, .container {
+    &::-webkit-scrollbar {
+      display: none
+    }
   }
 
 </style>

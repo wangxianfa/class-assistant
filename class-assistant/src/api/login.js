@@ -8,7 +8,7 @@ const BASE_URL = '/api'
  * @param  {[type]} options.pwd  [description]
  * @return {[type]}              [description]
  */
-export const check_login = ({userid, psw}) => {
+export const check_login = async({userid, psw}) => {
   const data = {
     userid: userid,
     psw: psw
@@ -21,5 +21,7 @@ export const check_login = ({userid, psw}) => {
     data: data
   }
 
-  return request_post(options)
+  const result = await request_post(options)
+
+  return result
 }

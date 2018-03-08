@@ -7,7 +7,8 @@ const state = {
   classMessage: {
     dynamics: []
   },
-  dingStatus: false
+  dingStatus: false,
+  publishStatus: false
 }
 
 // mutations
@@ -17,6 +18,9 @@ const mutations = {
   },
   [types.DING_STATUS] (STATE, data) {
     state.dingStatus = data
+  },
+  [types.PUBLISH_STATUS] (state, data) {
+    state.publishStatus = data
   }
 }
 
@@ -52,6 +56,15 @@ const actions = {
       commit(types.DING_STATUS, true)
     } else {
       commit(types.DING_STATUS, false)
+    }
+  },
+
+  async publish ({commit}, opts) {
+    const res = await api.publish(opts)
+    if (res.code) {
+      commit(types.PUBLISH_STATUS, true)
+    } else {
+      commit(types.PUBLISH_STATUS, false)
     }
   }
 }

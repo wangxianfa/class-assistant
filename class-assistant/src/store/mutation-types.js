@@ -21,9 +21,11 @@ export const GET_PERSONAL_MESSAGE = 'GET_PERSONAL_MESSAGE'
 export const GET_CLASS_MESSAGE = 'GET_CLASS_MESSAGE' // 获取班级信息
 export const GET_CLASS_DYNAMIC = 'GET_CLASS_DYNAMIC' // 获取班级动态
 export const DING_STATUS = 'DING_STATUS' // 点赞状态
+export const PUBLISH_STATUS = 'PUBLISH_STATUS' // 公告发布状态
 export const SHOW_TIPS = 'SHOW_TIPS' // 显示提示框
 
 export const GET_NOTICES = 'GET_NOTICES' // 获取重要通知
 export const GET_NOTICE_DETAIL = 'GET_NOTICE_DETAIL' // 获取通知详情
+export const PUBLISH_NOTICE_STATUS = 'PUBLISH_NOTICE_STATUS' // 通知发布状态
 
 export const GET_COUNSELLORS = 'GET_COUNSELLORS' // 获取辅导员列表

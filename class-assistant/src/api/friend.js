@@ -6,12 +6,14 @@ export const get_new_friends = (userId) => {
   console.log('get_new_friends')
 }
 
-export const get_friend_list = (userId) => {
+export const get_friend_list = async (userId) => {
   const url = `${API_CONFIG}/list/${userId}`
-  return request_get(url)
+  const result = await request_get(url)
+  return result
 }
 
-export const get_counsellors = (institute) => {
+export const get_counsellors = async (institute) => {
   const url = `${API_CONFIG}/counsellor/${institute}`
-  return request_get(url)
+  const result = await request_get(url)
+  return result
 }

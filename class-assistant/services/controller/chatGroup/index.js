@@ -88,7 +88,7 @@ exports.sendMessage = async(userId, groupId, message, nick_name, time) => {
     from_user: userId,
     to_group: groupId,
     message:message,  //群消息是这样的格式，即 群昵称:消息
-    time
+    time: new Date().getTime()
   }
   
   let sql = 'insert into message_group set ? '

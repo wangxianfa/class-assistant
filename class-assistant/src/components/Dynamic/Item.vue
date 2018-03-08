@@ -1,6 +1,5 @@
 <template>
   <div class="item">
-    <Message></Message>
     <div class="item-header">
       <img :src="classAvatar" alt="avatar">
       <div class="right">
@@ -51,7 +50,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Message from '@/base/Message/Message'
 
 export default {
   name: 'Item',
@@ -138,9 +136,6 @@ export default {
   },
   mounted () {
     this.changeState()
-  },
-  components: {
-    Message
   }
 }
 </script>

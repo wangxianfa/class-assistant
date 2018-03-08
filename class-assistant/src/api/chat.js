@@ -3,14 +3,15 @@ import {
   request_get
 } from '../common/js/request'
 
-export const send_message = (data) => {
+export const send_message = async (data) => {
   const options = {
     method: 'post',
     baseURL: '/api',
     url: '/chat/sendmessage',
     data: data
   }
-  return request_post(options)
+  const result = await request_post(options)
+  return result
 }
 
 /**
@@ -19,7 +20,8 @@ export const send_message = (data) => {
  * @param  {[type]} otherUserId [另一个用户的id]
  * @return {[type]}             [description]
  */
-export const get_message = (userId, otherUserId) => {
+export const get_message = async (userId, otherUserId) => {
   const url = `/api/chat/message/${userId}/${otherUserId}`
-  return request_get(url)
+  const result = await request_get(url)
+  return result
 }

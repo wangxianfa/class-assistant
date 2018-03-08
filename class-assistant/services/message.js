@@ -9,12 +9,14 @@ exports.getAllMessage = async(req, res) => {
   // 再获取群聊消息
   const groupMessage = await message.getGroupMessage(userId)
 
-  res.json({
-    code: 1,
-    data: {
+  const result_data = {
+    'code': 1,
+    'message': 'ok',
+    'data': {
       singleMessage,
       groupMessage
     }
-  })
+  }
 
+  res.send(result_data)
 }

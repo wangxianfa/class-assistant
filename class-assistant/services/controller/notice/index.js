@@ -34,3 +34,30 @@ exports.get_notice_detail = async(noticeId) => {
   })
   return data
 }
+
+exports.publish_notice = async(data) => {
+  const sql = 'insert into notice set ? '
+  const sql2 = 'select a.notice_id as id from notice a GROUP BY a.notice_id DESC limit 1'
+  
+  var maxNoticeId = await new Promise(function (resolve, reject) {
+    connection.query(sql2, [], (error, results) => {
+      if (error) reject(error)
+      resolve(results)
+    })
+  })
+  
+  var result = await new Promise(function (resolve, reject) {
+    connection.query(sql, [Object.assign(data, {'notice_id': ++maxNoticeId[0].id})], (error, results) => {
+      if (error) reject(error)
+      resolve(results)
+    })
+  })
+
+  return result.affectedRows > 0 ? {
+    code: 1,
+    message: '发布成功'
+  } : {
+    code: 0,
+    message: '发布失败'
+  }
+}

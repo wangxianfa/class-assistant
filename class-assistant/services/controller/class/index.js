@@ -75,3 +75,30 @@ exports.setClassDing = async(dynamicId, userId) => {
     message: '点赞失败'
   }
 }
+
+exports.publish = async(data) => {
+  const sql = 'insert into dynamic_class set ? '
+  const sql2 = 'select a.dynamic_id as id from dynamic_class a GROUP BY a.dynamic_id DESC limit 1'
+  
+  var maxDynamicId = await new Promise(function (resolve, reject) {
+    connection.query(sql2, [], (error, results) => {
+      if (error) reject(error)
+      resolve(results)
+    })
+  })
+  
+  var result = await new Promise(function (resolve, reject) {
+    connection.query(sql, [Object.assign(data, {'dynamic_id': ++maxDynamicId[0].id})], (error, results) => {
+      if (error) reject(error)
+      resolve(results)
+    })
+  })
+
+  return result.affectedRows > 0 ? {
+    code: 1,
+    message: '发布成功'
+  } : {
+    code: 0,
+    message: '发布失败'
+  }
+}

@@ -39,8 +39,10 @@ app.post('/api/chatgroup/sendmessage', chatGroup.sendMessage)
 app.get('/api/personal/getmessage/:userId', person.get_personal_message)
 app.get('/api/class/info/:classId', classInfo.get_class_message)
 app.post('/api/class/ding', classInfo.class_dynamic_ding)
+app.post('/api/class/publish', classInfo.publish)
 app.get('/api/multi/notice/:classId', notice.get_class_notices)
 app.get('/api/multi/notice/detail/:noticeId', notice.get_notice_detail)
+app.post('/api/multi/notice/publish', notice.publish_notice)
 
 const socketHander = require('./services/socket')  // socket要实现的具体逻辑
 

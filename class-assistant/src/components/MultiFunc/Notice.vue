@@ -4,6 +4,9 @@
       <router-link to="/?page_name=multifunc" slot="left">
         <mt-button icon="back"></mt-button>
       </router-link>
+      <router-link to="/multifunc/notice/publish" slot="right">
+        <mt-button>{{userInfo.status === 2 ? '通知' : ''}}</mt-button>
+      </router-link>
     </mt-header>
 
     <div class="notice-list">
@@ -26,7 +29,8 @@ export default {
   computed: {
     ...mapGetters([
       'classId',
-      'classNotice'
+      'classNotice',
+      'userInfo'
     ])
   },
   mounted () {

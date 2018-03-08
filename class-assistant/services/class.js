@@ -19,3 +19,11 @@ exports.class_dynamic_ding = async(req, res) => {
 
   res.json(res_data)
 }
+
+exports.publish = async(req, res) => {
+  const data = req.body
+  let newData = Object.assign(JSON.parse(JSON.stringify(data)), {'dynamic_time': (new Date()).getTime()})
+  const res_data = await classInfo.publish(newData)
+
+  res.json(res_data)
+}

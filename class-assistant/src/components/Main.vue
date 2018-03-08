@@ -57,7 +57,8 @@ export default {
   data () {
     return {
       selected: '消息',
-      actived: [true, false, false, false, false]
+      actived: [true, false, false, false, false],
+      bottomTab: ['消息', '动态', '功能区', '通讯录', '我的']
     }
   },
   methods: {
@@ -83,7 +84,7 @@ export default {
       replaceParamVal('page_name', replaceWith)
     },
     changeQuery: function () {
-      let selected
+      let selected = this.selected
       const route = this.$route
       switch (route.query.page_name) {
         case 'dynamic':
@@ -99,10 +100,10 @@ export default {
           selected = '我的'
           break
         default:
-          selected = '消息'
           break
       }
       this.selected = selected
+      this.tabSelected = 'tab-container' + (this.bottomTab.indexOf(selected) + 1)
     }
   },
   components: {
@@ -114,6 +115,9 @@ export default {
   },
   mounted () {
     this.changeQuery()
+    if (this.$route.query.refer_page === 'dynamic') {
+      this.selected = '动态'
+    }
   },
   computed: {
     tabSelected: {
@@ -139,6 +143,8 @@ export default {
           case '我的':
             selectedTab = 'tab-container5'
             selectedIndex = 4
+            break
+          default:
             break
         }
         

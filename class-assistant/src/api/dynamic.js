@@ -2,12 +2,13 @@ import { request_get, request_post } from '@/common/js/request'
 
 const API_CONFIG = '/api/class'
 
-export const get_class_message = (classId) => {
+export const get_class_message = async (classId) => {
   const url = `${API_CONFIG}/info/${classId}`
-  return request_get(url)
+  const result = await request_get(url)
+  return result
 }
 
-export const class_dynamic_ding = (dynamicId, userId) => {
+export const class_dynamic_ding = async (dynamicId, userId) => {
   const options = {
     method: 'post',
     baseURL: '/api',
@@ -17,5 +18,17 @@ export const class_dynamic_ding = (dynamicId, userId) => {
       userId: userId
     }
   }
-  return request_post(options)
+  const result = await request_post(options)
+  return result
+}
+
+export const publish = async (data) => {
+  const options = {
+    method: 'post',
+    baseURL: '/api',
+    url: '/class/publish',
+    data: data
+  }
+  const result = await request_post(options)
+  return result
 }

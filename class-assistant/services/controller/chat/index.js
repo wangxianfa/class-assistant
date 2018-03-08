@@ -89,7 +89,7 @@ exports.sendMessage = async (userId, otherUserId, message, time) => {
     from_user: userId,
     to_user: otherUserId,
     message,
-    time,
+    time: new Date().getTime(),
     is_read: is_enter_chat
   }
   const sql = 'insert into message_user set ? '

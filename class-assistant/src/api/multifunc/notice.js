@@ -1,13 +1,26 @@
-import { request_get } from '@/common/js/request'
+import { request_get, request_post } from '@/common/js/request'
 
 const API_CONFIG = '/api/multi/notice'
 
-export const get_class_notices = (classId) => {
+export const get_class_notices = async (classId) => {
   const url = `${API_CONFIG}/${classId}`
-  return request_get(url)
+  const result = await request_get(url)
+  return result
 }
 
-export const get_notice_detail = (noticeId) => {
+export const get_notice_detail = async (noticeId) => {
   const url = `${API_CONFIG}/detail/${noticeId}`
-  return request_get(url)
+  const result = await request_get(url)
+  return result
+}
+
+export const publish_notice = async (data) => {
+  const options = {
+    method: 'post',
+    baseURL: '/api',
+    url: '/multi/notice/publish',
+    data: data
+  }
+  const result = await request_post(options)
+  return result
 }

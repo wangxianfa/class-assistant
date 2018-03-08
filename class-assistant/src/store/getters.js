@@ -18,7 +18,9 @@ export const personalMessage = state => state.person.personal
 export const classMessage = state => state.classInfo.classMessage
 export const classId = state => state.userInfo.class_id
 export const dingStatus = state => state.classInfo.dingStatus
+export const publishStatus = state => state.classInfo.publishStatus
 
 export const classNotice = state => state.notice.classNotices
 export const noticeDetail = state => state.notice.noticeDetail
+export const publishNoticeStatus = state => state.notice.publishNoticeStatus
 export const counsellors = state => state.friend.counsellors

@@ -5,7 +5,8 @@ import {parseChatTime} from '@/common/js/parse-time'
 // init state
 const state = {
   classNotices: [],
-  noticeDetail: {}
+  noticeDetail: {},
+  publishNoticeStatus: false
 }
 
 // mutations
@@ -16,6 +17,10 @@ const mutations = {
   
   [types.GET_NOTICE_DETAIL] (state, data) {
     state.noticeDetail = Object.assign({}, data)
+  },
+
+  [types.PUBLISH_NOTICE_STATUS] (state, data) {
+    state.publishNoticeStatus = data
   }
 }
 
@@ -38,6 +43,15 @@ const actions = {
       Object.assign(content, {noticeTime: parseChatTime(content.noticeTime)})
     }
     commit(types.GET_NOTICE_DETAIL, content)
+  },
+
+  async publishNotice ({commit}, data) {
+    const res = await api.publish_notice(data)
+    if (res.code) {
+      commit(types.PUBLISH_NOTICE_STATUS, true)
+    } else {
+      commit(types.PUBLISH_NOTICE_STATUS, false)
+    }
   }
 }
 
