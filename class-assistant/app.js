@@ -18,6 +18,7 @@ const chatGroup = require('./services/chatGroup')
 const person = require('./services/person')
 const classInfo = require('./services/class')
 const notice = require('./services/multifunc/notice')
+const group = require('./services/group')
 
 const server = http.createServer(app)
 
@@ -29,6 +30,7 @@ server.listen(8888, '192.168.1.107', () => {
 
 // 后端路由管理
 app.post('/api/login', loginRouter.login)
+app.get('/api/login/refresh/:userId', loginRouter.refresh_data)
 app.post('/api/chat/sendmessage', chat.sendMessage)
 app.get('/api/chat/message/:userId/:otherUserId', chat.getMessage)
 app.get('/api/message/all/:userId', message.getAllMessage)
@@ -36,6 +38,7 @@ app.get('/api/friend/list/:userId', friend.getFriendList)
 app.get('/api/friend/counsellor/:institute', friend.getCounsellors)
 app.get('/api/chatgroup/message/:userId/:groupId', chatGroup.getMessage)
 app.post('/api/chatgroup/sendmessage', chatGroup.sendMessage)
+app.post('/api/personal/setmessage/:userId', person.set_personal_message)
 app.get('/api/personal/getmessage/:userId', person.get_personal_message)
 app.get('/api/class/info/:classId', classInfo.get_class_message)
 app.post('/api/class/ding', classInfo.class_dynamic_ding)
@@ -43,6 +46,7 @@ app.post('/api/class/publish', classInfo.publish)
 app.get('/api/multi/notice/:classId', notice.get_class_notices)
 app.get('/api/multi/notice/detail/:noticeId', notice.get_notice_detail)
 app.post('/api/multi/notice/publish', notice.publish_notice)
+app.get('/api/group/:groupId/:userId', group.get_group_detail)
 
 const socketHander = require('./services/socket')  // socket要实现的具体逻辑
 

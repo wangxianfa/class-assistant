@@ -1,4 +1,4 @@
-import { request_post } from '../common/js/request'
+import { request_get, request_post } from '../common/js/request'
 
 const BASE_URL = '/api'
 
@@ -23,5 +23,11 @@ export const check_login = async({userid, psw}) => {
 
   const result = await request_post(options)
 
+  return result
+}
+
+export const refresh_data = async (userId) => {
+  const url = `${BASE_URL}/login/refresh/${userId}`
+  const result = await request_get(url)
   return result
 }

@@ -27,3 +27,15 @@ exports.login = async(req, res) => {
     }
   })
 }
+
+exports.refresh_data = async (req, res) => {
+  const { userId } = req.params
+  const userInfo = await login.getUserDetail(userId)
+  res.send({
+    'code': 1,
+    'message': 'ok',
+    'data': {
+      userInfo
+    }
+  })
+}

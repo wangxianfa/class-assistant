@@ -10,7 +10,7 @@ import ChatGroup from '../components/Message/ChatGroup.vue'
 import ChatWidthRobot from '../components/Message/ChatWidthRobot.vue'
 import Personal from '../components/Mine/Personal.vue'
 import Setting from '../components/Mine/Setting.vue'
-import MsgEdit from '../components/Mine/MsgEdit.vue'
+// import MsgEdit from '../components/Mine/MsgEdit.vue'
 
 const Login = () => import('../components/Vertify/Login.vue')
 const Register = () => import('../components/Vertify/Register.vue')
@@ -22,6 +22,7 @@ const Notice = () => import('../components/MultiFunc/Notice.vue')
 const NoticeDetail = () => import('../components/MultiFunc/NoticeDetail.vue')
 const PublishDynamic = () => import('../components/Dynamic/PublishDynamic.vue')
 const PublishNotice = () => import('../components/MultiFunc/NoticePublish.vue')
+// const AllMsg = () => import('../components/Mine/AllMsg.vue')
 
 Vue.use(Mint)
 Vue.use(Router)
@@ -78,11 +79,6 @@ export default new Router({
       path: '/setting',
       name: 'setting',
       component: Setting
-    },
-    {
-      path: '/msgedit',
-      name: 'msgEdit',
-      component: MsgEdit
     },
     {
       path: '/login',

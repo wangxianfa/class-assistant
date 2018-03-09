@@ -24,3 +24,5 @@ export const classNotice = state => state.notice.classNotices
 export const noticeDetail = state => state.notice.noticeDetail
 export const publishNoticeStatus = state => state.notice.publishNoticeStatus
 export const counsellors = state => state.friend.counsellors
+export const updateStatus = state => state.person.updateStatus
+export const groupDetail = state => state.group.groupDetail

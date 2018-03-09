@@ -29,3 +29,5 @@ export const GET_NOTICE_DETAIL = 'GET_NOTICE_DETAIL' // 获取通知详情
 export const PUBLISH_NOTICE_STATUS = 'PUBLISH_NOTICE_STATUS' // 通知发布状态
 
 export const GET_COUNSELLORS = 'GET_COUNSELLORS' // 获取辅导员列表
+export const UPDATE_STATUS = 'UPDATE_STATUS' // 更新个人信息状态
+export const GET_GROUP_DETAIL = 'GET_GROUP_DETAIL' // 获取群信息

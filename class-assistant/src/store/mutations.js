@@ -11,7 +11,9 @@ export const state = {
 export const mutations = {
   // 登录
   [types.SET_LOGIN] (state, {loginStatus, userInfo}) {
-    state.loginStatus = loginStatus
+    if (loginStatus) {
+      state.loginStatus = loginStatus
+    }
     state.userInfo = userInfo
     localStorage.setItem('loginStatus', JSON.stringify(state.loginStatus))
     localStorage.setItem('userInfo', JSON.stringify(state.userInfo))

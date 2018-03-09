@@ -3,11 +3,11 @@ import {
   request_get
 } from '../common/js/request'
 
-export const set_personal_message = async (data) => {
+export const set_personal_message = async (data, userId) => {
   const options = {
     method: 'post',
     baseURL: '/api',
-    url: '/personal/setmessage',
+    url: `/personal/setmessage/${userId}`,
     data: data
   }
   const result = await request_post(options)

@@ -15,3 +15,21 @@ exports.get_personal_message = async(userId) => {
 
   return data
 }
+
+exports.set_personal_message = async (data, userId) => {
+  const sql = `update user_detail set ? where user_id = ?`
+  const result = await new Promise(function (resolve, reject) {
+    connection.query(sql, [data, userId], (error, results) => {
+      if (error) reject(error)
+      resolve(results)
+    })
+  })
+
+  return result.affectedRows > 0 ? {
+    code: 1,
+    message: '保存成功'
+  } : {
+    code: 0,
+    message: '保存失败'
+  }
+}
