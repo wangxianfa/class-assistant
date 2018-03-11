@@ -12,9 +12,10 @@ const API_CONFIG = '/api/chatgroup'
  * @param  {[type]} otherUserId [群id]
  * @return {[type]}             [description]
  */
-export const get_message = (userId, groupId) => {
+export const get_message = async (userId, groupId) => {
   const url = `${API_CONFIG}/message/${userId}/${groupId}`
-  return request_get(url)
+  const result = await request_get(url)
+  return result
 }
 
 /**
@@ -23,9 +24,10 @@ export const get_message = (userId, groupId) => {
  * @param  {[type]} otherUserId [群id]
  * @return {[type]}             [description]
  */
-export const update_enter_chat = (userId, groupId) => {
+export const update_enter_chat = async (userId, groupId) => {
   const url = `${API_CONFIG}/update_enter_chat/${userId}/${groupId}`
-  return request_put(url)
+  const result = await request_put(url)
+  return result
 }
 
 /**
@@ -33,12 +35,13 @@ export const update_enter_chat = (userId, groupId) => {
  * @param  {[type]} data [数据]
  * @return {[type]}      [description]
  */
-export const send_message = (data) => {
+export const send_message = async (data) => {
   const options = {
     method: 'post',
     baseURL: '/api',
     url: '/chatgroup/sendmessage',
     data: data
   }
-  return request_post(options)
+  const result = await request_post(options)
+  return result
 }

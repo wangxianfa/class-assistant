@@ -1,5 +1,6 @@
 import * as types from '../mutation-types'
 import * as api from '@/api/friend'
+import * as constants from '@/common/constant/constant'
 
 // state
 const state = {
@@ -8,7 +9,8 @@ const state = {
   'hasGetNewFriends': 0,
   'newFriends': [],
   'friendStatus': {},
-  'tabIndex': 1  // 联系人页面的当前标签页
+  'tabIndex': 1,  // 联系人页面的当前标签页
+  'counsellors': [] // 辅导员
 }
 
 // mutations
@@ -30,6 +32,9 @@ const mutations = {
   },
   [types.UPDATE_FRIEND_LIST] (state) {
     state.hasGetFriendList = 0
+  },
+  [types.GET_COUNSELLORS] (state, data) {
+    state.counsellors = data
   }
 }
 
@@ -37,8 +42,6 @@ const mutations = {
 const actions = {
   async getFriendList ({commit}, userId) {
     const res = await api.get_friend_list(userId)
-
-    console.log(res)
 
     let friendData = res.data.friend.allMember
     let fenzuData = res.data.friend.fenzu
@@ -73,13 +76,14 @@ const actions = {
         if (value.fenzu == fenzuName) {
           friend.members.push({
             id: value.id,
-            name: value.name,
+            name: value.name || value.nickName,
             face: value.avatar,
-            status: value.status == 0 ? '离线' : value.status == 1 ? '手机在线'
-                    : value.status == 2 ? '3G在线' : value.status == 3 ? '4G在线'
-                    : value.status == 4 ? 'WiFi在线' : '电脑在线',
+            loginStatus: value.loginStatus == 0 ? '离线' : value.loginStatus == 1 ? '手机在线'
+                    : value.loginStatus == 2 ? '3G在线' : value.loginStatus == 3 ? '4G在线'
+                    : value.loginStatus == 4 ? 'WiFi在线' : '电脑在线',
             sign: value.sign,
-            chatType: 'single'
+            chatType: 'single',
+            status: value.status
           })
           if (value.status != 0) {
             friend.online++
@@ -153,6 +157,37 @@ const actions = {
       status: data.status
     }
     commit(types.UPDATE_NEW_FRIENDS, update)
+  },
+  async getCounsellors ({commit, state}, institute) {
+    const res = await api.get_counsellors(institute)
+    const { content } = res
+    var counsellors = []
+    for (const counsellor of content) {
+      counsellors.push({
+        id: counsellor.user_id,
+        name: counsellor.nick_name,
+        face: counsellor.avatar,
+        loginStatus: counsellor.loginStatus == 0 ? '离线' : counsellor.loginStatus == 1 ? '手机在线'
+                : counsellor.loginStatus == 2 ? '3G在线' : counsellor.loginStatus == 3 ? '4G在线'
+                : counsellor.loginStatus == 4 ? 'WiFi在线' : '电脑在线',
+        sign: counsellor.signature,
+        chatType: 'single',
+        xingzuo: counsellor.xingzuo,
+        age: counsellor.age,
+        favor: counsellor.favor,
+        profileBg: counsellor.profile_bg,
+        favor: counsellor.favor,
+        gradeId: counsellor.grade_id,
+        institute: counsellor.institute,
+        major: counsellor.major,
+        sex: counsellor.sex === 'M' ? '男' : '女',
+        place: counsellor.place,
+        status: counsellor.status,
+        job: constants.INSTITUTE[counsellor.institute] + ' ' + counsellor.grade_id + ' ' +  constants.MAJOR[counsellor.major] + '辅导员'
+      })
+    }
+
+    commit(types.GET_COUNSELLORS, counsellors)
   }
 }
 

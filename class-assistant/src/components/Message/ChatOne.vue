@@ -191,9 +191,9 @@ export default {
     getMessage: async function (userId, otherUserId) {
       const {data} = await api.get_message(userId, otherUserId)
       const {info, info1, message} = data
-      const {device = 1, beizhu, avatar} = info  // 别人的信息
+      const {device = 1, beizhu, avatar, nick_name} = info  // 别人的信息
       this.dataList.status = device == 0 ? '离线' : device == 1 ? '手机在线' : device == 2 ? '3G在线' : device == 3 ? '4G在线' : device == 4 ? 'WiFi在线' : '电脑在线'
-      this.dataList.chatWith = beizhu  // 自己对别人的备注
+      this.dataList.chatWith = beizhu || nick_name  // 自己对别人的备注
       this.dataList.beizhu = info1.beizhu  // 别人对自己的备注
       this.dataList.avatar = avatar  // 别人的头像
 
@@ -397,6 +397,10 @@ export default {
     overflow-y: auto;
     overflow-x: hidden;
     position: fixed;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     .time{
       display: inline-block;

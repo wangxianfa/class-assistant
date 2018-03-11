@@ -1,4 +1,4 @@
-import { request_post } from '../common/js/request'
+import { request_get, request_post } from '../common/js/request'
 
 const BASE_URL = '/api'
 
@@ -8,7 +8,7 @@ const BASE_URL = '/api'
  * @param  {[type]} options.pwd  [description]
  * @return {[type]}              [description]
  */
-export const check_login = ({userid, psw}) => {
+export const check_login = async({userid, psw}) => {
   const data = {
     userid: userid,
     psw: psw
@@ -21,5 +21,13 @@ export const check_login = ({userid, psw}) => {
     data: data
   }
 
-  return request_post(options)
+  const result = await request_post(options)
+
+  return result
+}
+
+export const refresh_data = async (userId) => {
+  const url = `${BASE_URL}/login/refresh/${userId}`
+  const result = await request_get(url)
+  return result
 }

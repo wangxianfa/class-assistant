@@ -11,7 +11,7 @@
         <template v-if="item.type == 'message'">
           <Dialogue :data="{nickname: dataList.chatWith, avatar: item.content.faceUrl, self: item.content.from == 'me' ? true : false}">
             <p slot="text" v-if="item.content.code !== 308000 && item.content.code !== 302000">{{ item.text || item.content.message }}</p>
-            <a :href="item.url ? item.url : ''" slot="url" target="_blank">{{item.content.url ? '链接：' + item.content.url : '' }}</a>
+            <a :href="item.content.url ? item.content.url : ''" slot="url" target="_blank">{{item.content.url ? '链接：' + item.content.url : '' }}</a>
             <ul slot="list" class="list">
               <li v-for="(list, index) in item.content.list" :key="index">
                 <h2>{{list.name || list.source}}</h2>
@@ -228,6 +228,10 @@ export default {
     overflow-y: auto;
     overflow-x: hidden;
     position: fixed;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     .time{
       display: inline-block;

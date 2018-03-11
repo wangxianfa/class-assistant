@@ -41,7 +41,13 @@ exports.getSingleMessage = (userId) => {
     FROM friend e
     WHERE e.other_user_id = a.from_user
     limit 1
-    ) AS from_user
+    ) AS from_user,(
+
+    SELECT nick_name
+    FROM user_detail f
+    WHERE f.user_id = a.from_user
+    limit 1
+    ) AS nickName
     FROM message_user a
     JOIN user_detail b ON a.to_user =?
     AND a.from_user = b.user_id

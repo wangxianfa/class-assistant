@@ -8,8 +8,8 @@
         <mt-button icon="more" slot="right" @click="moreClick"></mt-button>
       </mt-header>
       <div class="message">
-        <h3>软工四班就业群</h3>
-        <p>6453027</p>
+        <h3>{{groupDetail.group_name}}</h3>
+        <p>{{'群号：' + groupDetail.group_id}}</p>
       </div>
     </div>
 
@@ -67,16 +67,16 @@
     </div>
 
     <div class="detail">
-      <mt-cell title="我的群名片" value="小小发" is-link></mt-cell>
+      <mt-cell title="我的群名片" :value="groupDetail.nick_name"></mt-cell>
       <mt-cell title="聊天记录" is-link></mt-cell>
       <mt-cell title="共享位置信息">
         <mt-switch v-model="value"></mt-switch>
       </mt-cell>
       <mt-cell title="群消息免打扰">
-        <mt-switch v-model="value"></mt-switch>
+        <mt-switch v-model="value1"></mt-switch>
       </mt-cell>
       <mt-cell title="聊天背景" is-link></mt-cell>
-      <mt-cell title="群介绍" label="本群创建于2017年09月12日"></mt-cell>
+      <mt-cell title="群介绍" :label="'本群创建于：'+ groupDetail.createdTime"></mt-cell>
     </div>
 
     <mt-actionsheet
@@ -87,11 +87,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'grouphomepage',
   data () {
     return {
       value: false,
+      value1: false,
       actions: [
         {
           name: '分享群',
@@ -113,6 +116,16 @@ export default {
     moreClick: function () {
       this.sheetVisible = !this.sheetVisible
     }
+  },
+  computed: {
+    ...mapGetters([
+      'userId',
+      'groupDetail'
+    ])
+  },
+  mounted () {
+    const groupId = this.$route.params.groupid
+    this.$store.dispatch('getGroupDetail', {'userId': this.userId, 'groupId': groupId})
   }
 }
 </script>

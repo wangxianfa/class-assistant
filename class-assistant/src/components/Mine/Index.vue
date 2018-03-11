@@ -4,26 +4,26 @@
     <div class="wrap">
       <router-link to="/personal">
         <div class="personal">
-          <img src="/static/images/1.png" alt="avatar">
+          <img :src="userInfo.avatar" alt="avatar">
           <div class="right">
             <div class="msg">
-              <span class="name">王小明</span>
-              <p class="signature">暂无个性签名</p>
+              <span class="name">{{userInfo.nick_name}}</span>
+              <p class="signature">{{userInfo.signature || '暂无个性签名'}}</p>
             </div>
             <i class="fa fa-angle-right" aria-hidden="true"></i>
           </div>
         </div>
       </router-link>
       <div class="others">
-        <div class="item">
+        <div class="item" @click="noPublic">
           <i class="fa fa-calendar-check-o"></i>
           我的日程
         </div>
-        <div class="item">
+        <div class="item" @click="noPublic">
           <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
           我的报告
         </div>
-        <div class="item">
+        <div class="item" @click="noPublic">
           <i class="fa fa-star-o"></i>
           我的关注
         </div>
@@ -41,8 +41,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  name: 'Mine'
+  name: 'Mine',
+  computed: {
+    ...mapGetters([
+      'userInfo'
+    ])
+  },
+  methods: {
+    noPublic: function () {
+      this.$store.dispatch('setShowTips', '此功能暂未开通')
+    }
+  }
 }
 </script>
 

@@ -8,6 +8,10 @@ import message from './modules/message'
 import warn from './modules/warn'
 import friend from './modules/friend'
 import person from './modules/personal'
+import classInfo from './modules/dynamic'
+import tips from './modules/tips'
+import notice from './modules/multifunc/notice'
+import group from './modules/group'
 
 Vue.use(Vuex)
 
@@ -22,7 +26,11 @@ const store = new Vuex.Store({
     message,
     warn,
     friend,
-    person
+    person,
+    classInfo,
+    tips,
+    notice,
+    group
   }
 })
 

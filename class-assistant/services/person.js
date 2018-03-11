@@ -12,3 +12,11 @@ exports.get_personal_message = async(req, res) => {
     }
   })
 }
+
+exports.set_personal_message = async (req, res) => {
+  const { userId } = req.params
+  const data = req.body
+  const res_data = await person.set_personal_message(data, userId)
+
+  res.json(res_data)
+}

@@ -1,6 +1,10 @@
 <template>
   <div id="dynamic">
-    <mt-header fixed title="班级动态" class="header"></mt-header>
+    <mt-header fixed title="班级动态" class="header">
+      <router-link to="/dynamic/publish" slot="right">
+        <mt-button>{{userInfo.status === 2 ? '添加' : ''}}</mt-button>
+      </router-link>
+    </mt-header>
     <div class="container">
 
       <mt-loadmore 
@@ -13,8 +17,8 @@
       @bottom-status-change="handleBottomChange"
       ref="loadmore">
         <ul>
-          <li v-for="item in items" :key="item">
-            <item></item>
+          <li v-for="dynamicItem in classMessage.dynamics" :key="JSON.stringify(dynamicItem)">
+            <Item :dynamic="dynamicItem" :className="classMessage.className" :avatar="classMessage.classAvatar"/>
           </li>
         </ul>
 
@@ -34,6 +38,8 @@
 
       </mt-loadmore>
 
+      <p>{{classMessage.dynamics.length === 0 ? '暂无班级动态' : ''}}</p>
+
     </div>
   </div>
 </template>
@@ -41,16 +47,24 @@
 <script>
 
 import Item from './Item.vue'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Dynamic',
+  name: 'dynamic',
   data () {
     return {
       allLoaded: false,
-      items: [1, 2, 3, 4, 5],
+      items: [],
       topStatus: '',
       bottomStatus: ''
     }
+  },
+  computed: {
+    ...mapGetters([
+      'userInfo',
+      'classId',
+      'classMessage'
+    ])
   },
   methods: {
     loadTop: function () {
@@ -72,12 +86,21 @@ export default {
   },
   components: {
     Item
+  },
+  created () {
+    this.$store.dispatch('getClassMessage', this.classId)
   }
 }
 </script>
 
 <style lang="less" scoped>
   @import url(../../common/styles/base.less);
+
+  header {
+    a {
+      color: #fff;
+    }
+  }
 
   #dynamic,
   .container{
@@ -88,6 +111,12 @@ export default {
 
   .container{
     padding-bottom: calc(~"@{footerHeight}");
+  }
+
+  .mint-loadmore, .container {
+    &::-webkit-scrollbar {
+      display: none
+    }
   }
 
 </style>

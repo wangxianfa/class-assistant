@@ -36,7 +36,7 @@ exports.getMessage = async (userId, otherUserId) => {
   const message = await get_message()
 
   // 用户信息
-  sql = `SELECT b.beizhu,c.avatar FROM user a, friend b,user_detail c
+  sql = `SELECT b.beizhu, c.avatar, c.nick_name  FROM user a, friend b,user_detail c
     WHERE a.userid=? AND b.user_id = ? AND b.other_user_id = a.userid 
     AND c.user_id=a.userid limit 1
   `
@@ -89,7 +89,7 @@ exports.sendMessage = async (userId, otherUserId, message, time) => {
     from_user: userId,
     to_user: otherUserId,
     message,
-    time,
+    time: new Date().getTime(),
     is_read: is_enter_chat
   }
   const sql = 'insert into message_user set ? '
