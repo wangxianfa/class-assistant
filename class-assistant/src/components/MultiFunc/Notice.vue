@@ -18,6 +18,11 @@
         </router-link>
       </ul>
     </div>
+
+    <figure v-if="classNotice.length === 0">
+      <img src="/static/images/add-list/5.png" />
+      <p>暂无班级通知~~</p>
+    </figure>
   </div>
 </template>
 
@@ -80,6 +85,21 @@ export default {
       -webkit-line-clamp: 3;
     }
 
+  }
+
+  figure {
+    text-align: center;
+    margin: 50px 0 0;
+    >img{
+      width: 60%;
+      height: auto;
+    }
+    >p{
+      margin-top: 12px;
+      color: #BDBDBD;
+      font-weight: bold;
+      font-size: 16px;
+    }
   }
 
 </style>

@@ -38,7 +38,12 @@
 
       </mt-loadmore>
 
-      <p>{{classMessage.dynamics.length === 0 ? '暂无班级动态' : ''}}</p>
+      <div class="no-dynamic">
+        <figure v-if="classMessage.dynamics.length === 0">
+          <img src="/static/images/add-list/5.png" />
+          <p>暂无班级动态~~</p>
+        </figure>
+      </div>
 
     </div>
   </div>
@@ -118,5 +123,18 @@ export default {
       display: none
     }
   }
-
+  figure {
+    text-align: center;
+    margin: 50px 0 0;
+    >img{
+      width: 60%;
+      height: auto;
+    }
+    >p{
+      margin-top: 12px;
+      color: #BDBDBD;
+      font-weight: bold;
+      font-size: 16px;
+    }
+  }
 </style>

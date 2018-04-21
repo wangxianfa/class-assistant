@@ -17,7 +17,7 @@ const get_class_dynamics = async(classId) => {
     })
   })
 
-  return data
+  return data || []
 }
 
 exports.get_class_message = async(classId) => {
@@ -28,13 +28,18 @@ exports.get_class_message = async(classId) => {
   let classMessage = await new Promise(function (resolve, reject) {
     connection.query(sql, [classId], (error, results) => {
       if (error) reject(error)
-      resolve(results[0])
+      // 若不是json对象
+      if (Object.prototype.toString.call(results[0]) === '[object Object]') {
+        resolve(results[0])
+      } else {
+        resolve({})
+      }
     })
   })
 
   const classDynamics = await get_class_dynamics(classId)
 
-  classMessage.dynamics = classDynamics
+  classMessage.dynamics = classDynamics || []
 
   return classMessage
 }
