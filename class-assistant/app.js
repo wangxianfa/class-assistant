@@ -24,7 +24,7 @@ const server = http.createServer(app)
 
 var io = socketIO(server)
 
-server.listen(8888, '192.168.1.107', () => {
+server.listen(8888, '192.168.1.105', () => {
   console.log('> 服务已于端口8888启动...')
 })
 
@@ -57,6 +57,12 @@ io.on('connection', (socket) => {
     socketHander.saveUserSocketId(userId, socket.id)
   })
 
+  // 浏览器刷新，更新socketid
+  socket.on('update', (userId) => {
+    // 保存用户的id和socketid
+    socketHander.saveUserSocketId(userId, socket.id)
+  })
+
   // 监听用户发私聊信息
   socket.on('sendPrivateMessage', async(data) => {
     const {to_user} = data
@@ -79,7 +85,3 @@ io.on('connection', (socket) => {
     console.log(socket.id + '连接断开')
   })
 })
-
-// const robot = require('./services/robot')
-
-// app.post('/robot', robot.chatWithRobot)

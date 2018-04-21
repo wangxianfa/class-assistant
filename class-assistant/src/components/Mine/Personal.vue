@@ -119,11 +119,11 @@ export default {
       actions: [
         {
           name: '拍照',
-          methods: ''
+          method: this.takePhoto
         },
         {
           name: '从相册中选取',
-          methods: ''
+          method: ''
         }
       ],
       selfInfo: {
@@ -210,6 +210,25 @@ export default {
       this.temp[key] = this.inputChanged
       this.inputChanged = ''
       this.editing = false
+    },
+    takePhoto: function () {
+      var errocb = function () {  
+        console.log('sth wrong!')
+      }  
+        
+      if (navigator.getUserMedia) { // 标准的API  
+        navigator.getUserMedia({ 'video': true }, function (stream) {
+          // video.src = window.URL && window.URL.createObjectURL(stream);  
+          // video.play();
+          alert(1)
+        }, errocb)
+      } else if (navigator.webkitGetUserMedia) { // WebKit 核心的API  
+        navigator.webkitGetUserMedia({ 'video': true }, function (stream) {  
+          // video.src = window.webkitURL.createObjectURL(stream);  
+          // video.play();
+          alert(2)
+        }, errocb)
+      }
     }
   },
   computed: {
