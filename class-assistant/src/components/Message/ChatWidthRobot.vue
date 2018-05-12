@@ -115,8 +115,8 @@ export default {
       this.chatWithRobot(this.dialog)
     },
     changeHeight: function () {
-      console.log('scrollTop: ' + this.$refs.msgwrap.scrollTop)
-      console.log('scrollHeight: ' + this.$refs.msgwrap.scrollHeight)
+      // console.log('scrollTop: ' + this.$refs.msgwrap.scrollTop)
+      // console.log('scrollHeight: ' + this.$refs.msgwrap.scrollHeight)
       this.$refs.msgwrap.scrollTop = this.$refs.msgwrap.scrollHeight
     },
     chatWithRobot: function (info, location = '武汉市洪山区') {

@@ -5,6 +5,7 @@ const app = express()
 const bodyParser = require('body-parser')
 /* eslint-disable */
 const db = require('./services/db')
+const { serverConfig } = require('./config/server_config')
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -24,8 +25,8 @@ const server = http.createServer(app)
 
 var io = socketIO(server)
 
-server.listen(8888, '192.168.1.105', () => {
-  console.log('> 服务已于端口8888启动...')
+server.listen(serverConfig.port, serverConfig.ip, () => {
+  console.log('> 服务已于' + serverConfig.ip + ':' + serverConfig.port + '启动...')
 })
 
 // 后端路由管理
@@ -76,7 +77,6 @@ io.on('connection', (socket) => {
   // 监听用户发群消息
   socket.on('sendGroupMessage', (data) => {
     // 直接群发会快点，客户端只需要判断是否是发给自己的
-    // socket.broadcast.emit信息传输对象为所有client，排除当前socket对应的client。
     // sending to all clients except sender
     socket.broadcast.emit('receiveGroupMessage', data)
   })

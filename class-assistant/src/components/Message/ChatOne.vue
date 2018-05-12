@@ -125,7 +125,9 @@ export default {
     changeHeight: function () {
       // console.log('scrollTop: ' + this.$refs.msgwrap.scrollTop)
       // console.log('scrollHeight: ' + this.$refs.msgwrap.scrollHeight)
-      this.$refs.msgwrap.scrollTop = this.$refs.msgwrap.scrollHeight
+      if (this.$refs.msgwrap) {
+        this.$refs.msgwrap.scrollTop = (this.$refs.msgwrap || {}).scrollHeight || 0
+      }
     },
     chatWithRobot: function (info, location = '武汉市洪山区') {
       // POST 实现，有跨域障碍
@@ -360,9 +362,11 @@ export default {
   components: {
     Dialogue
   },
+  updated () {
+    this.changeHeight()
+  },
   watch: {
     'dataList.message': function () {
-      this.changeHeight()
       this.$nextTick(() => {
         this.changeHeight()
       })

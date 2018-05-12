@@ -104,7 +104,9 @@ export default {
     changeHeight: function () {
       // console.log('scrollTop: ' + this.$refs.msgwrap.scrollTop)
       // console.log('scrollHeight: ' + this.$refs.msgwrap.scrollHeight)
-      this.$refs.msgwrap.scrollTop = this.$refs.msgwrap.scrollHeight
+      if (this.$refs.msgwrap) {
+        this.$refs.msgwrap.scrollTop = (this.$refs.msgwrap || {}).scrollHeight || 0
+      }
     },
     // 将该群的未读消息数置0,并拉取未读消息条数
     resetAndGetUnread: function (id) {
@@ -293,10 +295,11 @@ export default {
   components: {
     Dialogue
   },
+  updated () {
+    this.changeHeight()
+  },
   watch: {
     'dataList.message': function () {
-      // 初始化时消息列表到最下面
-      this.changeHeight()
       this.$nextTick(() => {
         // 聊天时消息列表到最下面
         this.changeHeight()

@@ -4,6 +4,7 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+const { serverConfig } = require('./server_config')
 
 module.exports = {
   build: {
@@ -40,7 +41,7 @@ module.exports = {
         }
       },
       '/api': {
-        target: 'http://192.168.1.105:8888/api',
+        target: 'http://' + serverConfig.ip + ':' + serverConfig.port + '/api',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
